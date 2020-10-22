@@ -1,0 +1,62 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- These tags are needed for enabling experimental Chrome APIs via Chrome's Origin-Trial program (Android, Windows): https://github.com/GoogleChrome/OriginTrials/blob/gh-pages/available-trials.md#current-experimental-features -->
+    <!-- Origin Trial Token, feature = Generic Sensors, origin = https://github.io, expires = 2018-04-10 -->
+    <meta http-equiv="origin-trial" data-feature="Generic Sensors" data-expires="2018-04-10" content="Aokv0ODVMUPIswIBi6DnpAIjhWefEd8gD8GpVgdYgETj0C5+/3kKMzZE/FOrBwHcpBO6LHuVRrIw3yOT8EMmJAYAAABQeyJvcmlnaW4iOiJodHRwczovL2dpdGh1Yi5pbzo0NDMiLCJmZWF0dXJlIjoiR2VuZXJpY1NlbnNvciIsImV4cGlyeSI6MTUyMzMxODQwMH0=">
+    <!-- Origin Trial Token, feature = WebVR (For Chrome M62+), origin = https://github.io, expires = 2018-05-07 -->
+    <meta http-equiv="origin-trial" data-feature="WebXR (For Chrome M62+)" data-expires="2018-05-07" content="AgINztgDnjFV8da2D9SSzIITBRlHX8mduCR7DXfENxjr9ALduKOxBDdn2n66auQSlljVyhnRWWerxC0BWbE8pAoAAABOeyJvcmlnaW4iOiJodHRwczovL2dpdGh1Yi5pbzo0NDMiLCJmZWF0dXJlIjoiV2ViVlIxLjFNNjIiLCJleHBpcnkiOjE1MjU3MjU4MDh9">
+    <title> | EmptyProject</title>
+    <meta name="description" content="">
+    <script src="lib/jquery-3.5.1.min.js"></script>
+    <script src="lib/ResizeSensor.js"></script>
+    <script src="lib/ElementQueries.js"></script>
+    <link rel="icon" href="favicon.ico">
+    <link rel="manifest" href="manifest.webmanifest">
+    <script src="lib/loading-bar.js"></script>
+</head>
+<body>
+    <div class="ldBar" data-value="50"></div>
+    <div class="ldBar" data-value="50" data-preset="fan"></div>
+    <div class="ldBar" data-value="50" data-preset="circle"></div>
+    <div class="ldBar" data-value="50" data-preset="bubble"></div>
+    <div class="ldBar"
+         data-value="50"
+         data-type="fill"
+         data-img="styles/vr.svg"></div>
+    <div class="ldBar" data-value="50" data-preset="rainbow"></div>
+    <div class="ldBar" data-value="50" data-preset="energy"></div>
+    <div class="ldBar" data-value="50" data-preset="stripe"></div>
+    <div class="ldBar" data-value="50" data-preset="text"></div>
+    <div class="ldBar label-center"
+         data-value="50"
+         data-type="stroke"
+         data-path="M90.5,23.2c0-12.5-10.2-22.7-22.7-22.7
+					c-13.6,0-20.9,8.6-22.3,13.8C44.3,8.9,
+					35.1,0.5,23.2,0.5C10.7,0.5,0.5,10.7,
+					0.5,23.2c0,22.2,36.5,45.3,45,55.9
+					C53.5,67.3,90.5,46.3,90.5,23.2z">
+	</div>
+    <style type="text/css">
+        .ldBar {
+            margin:auto;
+            margin-top:20px;
+            margin-bottom: 40px;
+        }
+
+        .ldBar-label {
+            text-align: center;
+            color:aliceblue;
+        }
+        body {
+            background-image: url(styles/background2.jpg);
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+        }
+    </style>
+</body>
+</html>

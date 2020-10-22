@@ -1,0 +1,68 @@
+ManifestFileVersion: 0
+CRC: 1053691143
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 7aacc7a82ca25f0e4262ed2ff509a148
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: e9b52fe08ce2478a217a07c72e2e2e97
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 49
+  Script: {instanceID: 0}
+- Class: 65
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: 24830f40852e5bd4381ac6cefef3c380, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: ac4425b6b314d9e41bc70fa8eaaa5cc1, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 643dd5d701eab94499483fc3ac5b8f33, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 212
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+Assets:
+- Assets/BundledAsset/leveltwo/20191111_103700.jpg
+- Assets/BundledAsset/leveltwo/IMG_20191111_095600_00_022.jpg
+- Assets/BundledAsset/leveltwo/IMG_20191111_101539_00_045.jpg
+- Assets/BundledAsset/dataxml/Location1_Start.xml
+- Assets/BundledAsset/dataxml/Location7.xml
+- Assets/BundledAsset/levelone/NoPreview.jpg
+- Assets/BundledAsset/dataxml/Location4.xml
+- Assets/BundledAsset/leveltwo/20191111_104735.jpg
+- Assets/BundledAsset/leveltwo/IMG_20191111_110630_00_058.jpg
+- Assets/BundledAsset/leveltwo/IMG_20191111_094441_00_006.jpg
+- Assets/BundledAsset/leveltwo/20191111_104037.jpg
+- Assets/BundledAsset/leveltwo/IMG_20191111_094552_00_008.jpg
+- Assets/BundledAsset/dataxml/Location2.xml
+- Assets/BundledAsset/leveltwo/20191111_103744.jpg
+- Assets/BundledAsset/leveltwo/IMG_20191111_095449_00_020.jpg
+- Assets/BundledAsset/dataxml/Location3.xml
+- Assets/BundledAsset/dataxml/Location5.xml
+- Assets/BundledAsset/leveltwo/20191111_103735.jpg
+- Assets/BundledAsset/leveltwo/IMG_20191111_100707_00_035.jpg
+- Assets/BundledAsset/levelone/Teleport.prefab
+- Assets/BundledAsset/leveltwo/IMG_20191111_094216_00_003_6080_reducenoise.jpg
+- Assets/BundledAsset/leveltwo/IMG_20191111_095809_00_025.jpg
+- Assets/BundledAsset/leveltwo/IMG_20191111_105119_00_054.jpg
+- Assets/BundledAsset/levelone/IMG_20191111_104935_00_051.jpg
+- Assets/BundledAsset/leveltwo/20191111_104047.jpg
+- Assets/BundledAsset/levelone/Hotspot.prefab
+- Assets/BundledAsset/leveltwo/20191111_103501.jpg
+- Assets/BundledAsset/dataxml/Location6.xml
+- Assets/BundledAsset/leveltwo/IMG_20191111_094410_00_005.jpg
+Dependencies: []
