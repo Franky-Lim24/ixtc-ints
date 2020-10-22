@@ -401,30 +401,48 @@
 						'color: #0FFFFF; shader: flat; visible: false; '
 					);
 
-					submit.addEventListener('click', function () {
-						console.log(idname);
-						var result = document.querySelector('#results'.concat(idname));
-						console.log(result);
-						if (ans == null) {
-						} else if (ans) {
-							result.setAttribute('text', {
-								value: 'Correct',
-								color: 'lime',
-								wrapCount: '7',
-							});
-						} else {
-							result.setAttribute('text', {
-								value: 'False',
-								color: 'red',
-								wrapCount: '7',
-							});
+					submit.addEventListener('click', function submitFunc() {
+						if (ans != null) {
+							submit.removeEventListener('click', submitFunc);
+							var choices = document.querySelectorAll(
+								'.answers'.concat(idname)
+							);
+							for (let x = 0; x < choices.length; x++) {
+								$(choices[x]).off();
+							}
+							var result = document.querySelector('#results'.concat(idname));
+							var icon = document.querySelector(
+								'#'.concat(idname.concat('--open-icon'))
+							);
+							if (ans == null) {
+							} else if (ans) {
+								result.setAttribute('text', {
+									value: 'Correct',
+									color: 'lime',
+									wrapCount: '7',
+								});
+								icon.setAttribute('material', {
+									color: 'white',
+									src: 'assets/tick.png',
+								});
+							} else {
+								result.setAttribute('text', {
+									value: 'False',
+									color: 'red',
+									wrapCount: '7',
+								});
+								icon.setAttribute('material', {
+									color: 'white',
+									src: 'assets/error.png',
+								});
+							}
 						}
 					});
+
 					for (let counter = 0; counter < valArr.length; counter++) {
 						body[counter] = document.createElement('a-entity');
 						body[counter].setAttribute('id', 'answers'.concat(counter));
 						body[counter].setAttribute('class', 'answers'.concat(idname));
-						console.log(valArr[counter]);
 						let colorChanger = false;
 						if (valArr[counter][0] == '/') {
 							valArr[counter] = valArr[counter].substring(1);
@@ -452,7 +470,7 @@
 							'material',
 							'color: #0FFFFF; shader: flat; visible: false;'
 						);
-						body[counter].addEventListener('click', function () {
+						$(body[counter]).click(function () {
 							var allAns = document.querySelectorAll('.answers'.concat(idname));
 
 							for (let c1 = 0; c1 < allAns.length; c1++) {
