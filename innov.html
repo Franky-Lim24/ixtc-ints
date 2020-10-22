@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<head>
+	<!--Libraries-->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://aframe.io/releases/0.8.2/aframe.min.js"></script>
+	<script src="https://unpkg.com/aframe-look-at-component@0.5.1/dist/aframe-look-at-component.min.js"></script>
+	<script src="https://unpkg.com/@editvr/aframe-dialog-popup-component@1.7.2/dist/aframe-dialog-popup-component.min.js"></script>
+	<script src="https://unpkg.com/aframe-event-set-component@4.2.1/dist/aframe-event-set-component.min.js"></script>
+	<script src="mcq-lib.js"></script>
+	<!--Hotspot Functions-->
+	<script>
+		AFRAME.registerComponent('hotspots', {
+			init: function () {
+				this.el.addEventListener('reloadspots', function (evt) {
+					//get the entire current spot group and scale it to 0
+					var currspotgroup = document.getElementById(evt.detail.currspots);
+					currspotgroup.setAttribute('scale', '0 0 0');
+
+					//get the entire new spot group and scale it to 1
+					var newspotgroup = document.getElementById(evt.detail.newspots);
+					newspotgroup.setAttribute('scale', '1 1 1');
+				});
+			},
+		});
+		AFRAME.registerComponent('spot', {
+			schema: {
+				linkto: { type: 'string', default: '' },
+				spotgroup: { type: 'string', default: '' },
+			},
+			init: function () {
+				//add image source of hotspot icon
+				this.el.setAttribute('src', '#arrow');
+				this.el.setAttribute('transparent');
+				//make the icon look at the camera all the time
+				this.el.setAttribute('look-at', '#cam');
+
+				var data = this.data;
+
+				this.el.addEventListener('click', function () {
+					//set the skybox source to the new image as per the spot
+					var sky = document.getElementById('skybox');
+					sky.setAttribute('src', data.linkto);
+
+					var spotcomp = document.getElementById('spots');
+					var currspots = this.parentElement.getAttribute('id');
+					//create event for spots component to change the spots data
+					spotcomp.emit('reloadspots', {
+						newspots: data.spotgroup,
+						currspots: currspots,
+					});
+				});
+			},
+		});
+	</script>
+</head>
+<body>
+	<!--Aframe canvas-->
+	<a-scene>
+		<!--Images Collection-->
+		<a-assets>
+			<img id="loc1" src="360Images/Location 1.jpg" />
+			<img id="loc2" src="360Images/Location 2.jpg" />
+			<img id="loc3" src="360Images/Location 3.jpg" />
+			<img id="arrow" src="360Images/up-arrow.png" />
+		</a-assets>
+
+		<!--360 Image-->
+		<a-sky id="skybox" radius="10" src="#loc1"> </a-sky>
+
+		<!--Camera & Cursor-->
+		<a-entity id="cam" camera position="0 1.6 0" look-controls>
+			<a-entity
+				cursor="fuse:false;"
+				geometry="primitive:ring;radiusInner:0.01;radiusOuter:0.02"
+				position="0 0 -1.8"
+				material="shader:flat;color:#000000"
+			>
+			</a-entity>
+		</a-entity>
+
+		<!--Hotspot UI-->
+		<a-entity id="spots" hotspots>
+			<a-entity id="group-point1">
+				<a-image
+					spot="linkto:#loc2;spotgroup:group-point2"
+					position="4 -1 -2.4"
+					rotation="0 -80 0"
+				></a-image>
+				<a-entity
+					id="quest"
+					position="0 2 -4"
+					dialog-question="
+          openIconImage: assets/question1.png;
+          closeIconImage: assets/close.jpg;
+          question: Q1. Please check!;
+          answer: /A. Lorem ipsum()B. Test1()C. Test2"
+				></a-entity>
+				<a-entity
+					id="quest1"
+					position="3 2 -4"
+					dialog-question="
+          openIconImage: assets/question1.png;
+          closeIconImage: assets/close.jpg;
+          question: Q1. Please check!;
+          answer: /A. Lorem ipsum()B. Test1()C. Test2"
+				></a-entity>
+				<a-entity
+					id="dialog"
+					position="0 0 -3"
+					dialog-popup="
+          openIconImage: assets/info.jpg;
+          closeIconImage: assets/close.jpg;
+          title: SP IXTC;
+          body: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.;
+          "
+				>
+				</a-entity>
+			</a-entity>
+			<a-entity id="group-point2" scale="0 0 0">
+				<a-image
+					spot="linkto:#loc1;spotgroup:group-point1"
+					position="-8 -2 1.134"
+				></a-image>
+				<a-image
+					spot="linkto:#loc3;spotgroup:group-point3"
+					position="6.5 -2 -2"
+				></a-image>
+			</a-entity>
+			<a-entity id="group-point3" scale="0 0 0">
+				<a-image
+					spot="linkto:#loc2;spotgroup:group-point2"
+					position="-1.233 -1.834 -8"
+				></a-image>
+			</a-entity>
+		</a-entity>
+	</a-scene>
+</body>
