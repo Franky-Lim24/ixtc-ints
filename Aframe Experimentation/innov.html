@@ -4,7 +4,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script src="https://aframe.io/releases/0.8.2/aframe.min.js"></script>
 	<script src="https://unpkg.com/aframe-look-at-component@0.5.1/dist/aframe-look-at-component.min.js"></script>
-	<script src="https://unpkg.com/@editvr/aframe-dialog-popup-component@1.7.2/dist/aframe-dialog-popup-component.min.js"></script>
+	<script src="aframe-dialog-popup-component.js"></script>
 	<script src="https://unpkg.com/aframe-event-set-component@4.2.1/dist/aframe-event-set-component.min.js"></script>
 	<script src="mcq-lib.js"></script>
 	<!--Hotspot Functions-->
@@ -106,10 +106,28 @@
           closeIconImage: assets/close.jpg;
           title: SP IXTC;
           body: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.;
-          "
-				>
+          ">
 				</a-entity>
-			</a-entity>
+				<a-entity
+						id="dialog2"
+						position="3 0 -3"
+						dialog-popup="
+			openIconImage: assets/info.jpg;
+			closeIconImage: assets/close.jpg;
+			title: SP IXTC;
+			body: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.;
+			previousDialog: dialog">
+				</a-entity>
+				<a-entity
+						id="dialog3"
+						position="-3 0 -3"
+						dialog-popup="
+			openIconImage: assets/info.jpg;
+			closeIconImage: assets/close.jpg;
+			title: SP IXTC;
+			body: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.;
+			previousDialog: dialog2">
+				</a-entity>
 			<a-entity id="group-point2" scale="0 0 0">
 				<a-image
 					spot="linkto:#loc1;spotgroup:group-point1"
