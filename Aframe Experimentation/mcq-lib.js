@@ -362,8 +362,10 @@
 						wrapCount = _this$data4.answerWrapCount,
 						width = _this$data4.dialogBoxWidth,
 						height = _this$data4.dialogBoxHeight,
-						padding = _this$data4.dialogBoxPadding;
+						padding = _this$data4.dialogBoxPadding,
+						radius = _this$data4.openIconRadius;
 					this.bodyEl = '';
+
 					var ans = null;
 					var valArr = value.split('()');
 					let body = [];
@@ -414,6 +416,11 @@
 							var icon = document.querySelector(
 								'#'.concat(idname.concat('--open-icon'))
 							);
+							var feedbackIcon = document.querySelectorAll('#feedbackAns');
+							for (let x = 0; x < feedbackIcon.length; x++) {
+								console.log(feedbackIcon);
+								feedbackIcon[x].setAttribute('visible', 'true');
+							}
 							if (ans == null) {
 							} else if (ans) {
 								result.setAttribute('text', {
@@ -438,7 +445,8 @@
 							}
 						}
 					});
-
+					let feedback = [];
+					let newY = y;
 					for (let counter = 0; counter < valArr.length; counter++) {
 						body[counter] = document.createElement('a-entity');
 						body[counter].setAttribute('id', 'answers'.concat(counter));
@@ -492,10 +500,31 @@
 							y: y,
 							z: 0.01,
 						});
-
+						feedback[counter] = document.createElement('a-entity');
+						feedback[counter].setAttribute('id', 'feedbackAns');
+						let ansIcon;
+						if (colorChanger) {
+							ansIcon = 'assets/check.png';
+						} else {
+							ansIcon = 'assets/attention.png';
+						}
+						feedback[counter].setAttribute('material', {
+							src: ansIcon,
+						});
+						console.log(radius);
+						feedback[counter].setAttribute('geometry', {
+							primitive: 'circle',
+							radius: '0.15',
+						});
+						feedback[counter].setAttribute('position', {
+							x: '1.7',
+							y: y - 0.08,
+							z: 0.01,
+						});
+						feedback[counter].setAttribute('visible', 'false');
 						this.bodyEl = body[counter];
 						if (valArr.length - counter == 1) {
-							return [body, submit, result];
+							return [body, submit, result, feedback];
 						}
 					}
 				},
@@ -533,6 +562,7 @@
 					plane.appendChild(this.generateTitle());
 					for (let counter = 0; counter < answerArr[0].length; counter++) {
 						plane.appendChild(answerArr[0][counter]);
+						plane.appendChild(answerArr[3][counter]);
 					}
 					plane.appendChild(answerArr[1]);
 					plane.appendChild(answerArr[2]);
