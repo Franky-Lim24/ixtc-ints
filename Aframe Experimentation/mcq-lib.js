@@ -152,7 +152,7 @@
 					},
 					closeIconImage: {
 						type: 'asset',
-						default: '',
+						default: 'assets/close.jpg',
 					},
 					closeIconRadius: {
 						type: 'number',
@@ -332,7 +332,7 @@
 						''.concat(this.el.getAttribute('id'), '--title')
 					);
 					title.setAttribute('text', {
-						value: value.substring(0, wrapCount),
+						value: value,
 						color: color,
 						font: font,
 						wrapCount: wrapCount,
@@ -363,9 +363,20 @@
 						width = _this$data4.dialogBoxWidth,
 						height = _this$data4.dialogBoxHeight,
 						padding = _this$data4.dialogBoxPadding,
-						radius = _this$data4.openIconRadius;
+						radius = _this$data4.openIconRadius,
+						multiple = _this$data4.multiple;
 					this.bodyEl = '';
-
+					let ansHint = document.createElement('a-entity');
+					ansHint.setAttribute('text', {
+						value: '*there are multiple answers for this question',
+						color: 'gray',
+						wrapCount: '34.81',
+						width: 'auto',
+						height: 'auto',
+						anchor: 'right',
+					});
+					ansHint.setAttribute('position', '0.21 1.33 0.001');
+					ansHint.setAttribute('scale', '2 2 0.001');
 					var ans = null;
 					var valArr = value.split('()');
 					let body = [];
@@ -416,9 +427,10 @@
 							var icon = document.querySelector(
 								'#'.concat(idname.concat('--open-icon'))
 							);
-							var feedbackIcon = document.querySelectorAll('#feedbackAns');
+							var feedbackIcon = document.querySelectorAll(
+								'#feedbackAns'.concat(idname)
+							);
 							for (let x = 0; x < feedbackIcon.length; x++) {
-								console.log(feedbackIcon);
 								feedbackIcon[x].setAttribute('visible', 'true');
 							}
 							if (ans == null) {
@@ -447,6 +459,15 @@
 					});
 					let feedback = [];
 					let newY = y;
+					let current = [];
+					let mulAns = 0;
+					let mulAnsChecker = 0;
+					let totalAns = 0;
+					for (let counter = 0; counter < valArr.length; counter++) {
+						if (valArr[counter][0] == '/') {
+							mulAns++;
+						}
+					}
 					for (let counter = 0; counter < valArr.length; counter++) {
 						body[counter] = document.createElement('a-entity');
 						body[counter].setAttribute('id', 'answers'.concat(counter));
@@ -478,18 +499,43 @@
 							'material',
 							'color: #0FFFFF; shader: flat; visible: false;'
 						);
+						current[counter] = false;
 						$(body[counter]).click(function () {
 							var allAns = document.querySelectorAll('.answers'.concat(idname));
-
-							for (let c1 = 0; c1 < allAns.length; c1++) {
-								allAns[c1].setAttribute('text', 'color: #000000');
+							if (mulAns > 1) {
+								if (current[counter]) {
+									body[counter].setAttribute('text', 'color: #000000');
+									if (colorChanger) {
+										mulAnsChecker--;
+									}
+									totalAns--;
+									current[counter] = false;
+								} else {
+									body[counter].setAttribute('text', 'color: #e5e619');
+									if (colorChanger) {
+										mulAnsChecker++;
+									}
+									totalAns++;
+									current[counter] = true;
+								}
+								if (mulAnsChecker == mulAns && totalAns == mulAns) {
+									ans = true;
+								} else if (mulAnsChecker == 0) {
+									ans = null;
+								} else {
+									ans = false;
+								}
 							}
-							if (colorChanger) {
+							if (mulAns < 2) {
+								for (let c1 = 0; c1 < allAns.length; c1++) {
+									allAns[c1].setAttribute('text', 'color: #000000');
+								}
+								if (colorChanger) {
+									ans = true;
+								} else {
+									ans = false;
+								}
 								body[counter].setAttribute('text', 'color: #e5e619');
-								ans = true;
-							} else {
-								body[counter].setAttribute('text', 'color: #e5e619');
-								ans = false;
 							}
 						});
 
@@ -501,7 +547,7 @@
 							z: 0.01,
 						});
 						feedback[counter] = document.createElement('a-entity');
-						feedback[counter].setAttribute('id', 'feedbackAns');
+						feedback[counter].setAttribute('id', 'feedbackAns'.concat(idname));
 						let ansIcon;
 						if (colorChanger) {
 							ansIcon = 'assets/check.png';
@@ -511,7 +557,6 @@
 						feedback[counter].setAttribute('material', {
 							src: ansIcon,
 						});
-						console.log(radius);
 						feedback[counter].setAttribute('geometry', {
 							primitive: 'circle',
 							radius: '0.15',
@@ -524,7 +569,12 @@
 						feedback[counter].setAttribute('visible', 'false');
 						this.bodyEl = body[counter];
 						if (valArr.length - counter == 1) {
-							return [body, submit, result, feedback];
+							if (mulAns > 1) {
+								ansHint.setAttribute('visible', 'true');
+							} else {
+								ansHint.setAttribute('visible', 'false');
+							}
+							return [body, submit, result, feedback, ansHint];
 						}
 					}
 				},
@@ -560,6 +610,8 @@
 					let answerArr = this.generateBody();
 					plane.appendChild(this.generateCloseIcon());
 					plane.appendChild(this.generateTitle());
+					plane.appendChild(answerArr[4]);
+
 					for (let counter = 0; counter < answerArr[0].length; counter++) {
 						plane.appendChild(answerArr[0][counter]);
 						plane.appendChild(answerArr[3][counter]);

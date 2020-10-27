@@ -85,16 +85,14 @@
 					position="0 2 -4"
 					dialog-question="
           openIconImage: assets/question1.png;
-          closeIconImage: assets/close.jpg;
-          question: Q1. Please check!;
-          answer: /A. Lorem ipsum()B. Test1()C. Test2"
+		  question: Q1. Please check!;
+          answer: /A. Lorem ipsum()/B. Test1()C. Test2;"
 				></a-entity>
 				<a-entity
 					id="quest1"
 					position="3 2 -4"
 					dialog-question="
           openIconImage: assets/question1.png;
-          closeIconImage: assets/close.jpg;
           question: Q1. Please check!;
           answer: /A. Lorem ipsum()B. Test1()C. Test2"
 				></a-entity>
@@ -108,16 +106,7 @@
           body: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.;
           ">
 				</a-entity>
-				<a-entity
-						id="dialog2"
-						position="3 0 -3"
-						dialog-popup="
-			openIconImage: assets/info.jpg;
-			closeIconImage: assets/close.jpg;
-			title: SP IXTC;
-			body: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.;
-			previousDialog: dialog">
-				</a-entity>
+				
 				<a-entity
 						id="dialog3"
 						position="-3 0 -3"
@@ -135,6 +124,16 @@
 					spot="linkto:#loc1;spotgroup:group-point1"
 					position="-8 -2 1.134"
 				></a-image>
+				<a-entity
+						id="dialog2"
+						position="3 0 -3"
+						dialog-popup="
+			openIconImage: assets/info.jpg;
+			closeIconImage: assets/close.jpg;
+			title: SP IXTC;
+			body: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.;
+			previousDialog: dialog">
+				</a-entity>
 				<a-image
 					spot="linkto:#loc3;spotgroup:group-point3"
 					position="6.5 -2 -2"
