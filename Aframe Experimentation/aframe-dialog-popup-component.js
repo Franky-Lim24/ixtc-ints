@@ -194,6 +194,10 @@
 						type: 'string',
 						default: '',
 					},
+					multiple: {
+						type: 'boolean',
+						default: 'false',
+					},
 				},
 				multiple: true,
 				dialogPlaneEl: null,
@@ -269,8 +273,9 @@
 						color = _this$data.openIconColor,
 						src = _this$data.openIconImage,
 						openOn = _this$data.openOn,
-						after = _this$data.previousDialog;
-
+						after = _this$data.previousDialog,
+						multiple = _this$data.multiple;
+					let itemId = this.el.getAttribute('id');
 					var openIcon = document.createElement('a-entity');
 					openIcon.setAttribute(
 						'id',
@@ -289,13 +294,26 @@
 						src: src,
 					}); // If the parent entity has aa look-at component attached, apply the look-at
 					// component to the openIcon.
+					if (multiple) {
+						openIcon.setAttribute(
+							'animation__scale',
+							'property: scale; to: 1.2 1.2 1; loop: true; dir: alternate;'
+						);
+
+						$(openIcon).click(function () {
+							console.log('i click');
+							if ($(openIcon).attr('animation__scale')) {
+								$(openIcon).removeAttr('animation__scale');
+							}
+						});
+					}
+
 					if (after) {
 						openIcon.setAttribute('visible', 'false');
 						$('#'.concat(after)).click(function () {
 							openIcon.setAttribute('visible', 'true');
 						});
 					}
-
 					var lookAt = this.el.getAttribute('look-at');
 
 					if (lookAt) {

@@ -2,11 +2,15 @@
 <head>
 	<!--Libraries-->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="anime.min.js"></script> 
 	<script src="https://aframe.io/releases/0.8.2/aframe.min.js"></script>
 	<script src="https://unpkg.com/aframe-look-at-component@0.5.1/dist/aframe-look-at-component.min.js"></script>
-	<script src="aframe-dialog-popup-component.js"></script>
+	  <script src="https://unpkg.com/aframe-animation-component@^4.1.2/dist/aframe-animation-component.min.js"></script> 
 	<script src="https://unpkg.com/aframe-event-set-component@4.2.1/dist/aframe-event-set-component.min.js"></script>
+		<script src="aframe-dialog-popup-component.js"></script>
+
 	<script src="mcq-lib.js"></script>
+
 	<!--Hotspot Functions-->
 	<script>
 		AFRAME.registerComponent('hotspots', {
@@ -103,27 +107,10 @@
           openIconImage: assets/info.jpg;
           closeIconImage: assets/close.jpg;
           title: SP IXTC;
-          body: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.;
+		  body: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.;
+		  multiple: true;
           ">
 				</a-entity>
-				
-				<a-entity
-						id="dialog3"
-						position="-3 0 -3"
-						dialog-popup="
-			openIconImage: assets/info.jpg;
-			closeIconImage: assets/close.jpg;
-			title: SP IXTC;
-			body: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.;
-			previousDialog: dialog2">
-				</a-entity>
-							</a-entity>
-
-			<a-entity id="group-point2" scale="0 0 0">
-				<a-image
-					spot="linkto:#loc1;spotgroup:group-point1"
-					position="-8 -2 1.134"
-				></a-image>
 				<a-entity
 						id="dialog2"
 						position="3 0 -3"
@@ -132,8 +119,27 @@
 			closeIconImage: assets/close.jpg;
 			title: SP IXTC;
 			body: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.;
-			previousDialog: dialog">
+			previousDialog: dialog;		  
+			multiple: true;">
 				</a-entity>
+				<a-entity
+						id="dialog3"
+						position="-3 0 -3"
+						dialog-popup="
+			openIconImage: assets/info.jpg;
+			closeIconImage: assets/close.jpg;
+			title: SP IXTC;
+			body: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.;
+			previousDialog: dialog2;
+			multiple: true;">
+				</a-entity>
+							</a-entity>
+
+			<a-entity id="group-point2" scale="0 0 0">
+				<a-image
+					spot="linkto:#loc1;spotgroup:group-point1"
+					position="-8 -2 1.134"
+				></a-image>
 				<a-image
 					spot="linkto:#loc3;spotgroup:group-point3"
 					position="6.5 -2 -2"
