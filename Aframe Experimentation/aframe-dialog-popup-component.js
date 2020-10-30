@@ -132,7 +132,7 @@
 					},
 					openOn: {
 						type: 'string',
-						default: 'click',
+						default: 'mouseenter',
 					},
 					active: {
 						type: 'boolean',
@@ -299,21 +299,27 @@
 							'animation__scale',
 							'property: scale; to: 1.2 1.2 1; loop: true; dir: alternate;'
 						);
-
-						$(openIcon).click(function () {
-							console.log('i click');
+						console.log(itemId);
+						openIcon.addEventListener('mouseenter', function removeAni() {
 							if ($(openIcon).attr('animation__scale')) {
 								$(openIcon).removeAttr('animation__scale');
 							}
+							openIcon.removeEventListener('mouseenter', removeAni);
 						});
+
+						if (after) {
+							openIcon.setAttribute('visible', 'false');
+							document
+								.getElementById(after)
+								.addEventListener('mouseenter', function makeVis() {
+									openIcon.setAttribute('visible', 'true');
+									document
+										.getElementById(after)
+										.removeEventListener('mouseenter', makeVis);
+								});
+						}
 					}
 
-					if (after) {
-						openIcon.setAttribute('visible', 'false');
-						$('#'.concat(after)).click(function () {
-							openIcon.setAttribute('visible', 'true');
-						});
-					}
 					var lookAt = this.el.getAttribute('look-at');
 
 					if (lookAt) {
@@ -512,6 +518,32 @@
 					plane.appendChild(this.generateCloseIcon());
 					plane.appendChild(this.generateTitle());
 					plane.appendChild(this.generateBody());
+					// plane.addEventListener('mouseleave', mouseEnter(createPopup), true);
+
+					// function createPopup() {
+					// 	console.log('test');
+					// }
+					// function mouseEnter(_fn) {
+					// 	return function (_evt) {
+					// 		var relTarget = _evt.relatedTarget;
+					// 		if (this === relTarget || isAChildOf(this, relTarget)) {
+					// 			return;
+					// 		}
+
+					// 		_fn.call(this, _evt);
+					// 	};
+					// }
+
+					// function isAChildOf(_parent, _child) {
+					// 	if (_parent === _child) {
+					// 		return false;
+					// 	}
+					// 	while (_child && _child !== _parent) {
+					// 		_child = _child.parentNode;
+					// 	}
+
+					// 	return _child === _parent;
+					// }
 					this.dialogPlaneEl = plane;
 					return plane;
 				},

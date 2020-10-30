@@ -132,7 +132,7 @@
 					},
 					openOn: {
 						type: 'string',
-						default: 'click',
+						default: 'mouseenter',
 					},
 					active: {
 						type: 'boolean',
