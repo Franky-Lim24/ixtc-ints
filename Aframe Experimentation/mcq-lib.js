@@ -266,14 +266,11 @@
 					openIcon.setAttribute('material', {
 						color: color,
 						src: src,
-					}); // If the parent entity has aa look-at component attached, apply the look-at
+					});
+					// If the parent entity has aa look-at component attached, apply the look-at
 					// component to the openIcon.
 
-					var lookAt = this.el.getAttribute('look-at');
-
-					if (lookAt) {
-						openIcon.setAttribute('look-at', lookAt);
-					}
+					openIcon.setAttribute('look-at', '#cam');
 
 					openIcon.addEventListener(openOn, this.toggleDialogOpen.bind(this));
 					this.openIconEl = openIcon;

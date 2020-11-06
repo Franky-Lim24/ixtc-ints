@@ -2,14 +2,14 @@
 <head>
 	<!--Libraries-->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	<script src="anime.min.js"></script> 
+	<script src="anime.min.js"></script>
 	<script src="https://aframe.io/releases/0.8.2/aframe.min.js"></script>
 	<script src="https://unpkg.com/aframe-look-at-component@0.5.1/dist/aframe-look-at-component.min.js"></script>
-	<script src="https://unpkg.com/aframe-animation-component@^4.1.2/dist/aframe-animation-component.min.js"></script> 
+	<script src="https://unpkg.com/aframe-animation-component@^4.1.2/dist/aframe-animation-component.min.js"></script>
 	<script src="https://unpkg.com/aframe-event-set-component@4.2.1/dist/aframe-event-set-component.min.js"></script>
 	<script src="aframe-dialog-popup-component.js"></script>
 	<script src="mcq-lib.js"></script>
-
+	<!-- <script src="mcq-lib(displayQ&A).js"></script> -->
 	<!--Hotspot Functions-->
 	<script>
 		AFRAME.registerComponent('hotspots', {
@@ -35,7 +35,6 @@
 				this.el.setAttribute('src', '#arrow');
 				this.el.setAttribute('transparent');
 				//make the icon look at the camera all the time
-				this.el.setAttribute('look-at', '#cam');
 
 				var data = this.data;
 
@@ -71,8 +70,14 @@
 		<a-sky id="skybox" radius="10" src="#loc1"> </a-sky>
 
 		<!--Camera & Cursor-->
-		<a-entity id="cam" camera position="0 1.6 0" look-controls wasd-controls-enabled="false" cursor="rayOrigin: mouse">
-			</a-entity>
+		<a-entity
+			id="cam"
+			camera
+			position="0 1.6 0"
+			look-controls
+			wasd-controls-enabled="false"
+			cursor="rayOrigin: mouse"
+		>
 		</a-entity>
 
 		<!--Hotspot UI-->
@@ -80,8 +85,8 @@
 			<a-entity id="group-point1">
 				<a-image
 					spot="linkto:#loc2;spotgroup:group-point2"
-					position="4 -1 -2.4"
-					rotation="0 -80 0"
+					position="6.8 -4.2 -3.2"
+					rotation="90 90 0"
 				></a-image>
 				<a-entity
 					id="quest"
@@ -91,7 +96,7 @@
 		  question: Q1. Please check!;
           answer: /A. Lorem ipsum()/B. Test1()C. Test2;"
 				></a-entity>
-				<!-- <a-entity
+				<a-entity
 					id="quest1"
 					position="3 2 -4"
 					dialog-question="
@@ -100,7 +105,7 @@
           answer: /A. Lorem ipsum()B. Test1()C. Test2"
 				></a-entity>
 				<a-entity
-					id="dialog"
+					id="dialog1"
 					position="0 0 -3"
 					dialog-popup="
           openIconImage: assets/info.jpg;
@@ -108,46 +113,52 @@
           title: SP IXTC;
 		  body: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.;
 		  multiple: true;
-          ">
+          "
+				>
 				</a-entity>
 				<a-entity
-						id="dialog2"
-						position="3 0 -3"
-						dialog-popup="
+					id="dialog2"
+					position="3 0 -3"
+					dialog-popup="
 			openIconImage: assets/info.jpg;
 			closeIconImage: assets/close.jpg;
 			title: SP IXTC;
 			body: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.;
-			previousDialog: dialog;		  
-			multiple: true;">
+			previousDialog: dialog1;		  
+			multiple: true;"
+				>
 				</a-entity>
 				<a-entity
-						id="dialog3"
-						position="-3 0 -3"
-						dialog-popup="
+					id="dialog3"
+					position="-3 0 -3"
+					dialog-popup="
 			openIconImage: assets/info.jpg;
 			closeIconImage: assets/close.jpg;
 			title: SP IXTC;
 			body: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.;
 			previousDialog: dialog2;
-			multiple: true;">
-				</a-entity> -->
-							</a-entity>
+			multiple: true;"
+				>
+				</a-entity>
+			</a-entity>
 
 			<a-entity id="group-point2" scale="0 0 0">
 				<a-image
 					spot="linkto:#loc1;spotgroup:group-point1"
-					position="-8 -2 1.134"
+					position="-8 -2.4 1.534"
+					rotation="90 -90 0"
 				></a-image>
 				<a-image
 					spot="linkto:#loc3;spotgroup:group-point3"
 					position="6.5 -2 -2"
+					rotation="90 110 0"
 				></a-image>
 			</a-entity>
 			<a-entity id="group-point3" scale="0 0 0">
 				<a-image
 					spot="linkto:#loc2;spotgroup:group-point2"
 					position="-1.233 -1.834 -8"
+					rotation="90 190 0"
 				></a-image>
 			</a-entity>
 		</a-entity>

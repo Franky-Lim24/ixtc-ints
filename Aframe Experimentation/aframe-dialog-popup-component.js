@@ -276,6 +276,7 @@
 						after = _this$data.previousDialog,
 						multiple = _this$data.multiple;
 					let itemId = this.el.getAttribute('id');
+
 					var openIcon = document.createElement('a-entity');
 					openIcon.setAttribute(
 						'id',
@@ -289,17 +290,29 @@
 						primitive: 'circle',
 						radius: radius,
 					});
-					openIcon.setAttribute('material', {
-						color: color,
-						src: src,
-					}); // If the parent entity has aa look-at component attached, apply the look-at
+
+					// If the parent entity has aa look-at component attached, apply the look-at
 					// component to the openIcon.
 					if (multiple) {
+						var matches = itemId.match(/(\d+)/);
+						console.log(matches);
+						let numId = this.el.getAttribute('id');
+						console.log(numId);
+						openIcon.setAttribute('text', {
+							value: matches[0],
+							color: 'black',
+							wrapCount: '4',
+							xOffset: '-0.02',
+							align: 'center',
+						});
+						openIcon.setAttribute('material', {
+							color: color,
+						});
 						openIcon.setAttribute(
 							'animation__scale',
 							'property: scale; to: 1.2 1.2 1; loop: true; dir: alternate;'
 						);
-						console.log(itemId);
+
 						openIcon.addEventListener('mouseenter', function removeAni() {
 							if ($(openIcon).attr('animation__scale')) {
 								$(openIcon).removeAttr('animation__scale');
@@ -318,16 +331,18 @@
 										.removeEventListener('mouseenter', makeVis);
 								});
 						}
+					} else {
+						openIcon.setAttribute('material', {
+							color: color,
+							src: src,
+						});
 					}
 
-					var lookAt = this.el.getAttribute('look-at');
-
-					if (lookAt) {
-						openIcon.setAttribute('look-at', lookAt);
-					}
+					openIcon.setAttribute('look-at', '#cam');
 
 					openIcon.addEventListener(openOn, this.toggleDialogOpen.bind(this));
 					this.openIconEl = openIcon;
+
 					return openIcon;
 				},
 
@@ -518,32 +533,32 @@
 					plane.appendChild(this.generateCloseIcon());
 					plane.appendChild(this.generateTitle());
 					plane.appendChild(this.generateBody());
-					// plane.addEventListener('mouseleave', mouseEnter(createPopup), true);
+					plane.addEventListener('mouseleave', mouseEnter(createPopup), true);
 
-					// function createPopup() {
-					// 	console.log('test');
-					// }
-					// function mouseEnter(_fn) {
-					// 	return function (_evt) {
-					// 		var relTarget = _evt.relatedTarget;
-					// 		if (this === relTarget || isAChildOf(this, relTarget)) {
-					// 			return;
-					// 		}
+					function createPopup() {
+						console.log('test');
+					}
+					function mouseEnter(_fn) {
+						return function (_evt) {
+							var relTarget = _evt.relatedTarget;
+							if (this === relTarget || isAChildOf(this, relTarget)) {
+								return;
+							}
 
-					// 		_fn.call(this, _evt);
-					// 	};
-					// }
+							_fn.call(this, _evt);
+						};
+					}
 
-					// function isAChildOf(_parent, _child) {
-					// 	if (_parent === _child) {
-					// 		return false;
-					// 	}
-					// 	while (_child && _child !== _parent) {
-					// 		_child = _child.parentNode;
-					// 	}
+					function isAChildOf(_parent, _child) {
+						if (_parent === _child) {
+							return false;
+						}
+						while (_child && _child !== _parent) {
+							_child = _child.parentNode;
+						}
 
-					// 	return _child === _parent;
-					// }
+						return _child === _parent;
+					}
 					this.dialogPlaneEl = plane;
 					return plane;
 				},
