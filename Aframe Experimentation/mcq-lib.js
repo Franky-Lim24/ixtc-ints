@@ -168,7 +168,7 @@
 					},
 					dialogBoxHeight: {
 						type: 'number',
-						default: 4,
+						default: 2.5,
 					},
 					dialogBoxColor: {
 						type: 'string',
@@ -372,21 +372,34 @@
 						height: 'auto',
 						anchor: 'right',
 					});
-					ansHint.setAttribute('position', '0.21 1.33 0.001');
+					let y = height / 2 - padding * 3;
+
+					ansHint.setAttribute('position', {
+						x: '0.21',
+						y: y - 0.1,
+						z: '0.001',
+					});
 					ansHint.setAttribute('scale', '2 2 0.001');
 					var ans = null;
 					var valArr = value.split('()');
 					let body = [];
-					let y = height / 2 - padding * 3;
 					let checker = 0;
 					var idname = this.el.getAttribute('id');
 					let submit = document.createElement('a-entity');
 					submit.setAttribute('id', 'btnSubmit');
-					submit.setAttribute('position', '1.5 -1.7 0.01');
+					submit.setAttribute('position', {
+						x: '1.5',
+						y: -y - padding,
+						z: '0.01',
+					});
 
 					let result = document.createElement('a-entity');
 					result.setAttribute('id', 'results'.concat(idname));
-					result.setAttribute('position', '-1.4 -1.7 0');
+					result.setAttribute('position', {
+						x: '-1.34',
+						y: -y - padding,
+						z: '0.01',
+					});
 
 					submit.setAttribute('text', {
 						value: 'Submit',
@@ -413,7 +426,7 @@
 
 					submit.addEventListener('click', function submitFunc() {
 						if (ans != null) {
-							submit.removeEventListener('click', submitFunc);
+							submit.parentNode.removeChild(submit);
 							var choices = document.querySelectorAll(
 								'.answers'.concat(idname)
 							);
