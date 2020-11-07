@@ -12,4 +12,4 @@ A repository of all the projects I have developed during my internship with SP T
 - [x] Dialog Popup
 - [x] MCQ Library
 - [x] 360 Tour of Wafer Lab
-- [x] Animation
+- [x] Animation with anime.js
