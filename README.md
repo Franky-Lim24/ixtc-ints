@@ -8,6 +8,8 @@ A repository of all the projects I have developed during my internship with SP T
 - [x] Provide Various Styles of Loading Bar
 
 ## Implentation of Aframe to host virtual tour application. 
-- [x] 360 Tour
+- [x] 360 Tour of Innovillage
 - [x] Dialog Popup
-- [ ] MCQ Library
+- [x] MCQ Library
+- [x] 360 Tour of Wafer Lab
+- [x] Animation
