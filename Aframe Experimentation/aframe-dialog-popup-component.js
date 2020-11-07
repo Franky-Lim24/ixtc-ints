@@ -295,9 +295,7 @@
 					// component to the openIcon.
 					if (multiple) {
 						var matches = itemId.match(/(\d+)/);
-						console.log(matches);
 						let numId = this.el.getAttribute('id');
-						console.log(numId);
 						openIcon.setAttribute('text', {
 							value: matches[0],
 							color: 'black',
@@ -321,6 +319,8 @@
 						});
 
 						if (after) {
+							openIcon.setAttribute('class', 'invis');
+
 							openIcon.setAttribute('visible', 'false');
 							document
 								.getElementById(after)
@@ -329,6 +329,8 @@
 									document
 										.getElementById(after)
 										.removeEventListener('mouseenter', makeVis);
+
+									$(openIcon).removeClass('invis');
 								});
 						}
 					} else {
@@ -507,6 +509,7 @@
 						padding = _this$data6.dialogBoxPadding,
 						color = _this$data6.dialogBoxColor;
 					var plane = this.dialogPlaneEl || document.createElement('a-entity');
+					var idname = this.el.getAttribute('id');
 					plane.setAttribute(
 						'id',
 						''.concat(this.el.getAttribute('id'), '--dialog-plane')
@@ -533,32 +536,21 @@
 					plane.appendChild(this.generateCloseIcon());
 					plane.appendChild(this.generateTitle());
 					plane.appendChild(this.generateBody());
-					plane.addEventListener('mouseleave', mouseEnter(createPopup), true);
-
-					function createPopup() {
-						console.log('test');
-					}
-					function mouseEnter(_fn) {
-						return function (_evt) {
-							var relTarget = _evt.relatedTarget;
-							if (this === relTarget || isAChildOf(this, relTarget)) {
-								return;
+					document
+						.getElementById('skybox')
+						.addEventListener('mouseenter', function () {
+							var newEl = document.getElementById(
+								''.concat(idname, '--open-icon')
+							);
+							if (!newEl.classList.contains('invis')) {
+								document
+									.getElementById(''.concat(idname, '--dialog-plane'))
+									.setAttribute('visible', 'false');
+								document
+									.getElementById(''.concat(idname, '--open-icon'))
+									.setAttribute('visible', 'true');
 							}
-
-							_fn.call(this, _evt);
-						};
-					}
-
-					function isAChildOf(_parent, _child) {
-						if (_parent === _child) {
-							return false;
-						}
-						while (_child && _child !== _parent) {
-							_child = _child.parentNode;
-						}
-
-						return _child === _parent;
-					}
+						});
 					this.dialogPlaneEl = plane;
 					return plane;
 				},

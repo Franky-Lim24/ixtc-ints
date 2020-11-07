@@ -599,6 +599,8 @@
 						padding = _this$data6.dialogBoxPadding,
 						color = _this$data6.dialogBoxColor;
 					var plane = this.dialogPlaneEl || document.createElement('a-entity');
+					var idname = this.el.getAttribute('id');
+
 					plane.setAttribute(
 						'id',
 						''.concat(this.el.getAttribute('id'), '--dialog-plane')
@@ -618,7 +620,6 @@
 						color: color,
 					});
 					let answerArr = this.generateBody();
-					plane.appendChild(this.generateCloseIcon());
 					plane.appendChild(this.generateTitle());
 					plane.appendChild(answerArr[4]);
 
@@ -628,7 +629,16 @@
 					}
 					plane.appendChild(answerArr[1]);
 					plane.appendChild(answerArr[2]);
-
+					document
+						.getElementById('skybox')
+						.addEventListener('mouseenter', function () {
+							document
+								.getElementById(''.concat(idname, '--dialog-plane'))
+								.setAttribute('visible', 'false');
+							document
+								.getElementById(''.concat(idname, '--open-icon'))
+								.setAttribute('visible', 'true');
+						});
 					this.dialogPlaneEl = plane;
 					return plane;
 				},
