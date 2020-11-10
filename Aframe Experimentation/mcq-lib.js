@@ -132,7 +132,7 @@
 					},
 					openOn: {
 						type: 'string',
-						default: 'mouseenter',
+						default: 'click',
 					},
 					active: {
 						type: 'boolean',
@@ -140,7 +140,7 @@
 					},
 					openIconImage: {
 						type: 'asset',
-						default: '',
+						default: 'assets/question1.png',
 					},
 					openIconRadius: {
 						type: 'number',
@@ -231,15 +231,6 @@
 				/**
 				 * Handles opening and closing the dialog plane.
 				 */
-				toggleDialogOpen: function toggleDialogOpen() {
-					this.isOpen = !this.isOpen;
-
-					if (this.data.active && this.dialogPlaneEl) {
-						this.positionDialogPlane();
-						this.dialogPlaneEl.setAttribute('visible', this.isOpen);
-						this.openIconEl.setAttribute('visible', !this.isOpen);
-					}
-				},
 
 				/**
 				 * Generates the open icon.
@@ -250,6 +241,8 @@
 						color = _this$data.openIconColor,
 						src = _this$data.openIconImage,
 						openOn = _this$data.openOn;
+					var idname = this.el.getAttribute('id');
+
 					var openIcon = document.createElement('a-entity');
 					openIcon.setAttribute(
 						'id',
@@ -271,8 +264,17 @@
 					// component to the openIcon.
 
 					openIcon.setAttribute('look-at', '#cam');
+					$(window).on('load', function () {
+						openIcon.addEventListener('mouseenter', function () {
+							document
+								.getElementById(''.concat(idname, '--dialog-plane'))
+								.setAttribute('visible', 'true');
+							document
+								.getElementById(''.concat(idname, '--open-icon'))
+								.setAttribute('visible', 'false');
+						});
+					});
 
-					openIcon.addEventListener(openOn, this.toggleDialogOpen.bind(this));
 					this.openIconEl = openIcon;
 					return openIcon;
 				},
@@ -639,6 +641,8 @@
 								.getElementById(''.concat(idname, '--open-icon'))
 								.setAttribute('visible', 'true');
 						});
+					plane.setAttribute('look-at', '#cam');
+
 					this.dialogPlaneEl = plane;
 					return plane;
 				},
@@ -647,6 +651,7 @@
 						var vector = this.dialogPlaneEl.object3D.parent.worldToLocal(
 							this.cameraEl.object3D.getWorldPosition()
 						);
+						console.log(vector);
 						this.dialogPlaneEl.object3D.lookAt(vector);
 					}
 				},

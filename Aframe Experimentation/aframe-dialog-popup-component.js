@@ -254,15 +254,6 @@
 				/**
 				 * Handles opening and closing the dialog plane.
 				 */
-				toggleDialogOpen: function toggleDialogOpen() {
-					this.isOpen = !this.isOpen;
-
-					if (this.data.active && this.dialogPlaneEl) {
-						this.positionDialogPlane();
-						this.dialogPlaneEl.setAttribute('visible', this.isOpen);
-						this.openIconEl.setAttribute('visible', !this.isOpen);
-					}
-				},
 
 				/**
 				 * Generates the open icon.
@@ -275,8 +266,9 @@
 						openOn = _this$data.openOn,
 						after = _this$data.previousDialog,
 						multiple = _this$data.multiple;
-					let itemId = this.el.getAttribute('id');
 
+					let itemId = this.el.getAttribute('id');
+					var idname = this.el.getAttribute('id');
 					var openIcon = document.createElement('a-entity');
 					openIcon.setAttribute(
 						'id',
@@ -293,56 +285,63 @@
 
 					// If the parent entity has aa look-at component attached, apply the look-at
 					// component to the openIcon.
-					if (multiple) {
-						var matches = itemId.match(/(\d+)/);
-						let numId = this.el.getAttribute('id');
-						openIcon.setAttribute('text', {
-							value: matches[0],
-							color: 'black',
-							wrapCount: '4',
-							xOffset: '-0.02',
-							align: 'center',
-						});
-						openIcon.setAttribute('material', {
-							color: color,
-						});
-						openIcon.setAttribute(
-							'animation__scale',
-							'property: scale; to: 1.2 1.2 1; loop: true; dir: alternate;'
-						);
+					$(window).on('load', function () {
+						if (multiple) {
+							var matches = itemId.match(/(\d+)/);
 
-						openIcon.addEventListener('mouseenter', function removeAni() {
-							if ($(openIcon).attr('animation__scale')) {
-								$(openIcon).removeAttr('animation__scale');
+							openIcon.setAttribute('text', {
+								value: matches[0],
+								color: 'black',
+								wrapCount: '4',
+								xOffset: '-0.02',
+								align: 'center',
+							});
+							openIcon.setAttribute('material', {
+								color: color,
+							});
+							openIcon.setAttribute(
+								'animation__scale',
+								'property: scale; to: 1.2 1.2 1; loop: true; dir: alternate;'
+							);
+
+							openIcon.addEventListener('mouseenter', function removeAni() {
+								if ($(openIcon).attr('animation__scale')) {
+									$(openIcon).removeAttr('animation__scale');
+								}
+								openIcon.removeEventListener('mouseenter', removeAni);
+							});
+							if (after) {
+								openIcon.setAttribute('class', 'invis');
+
+								openIcon.setAttribute('visible', 'false');
+								document
+									.getElementById(after)
+									.addEventListener('mouseenter', function makeVis() {
+										openIcon.setAttribute('visible', 'true');
+										document
+											.getElementById(after)
+											.removeEventListener('mouseenter', makeVis);
+
+										$(openIcon).removeClass('invis');
+									});
 							}
-							openIcon.removeEventListener('mouseenter', removeAni);
-						});
-
-						if (after) {
-							openIcon.setAttribute('class', 'invis');
-
-							openIcon.setAttribute('visible', 'false');
-							document
-								.getElementById(after)
-								.addEventListener('mouseenter', function makeVis() {
-									openIcon.setAttribute('visible', 'true');
-									document
-										.getElementById(after)
-										.removeEventListener('mouseenter', makeVis);
-
-									$(openIcon).removeClass('invis');
-								});
+						} else {
+							openIcon.setAttribute('material', {
+								color: color,
+								src: src,
+							});
 						}
-					} else {
-						openIcon.setAttribute('material', {
-							color: color,
-							src: src,
+
+						openIcon.setAttribute('look-at', '#cam');
+						openIcon.addEventListener('mouseenter', function () {
+							document
+								.getElementById(''.concat(idname, '--dialog-plane'))
+								.setAttribute('visible', 'true');
+							document
+								.getElementById(''.concat(idname, '--open-icon'))
+								.setAttribute('visible', 'false');
 						});
-					}
-
-					openIcon.setAttribute('look-at', '#cam');
-
-					openIcon.addEventListener(openOn, this.toggleDialogOpen.bind(this));
+					});
 					this.openIconEl = openIcon;
 
 					return openIcon;
@@ -514,6 +513,8 @@
 						'id',
 						''.concat(this.el.getAttribute('id'), '--dialog-plane')
 					);
+					plane.setAttribute('look-at', '#cam');
+
 					plane.setAttribute(
 						'position',
 						Object.assign({}, this.el.getAttribute('position'))
@@ -533,7 +534,6 @@
 					plane.setAttribute('material', {
 						color: color,
 					});
-					plane.appendChild(this.generateCloseIcon());
 					plane.appendChild(this.generateTitle());
 					plane.appendChild(this.generateBody());
 					document

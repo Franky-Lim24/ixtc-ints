@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<!--Libraries-->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 		<script src="anime.min.js"></script>
@@ -36,6 +34,13 @@
 					//add image source of hotspot icon
 					this.el.setAttribute('src', '#arrow');
 					this.el.setAttribute('transparent');
+					this.el.setAttribute('geometry', {
+						primitive: 'circle',
+						radius: '0.6',
+					});
+					this.el.setAttribute('material', {
+						color: 'white',
+					});
 					//make the icon look at the camera all the time
 
 					var data = this.data;
@@ -68,7 +73,7 @@
 				<img id="gown" src="360Images/gown hotspot.jpg" />
 				<img id="hairnet" src="360Images/Hairnet Hotspot.jpg" />
 				<img id="mask" src="360Images/mask hotspot.jpg" />
-				<img id="arrow" src="360Images/up-arrow.png" />
+				<img id="arrow" src="assets/up-arrow.png" />
 			</a-assets>
 
 			<!--360 Image-->
@@ -77,8 +82,8 @@
 			<!--Camera & Cursor-->
 			<a-entity
 				id="cam"
-				camera
 				position="0 1.6 0"
+				camera
 				look-controls
 				wasd-controls-enabled="false"
 				cursor="rayOrigin: mouse"
@@ -131,9 +136,8 @@
 					</a-entity>
 					<a-entity
 						id="quest"
-						position="1.74 1.32 3"
+						position="1.74 1.32 4"
 						dialog-question="
-          openIconImage: assets/question1.png;
 		  question: Q1. Please check!;
           answer: /A. Lorem ipsum()/B. Test1()C. Test2;"
 					></a-entity>
