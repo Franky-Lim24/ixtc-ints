@@ -267,17 +267,17 @@
 						after = _this$data.previousDialog,
 						multiple = _this$data.multiple;
 
-					let itemId = this.el.getAttribute('id');
 					var idname = this.el.getAttribute('id');
 					var openIcon = document.createElement('a-entity');
+					var pulseIcon = document.createElement('a-entity');
+					var pos = this.el.getAttribute('position');
+					console.log(pos);
 					openIcon.setAttribute(
 						'id',
 						''.concat(this.el.getAttribute('id'), '--open-icon')
 					);
-					openIcon.setAttribute(
-						'position',
-						Object.assign({}, this.el.getAttribute('position'))
-					);
+					openIcon.setAttribute('position', Object.assign({}, pos));
+					pulseIcon.setAttribute('position', Object.assign({}, pos));
 					openIcon.setAttribute('geometry', {
 						primitive: 'circle',
 						radius: radius,
@@ -287,7 +287,17 @@
 					// component to the openIcon.
 					$(window).on('load', function () {
 						if (multiple) {
-							var matches = itemId.match(/(\d+)/);
+							pulseIcon.setAttribute('id', ''.concat(idname, '--pulse-icon'));
+
+							pulseIcon.setAttribute('geometry', {
+								primitive: 'circle',
+								radius: radius + 0.01,
+							});
+							pulseIcon.setAttribute('material', {
+								src: 'assets/pulse.png',
+								transparent: 'true',
+							});
+							var matches = idname.match(/(\d+)/);
 
 							openIcon.setAttribute('text', {
 								value: matches[0],
@@ -299,21 +309,23 @@
 							openIcon.setAttribute('material', {
 								color: color,
 							});
-							openIcon.setAttribute(
+							pulseIcon.setAttribute(
 								'animation__scale',
-								'property: scale; to: 1.2 1.2 1; loop: true; dir: alternate;'
+								'property: scale; to: 1.2 1.2 1; loop: true;'
 							);
 
-							openIcon.addEventListener('mouseenter', function removeAni() {
-								if ($(openIcon).attr('animation__scale')) {
-									$(openIcon).removeAttr('animation__scale');
+							pulseIcon.addEventListener('mouseenter', function removeAni() {
+								if ($(pulseIcon).attr('animation__scale')) {
+									$(pulseIcon).removeAttr('animation__scale');
 								}
-								openIcon.removeEventListener('mouseenter', removeAni);
+								pulseIcon.removeEventListener('mouseenter', removeAni);
+								$(pulseIcon).remove();
 							});
 							if (after) {
 								openIcon.setAttribute('class', 'invis');
 
 								openIcon.setAttribute('visible', 'false');
+								pulseIcon.setAttribute('visible', 'false');
 								document
 									.getElementById(after)
 									.addEventListener('mouseenter', function makeVis() {
@@ -321,7 +333,7 @@
 										document
 											.getElementById(after)
 											.removeEventListener('mouseenter', makeVis);
-
+										pulseIcon.setAttribute('visible', 'true');
 										$(openIcon).removeClass('invis');
 									});
 							}
@@ -331,7 +343,7 @@
 								src: src,
 							});
 						}
-
+						pulseIcon.setAttribute('look-at', '#cam');
 						openIcon.setAttribute('look-at', '#cam');
 						openIcon.addEventListener('mouseenter', function () {
 							document
@@ -344,7 +356,7 @@
 					});
 					this.openIconEl = openIcon;
 
-					return openIcon;
+					return [openIcon, pulseIcon];
 				},
 
 				/**
@@ -563,7 +575,9 @@
 					}
 				},
 				spawnEntities: function spawnEntities() {
-					this.el.appendChild(this.generateOpenIcon());
+					let icons = this.generateOpenIcon();
+					this.el.appendChild(icons[0]);
+					this.el.appendChild(icons[1]);
 					this.el.appendChild(this.generateDialogPlane());
 					this.el.removeAttribute('position');
 				},

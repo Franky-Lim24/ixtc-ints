@@ -1,22 +1,22 @@
 <!DOCTYPE html>
 <head>
 	<!--Libraries-->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	<script src="anime.min.js"></script>
-	<script src="https://aframe.io/releases/0.8.2/aframe.min.js"></script>
-	<script src="https://unpkg.com/aframe-look-at-component@0.5.1/dist/aframe-look-at-component.min.js"></script>
-	<script src="https://unpkg.com/aframe-animation-component@^4.1.2/dist/aframe-animation-component.min.js"></script>
-	<script src="https://unpkg.com/aframe-event-set-component@4.2.1/dist/aframe-event-set-component.min.js"></script>
+	<script src="lib/jquery.min.js"></script>
+	<script src="lib/anime.min.js"></script>
+	<script src="lib/aframe.min.js"></script>
+	<script src="lib/aframe-look-at-component.min.js"></script>
+	<script src="lib/aframe-animation-component.min.js"></script>
+	<script src="lib/aframe-event-set-component.min.js"></script>
 	<link rel="stylesheet" href="assets/bttn.min.css" />
 	<script>
 		$(document).ready(function () {
 			$('<script/>', {
 				type: 'text/javascript',
-				src: 'aframe-dialog-popup-component.js',
+				src: 'lib/aframe-dialog-popup-component.js',
 			}).appendTo('head');
 			$('<script/>', {
 				type: 'text/javascript',
-				src: 'mcq-lib.js',
+				src: 'lib/mcq-lib.js',
 			}).appendTo('head');
 		});
 	</script>
