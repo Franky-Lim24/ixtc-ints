@@ -9,6 +9,11 @@
 		<script src="lib/aframe-animation-component.min.js"></script>
 		<script src="lib/aframe-event-set-component.min.js"></script>
 		<link rel="stylesheet" href="assets/bttn.min.css" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap"
+			rel="stylesheet"
+		/>
 		<script>
 			$(document).ready(function () {
 				$('<script/>', {
@@ -75,6 +80,51 @@
 		</script>
 		<title>Lab</title>
 		<style>
+			#contentPage {
+				visibility: hidden;
+			}
+			#leftHalf {
+				background: url(assets/lab.jpg);
+				width: 50%;
+				position: absolute;
+				left: 0px;
+				top: 0;
+				height: 100%;
+				border-right: 2px solid gainsboro;
+			}
+
+			#rightHalf {
+				width: 50%;
+				position: absolute;
+				right: 0px;
+				height: 100%;
+			}
+			#title {
+				font-family: 'Montserrat', sans-serif;
+				font-size: 45px;
+				padding-left: 35px;
+				padding-top: 100px;
+				margin-bottom: 40px;
+			}
+			#description {
+				font-family: 'Montserrat', sans-serif;
+				font-size: 23px;
+				text-align: justify;
+				padding-left: 35px;
+				padding-right: 35px;
+				text-justify: inter-word;
+			}
+			#btnEnter {
+				display: block;
+				margin-left: 35px;
+				margin-top: 5%;
+				width: 20%;
+				height: 10%;
+			}
+			#content {
+				padding: 50px 0;
+				margin-top: 40px;
+			}
 			#aframeCanvas {
 				visibility: hidden;
 			}
@@ -95,24 +145,16 @@
 				background-attachment: fixed;
 				background-size: cover;
 			}
-			#btnEnter {
-				visibility: hidden;
-				display: block;
-				margin: auto;
-				margin-top: 5%;
-				width: 10%;
-				height: 10%;
-			}
 		</style>
 		<script>
 			setTimeout(function () {
-				$('.wrapper').fadeOut('slow');
-				$('.wrapper').remove();
-				$('#btnEnter').hide().css('visibility', 'visible').fadeIn('slow');
-			}, 5000);
-			function enterVR() {
 				$('#splashscreen').fadeOut('slow');
 				$('#splashscreen').remove();
+				$('#contentPage').hide().css('visibility', 'visible').fadeIn('slow');
+			}, 5000);
+			function enterVR() {
+				$('#contentPage').fadeOut('slow');
+				$('#contentPage').remove();
 				$('#aframeCanvas').hide().css('visibility', 'visible').fadeIn('slow');
 			}
 		</script>
@@ -131,13 +173,29 @@
 					<div class="box six"></div>
 				</div>
 			</div>
-			<button
-				id="btnEnter"
-				onclick="enterVR()"
-				class="bttn-unite bttn-lg bttn-default"
-			>
-				Enter
-			</button>
+		</div>
+		<div id="contentPage">
+			<div id="leftHalf"></div>
+			<div id="rightHalf">
+				<div id="content">
+					<h2 id="title">Wafer Lab</h2>
+					<p id="description">
+						Lorem Ipsum dolor sis amet, consecteur adipiscing elit. In purus et
+						neque faucibus luctus. Mauris et risus eu ex auctor posterue. Donec
+						pellentesque laoreet. Vivamus congue arcu ue neque feugiat
+						elementium. Phasellus nec venenatis quam, crac varius mattis due nec
+						autor. Nam tempor, dolor nec sollicudtin rhoncus, risus arcu
+						lobortis sem.
+					</p>
+					<button
+						id="btnEnter"
+						onclick="enterVR()"
+						class="bttn-unite bttn-lg bttn-default"
+					>
+						Enter
+					</button>
+				</div>
+			</div>
 		</div>
 		<!--Aframe canvas-->
 		<a-scene id="aframeCanvas">
@@ -148,7 +206,7 @@
 				<img id="gown" src="360Images/gown hotspot.jpg" />
 				<img id="hairnet" src="360Images/Hairnet Hotspot.jpg" />
 				<img id="mask" src="360Images/mask hotspot.jpg" />
-				<img id="arrow" src="assets/up-arrow.png" />
+				<img id="arrow" src="assets/arrow.png" />
 			</a-assets>
 
 			<!--360 Image-->

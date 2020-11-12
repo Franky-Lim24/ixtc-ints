@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap"
+			rel="stylesheet"
+		/>
+		<link rel="stylesheet" href="assets/bttn.min.css" />
+
+		<title>Document</title>
+	</head>
+	<body>
+		<style>
+			#leftHalf {
+				background: url(assets/lab.jpg);
+				width: 50%;
+				position: absolute;
+				left: 0px;
+				top: 0;
+				height: 100%;
+				border-right: 2px solid gainsboro;
+			}
+
+			#rightHalf {
+				width: 50%;
+				position: absolute;
+				right: 0px;
+				height: 100%;
+			}
+			#title {
+				font-family: 'Montserrat', sans-serif;
+				font-size: 45px;
+				padding-left: 35px;
+				padding-top: 100px;
+			}
+			#description {
+				font-family: 'Montserrat', sans-serif;
+				font-size: 23px;
+				text-align: justify;
+				padding-left: 35px;
+				padding-right: 35px;
+				text-justify: inter-word;
+			}
+			#btnEnter {
+				display: block;
+				margin-left: 35px;
+				margin-top: 5%;
+				width: 20%;
+				height: 10%;
+			}
+			#content {
+				padding: 50px 0;
+			}
+		</style>
+		<div>
+			<div id="leftHalf"></div>
+			<div id="rightHalf">
+				<div id="content">
+					<h2 id="title">Wafer Lab</h2>
+					<p id="description">
+						Lorem Ipsum dolor sis amet, consecteur adipiscing elit. In purus et
+						neque faucibus luctus. Mauris et risus eu ex auctor posterue. Donec
+						pellentesque laoreet. Vivamus congue arcu ue neque feugiat
+						elementium. Phasellus nec venenatis quam, crac varius mattis due nec
+						autor. Nam tempor, dolor nec sollicudtin rhoncus, risus arcu
+						lobortis sem.
+					</p>
+					<button
+						id="btnEnter"
+						onclick="enterVR()"
+						class="bttn-unite bttn-lg bttn-default"
+					>
+						Enter
+					</button>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

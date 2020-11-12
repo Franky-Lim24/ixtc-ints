@@ -140,7 +140,7 @@
 					},
 					openIconImage: {
 						type: 'asset',
-						default: '',
+						default: 'assets/info.png',
 					},
 					openIconRadius: {
 						type: 'number',
@@ -298,16 +298,15 @@
 								transparent: 'true',
 							});
 							var matches = idname.match(/(\d+)/);
-
-							openIcon.setAttribute('text', {
-								value: matches[0],
-								color: 'black',
-								wrapCount: '4',
-								xOffset: '-0.02',
-								align: 'center',
-							});
+							let iconSrc = '';
+							if (matches[0] == '1') {
+								iconSrc = 'assets/q'.concat(matches[0], '(1).png');
+							} else {
+								iconSrc = 'assets/q'.concat(matches[0], '.png');
+							}
 							openIcon.setAttribute('material', {
 								color: color,
+								src: iconSrc,
 							});
 							pulseIcon.setAttribute(
 								'animation__scale',
