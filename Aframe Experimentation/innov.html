@@ -13,18 +13,8 @@
 		href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap"
 		rel="stylesheet"
 	/>
-	<script>
-		$(document).ready(function () {
-			$('<script/>', {
-				type: 'text/javascript',
-				src: 'lib/aframe-dialog-popup-component.js',
-			}).appendTo('head');
-			$('<script/>', {
-				type: 'text/javascript',
-				src: 'lib/mcq-lib.js',
-			}).appendTo('head');
-		});
-	</script>
+	<script src="lib/aframe-dialog-popup-component.js"></script>
+	<script src="lib/mcq-lib.js"></script>
 	<link rel="stylesheet" href="loading.css" />
 
 	<!--Hotspot Functions-->
@@ -235,8 +225,8 @@
 					id="quest"
 					position="1 2 -4"
 					dialog-question="
-		  question: Q1. Please check!;
-          answer: /A. Lorem ipsum()/B. Test1()C. Test2;"
+		  question: What are the operating hours of the wafer lab?;
+          answer: /9-6 PM()9-5 PM()10-6 PM()10-5 PM;"
 				></a-entity>
 				<a-entity
 					id="quest1"

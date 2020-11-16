@@ -96,43 +96,43 @@
 			 * Dialog Popup component for A-Frame.
 			 */
 
-			AFRAME.registerComponent('dialog-question', {
+			AFRAME.registerComponent('dialog-popup', {
 				schema: {
-					question: {
+					title: {
 						type: 'string',
-						default: 'Enter Question',
+						default: 'New Dialog',
 					},
-					questionColor: {
+					titleColor: {
 						type: 'string',
 						default: 'black',
 					},
-					questionFont: {
+					titleFont: {
 						type: 'string',
-						default: 'roboto',
+						default: 'mozillavr',
 					},
-					questionWrapCount: {
+					titleWrapCount: {
 						type: 'number',
-						default: 30,
+						default: 24,
 					},
-					answer: {
+					body: {
 						type: 'string',
-						default: 'Enter Answers',
+						default: '',
 					},
-					answerColor: {
+					bodyColor: {
 						type: 'string',
 						default: 'black',
 					},
-					answerFont: {
+					bodyFont: {
 						type: 'string',
-						default: 'roboto',
+						default: 'mozillavr',
 					},
-					answerWrapCount: {
+					bodyWrapCount: {
 						type: 'number',
 						default: 30,
 					},
 					openOn: {
 						type: 'string',
-						default: 'click',
+						default: 'mouseenter',
 					},
 					active: {
 						type: 'boolean',
@@ -140,7 +140,7 @@
 					},
 					openIconImage: {
 						type: 'asset',
-						default: 'assets/question1.png',
+						default: 'assets/info.png',
 					},
 					openIconRadius: {
 						type: 'number',
@@ -152,7 +152,7 @@
 					},
 					closeIconImage: {
 						type: 'asset',
-						default: 'assets/close.jpg',
+						default: '',
 					},
 					closeIconRadius: {
 						type: 'number',
@@ -162,13 +162,25 @@
 						type: 'string',
 						default: 'white',
 					},
+					image: {
+						type: 'string',
+						default: '',
+					},
+					imageWidth: {
+						type: 'number',
+						default: 3,
+					},
+					imageHeight: {
+						type: 'number',
+						default: 3,
+					},
 					dialogBoxWidth: {
 						type: 'number',
-						default: 4,
+						default: 3,
 					},
 					dialogBoxHeight: {
 						type: 'number',
-						default: 2.5,
+						default: 4,
 					},
 					dialogBoxColor: {
 						type: 'string',
@@ -178,6 +190,14 @@
 						type: 'number',
 						default: 0.2,
 					},
+					previousDialog: {
+						type: 'string',
+						default: '',
+					},
+					multiple: {
+						type: 'boolean',
+						default: 'false',
+					},
 				},
 				multiple: true,
 				dialogPlaneEl: null,
@@ -185,6 +205,8 @@
 				closeIconEl: null,
 				titleEl: null,
 				bodyEl: null,
+				imageEl: null,
+				hasImage: false,
 
 				/**
 				 * Spawns the entities required to support this dialog.
@@ -223,10 +245,11 @@
 				 * When this component is updated, re-calculate title, body, image, and
 				 * dialog plane to incorporate changes.
 				 */
-				/*update: function update() {
+				update: function update() {
 					this.generateTitle();
 					this.generateBody();
-				},*/
+					this.generateImage();
+				},
 
 				/**
 				 * Handles opening and closing the dialog plane.
@@ -240,46 +263,100 @@
 						radius = _this$data.openIconRadius,
 						color = _this$data.openIconColor,
 						src = _this$data.openIconImage,
-						openOn = _this$data.openOn;
-					var idname = this.el.getAttribute('id');
+						openOn = _this$data.openOn,
+						after = _this$data.previousDialog,
+						multiple = _this$data.multiple;
 
+					var idname = this.el.getAttribute('id');
 					var openIcon = document.createElement('a-entity');
+					var pulseIcon = document.createElement('a-entity');
+					var pos = this.el.getAttribute('position');
 					openIcon.setAttribute(
 						'id',
 						''.concat(this.el.getAttribute('id'), '--open-icon')
 					);
-					openIcon.classList.add('removeIcon');
-
-					openIcon.setAttribute(
-						'position',
-						Object.assign({}, this.el.getAttribute('position'))
-					);
+					openIcon.setAttribute('position', Object.assign({}, pos));
+					pulseIcon.setAttribute('position', Object.assign({}, pos));
 					openIcon.setAttribute('geometry', {
 						primitive: 'circle',
 						radius: radius,
 					});
-					openIcon.setAttribute('material', {
-						color: color,
-						src: src,
-					});
+
 					// If the parent entity has aa look-at component attached, apply the look-at
 					// component to the openIcon.
-
-					openIcon.setAttribute('look-at', '#cam');
 					$(window).on('load', function () {
+						openIcon.classList.add('removeIcon');
+
+						if (multiple) {
+							pulseIcon.setAttribute('id', ''.concat(idname, '--pulse-icon'));
+
+							pulseIcon.setAttribute('geometry', {
+								primitive: 'circle',
+								radius: radius + 0.01,
+							});
+							pulseIcon.setAttribute('material', {
+								src: 'assets/pulse.png',
+								transparent: 'true',
+							});
+							var matches = idname.match(/(\d+)/);
+							let iconSrc = '';
+							if (matches[0] == '1') {
+								iconSrc = 'assets/q'.concat(matches[0], '(1).png');
+							} else {
+								iconSrc = 'assets/q'.concat(matches[0], '.png');
+							}
+							openIcon.setAttribute('material', {
+								color: color,
+								src: iconSrc,
+							});
+							pulseIcon.setAttribute(
+								'animation__scale',
+								'property: scale; to: 1.2 1.2 1; loop: true;'
+							);
+
+							if (after) {
+								openIcon.classList.add('invis');
+
+								openIcon.setAttribute('visible', 'false');
+								pulseIcon.setAttribute('visible', 'false');
+								document
+									.getElementById(after.concat('--open-icon'))
+									.addEventListener('mouseenter', function makeVis() {
+										openIcon.setAttribute('visible', 'true');
+										document
+											.getElementById(after.concat('--open-icon'))
+											.removeEventListener('mouseenter', makeVis);
+										pulseIcon.setAttribute('visible', 'true');
+										$(openIcon).removeClass('invis');
+									});
+							}
+						} else {
+							openIcon.setAttribute('material', {
+								color: color,
+								src: src,
+							});
+						}
+						pulseIcon.setAttribute('look-at', '#cam');
+						openIcon.setAttribute('look-at', '#cam');
 						openIcon.addEventListener('mouseenter', function () {
 							var removeIcon = $('.removeIcon');
-							for (let x = 0; x < removeIcon.length; x++) {
-								removeIcon[x].setAttribute('visible', 'false');
-							}
+
 							document
 								.getElementById(''.concat(idname, '--dialog-plane'))
 								.setAttribute('visible', 'true');
+
+							for (let x = 0; x < removeIcon.length; x++) {
+								removeIcon[x].setAttribute('visible', 'false');
+							}
+							if ($(pulseIcon).attr('animation__scale')) {
+								$(pulseIcon).removeAttr('animation__scale');
+								$(pulseIcon).remove();
+							}
 						});
 					});
-
 					this.openIconEl = openIcon;
-					return openIcon;
+
+					return [openIcon, pulseIcon];
 				},
 
 				/**
@@ -321,32 +398,39 @@
 				 */
 				generateTitle: function generateTitle() {
 					var _this$data3 = this.data,
-						value = _this$data3.question,
-						color = _this$data3.questionColor,
-						font = _this$data3.questionFont,
-						wrapCount = _this$data3.questionWrapCount,
+						value = _this$data3.title,
+						color = _this$data3.titleColor,
+						font = _this$data3.titleFont,
+						wrapCount = _this$data3.titleWrapCount,
 						width = _this$data3.dialogBoxWidth,
 						height = _this$data3.dialogBoxHeight,
-						padding = _this$data3.dialogBoxPadding;
+						padding = _this$data3.dialogBoxPadding,
+						imageHeight = _this$data3.imageHeight;
 					var title = this.titleEl || document.createElement('a-entity');
 					title.setAttribute(
 						'id',
 						''.concat(this.el.getAttribute('id'), '--title')
 					);
 					title.setAttribute('text', {
-						value: value,
-						color: color,
-						font: font,
-						wrapCount: wrapCount,
+						value: value.substring(0, wrapCount),
+						color: '#202a74',
+						align: 'center',
+						font: 'dejavu',
+						letterSpacing: -2,
+						wrapCount: 15,
 						width: width - padding * 2,
-						baseline: 'top',
-						anchor: 'left',
+						baseline: 'center',
+						anchor: 'center',
 					});
 					var y = height / 2 - padding;
 
+					if (this.hasImage) {
+						y -= imageHeight / 2;
+					}
+
 					title.setAttribute('position', {
-						x: -(width / 2) + padding,
-						y: 1.26,
+						x: 0,
+						y: -1.4,
 						z: 0.01,
 					});
 					this.titleEl = title;
@@ -358,239 +442,74 @@
 				 */
 				generateBody: function generateBody() {
 					var _this$data4 = this.data,
-						value = _this$data4.answer,
-						color = _this$data4.answerColor,
-						font = _this$data4.answerFont,
-						wrapCount = _this$data4.answerWrapCount,
+						value = _this$data4.body,
+						color = _this$data4.bodyColor,
+						font = _this$data4.bodyFont,
+						wrapCount = _this$data4.bodyWrapCount,
 						width = _this$data4.dialogBoxWidth,
 						height = _this$data4.dialogBoxHeight,
 						padding = _this$data4.dialogBoxPadding,
-						radius = _this$data4.openIconRadius,
-						multiple = _this$data4.multiple;
-					this.bodyEl = '';
-					let ansHint = document.createElement('a-entity');
-					ansHint.setAttribute('text', {
-						value: '*there are multiple answers for this question',
-						color: 'gray',
-						wrapCount: '34.81',
-						width: 'auto',
-						height: 'auto',
-						anchor: 'right',
-					});
-					let y = height / 2 - padding * 3 + 0.2;
+						imageHeight = _this$data4.imageHeight;
 
-					ansHint.setAttribute('position', {
-						x: '0.21',
-						y: '0.8',
-						z: '0.001',
-					});
-					ansHint.setAttribute('scale', '2 2 0.001');
-					var ans = null;
-					var valArr = value.split('()');
-					let body = [];
-					let checker = 0;
-					var idname = this.el.getAttribute('id');
-					let submit = document.createElement('a-entity');
-					submit.setAttribute('id', 'btnSubmit');
-					submit.setAttribute('position', {
-						x: '1.5',
-						y: -y - padding,
-						z: '0.01',
-					});
-
-					let result = document.createElement('a-entity');
-					result.setAttribute('id', 'results'.concat(idname));
-					result.setAttribute('position', {
-						x: '-1.34',
-						y: -y - padding + 0.2,
-						z: '0.01',
-					});
-
-					submit.setAttribute('text', {
-						value: 'Submit',
-						color: 'black',
-						font: font,
-						wrapCount: '6',
-						width: 'auto',
-						height: 'auto',
-						baseline: 'bottom',
-						anchor: 'center',
-						xOffset: '0.070',
-						yOffset: '1',
-						zOffset: '0.001',
-					});
-					submit.setAttribute('geometry', {
-						primitive: 'plane',
-						width: 'auto',
-						height: '0.419',
-					});
-					submit.setAttribute(
-						'material',
-						'color: #0FFFFF; shader: flat; visible: false; '
+					var body = this.bodyEl || document.createElement('a-entity');
+					body.setAttribute(
+						'id',
+						''.concat(this.el.getAttribute('id'), '--title')
 					);
-
-					submit.addEventListener('click', function submitFunc() {
-						if (ans != null) {
-							submit.parentNode.removeChild(submit);
-							var choices = document.querySelectorAll(
-								'.answers'.concat(idname)
-							);
-							for (let x = 0; x < choices.length; x++) {
-								$(choices[x]).off();
-							}
-							var result = document.querySelector('#results'.concat(idname));
-							var icon = document.querySelector(
-								'#'.concat(idname.concat('--open-icon'))
-							);
-							var feedbackIcon = document.querySelectorAll(
-								'#feedbackAns'.concat(idname)
-							);
-							for (let x = 0; x < feedbackIcon.length; x++) {
-								feedbackIcon[x].setAttribute('visible', 'true');
-							}
-							if (ans == null) {
-							} else if (ans) {
-								result.setAttribute('text', {
-									value: 'Correct',
-									color: 'lime',
-									wrapCount: '7',
-								});
-								icon.setAttribute('material', {
-									color: 'white',
-									src: 'assets/tick.png',
-								});
-							} else {
-								result.setAttribute('text', {
-									value: 'False',
-									color: 'red',
-									wrapCount: '7',
-								});
-								icon.setAttribute('material', {
-									color: 'white',
-									src: 'assets/error.png',
-								});
-							}
-						}
+					body.setAttribute('text', {
+						value: value,
+						color: color,
+						font: font,
+						wrapCount: wrapCount,
+						width: width - padding * 2,
+						baseline: 'top',
+						anchor: 'left',
 					});
-					let feedback = [];
-					let current = [];
-					let mulAns = 0;
-					let mulAnsChecker = 0;
-					let totalAns = 0;
-					for (let counter = 0; counter < valArr.length; counter++) {
-						if (valArr[counter][0] == '/') {
-							mulAns++;
-						}
-					}
-					for (let counter = 0; counter < valArr.length; counter++) {
-						body[counter] = document.createElement('a-entity');
-						body[counter].setAttribute('id', 'answers'.concat(counter));
-						body[counter].setAttribute('class', 'answers'.concat(idname));
-						let colorChanger = false;
-						if (valArr[counter][0] == '/') {
-							valArr[counter] = valArr[counter].substring(1);
-							colorChanger = true;
-						}
-						let newwidth = width - padding * 2;
-						body[counter].setAttribute('text', {
-							value: valArr[counter],
-							color: color,
-							font: font,
-							wrapCount: wrapCount,
-							width: newwidth,
-							baseline: 'bottom',
-							anchor: 'center',
-							xOffset: '0.150',
-							yOffset: '1',
-							zOffset: '0.301',
-						});
-						body[counter].setAttribute('geometry', {
-							primitive: 'plane',
-							width: newwidth,
-							height: 'auto',
-						});
-						body[counter].setAttribute(
-							'material',
-							'color: #0FFFFF; shader: flat; visible: false;'
-						);
-						current[counter] = false;
-						$(body[counter]).click(function () {
-							var allAns = document.querySelectorAll('.answers'.concat(idname));
-							if (mulAns > 1) {
-								if (current[counter]) {
-									body[counter].setAttribute('text', 'color: #000000');
-									if (colorChanger) {
-										mulAnsChecker--;
-									}
-									totalAns--;
-									current[counter] = false;
-								} else {
-									body[counter].setAttribute('text', 'color: #e5e619');
-									if (colorChanger) {
-										mulAnsChecker++;
-									}
-									totalAns++;
-									current[counter] = true;
-								}
-								if (mulAnsChecker == mulAns && totalAns == mulAns) {
-									ans = true;
-								} else if (mulAnsChecker == 0) {
-									ans = null;
-								} else {
-									ans = false;
-								}
-							}
-							if (mulAns < 2) {
-								for (let c1 = 0; c1 < allAns.length; c1++) {
-									allAns[c1].setAttribute('text', 'color: #000000');
-								}
-								if (colorChanger) {
-									ans = true;
-								} else {
-									ans = false;
-								}
-								body[counter].setAttribute('text', 'color: #e5e619');
-							}
-						});
+					var y = height / 2 - padding * 3;
 
-						y -= 0.3;
-
-						body[counter].setAttribute('position', {
-							x: '0',
-							y: y - 0.2,
-							z: 0.01,
-						});
-						feedback[counter] = document.createElement('a-entity');
-						feedback[counter].setAttribute('id', 'feedbackAns'.concat(idname));
-						let ansIcon;
-						if (colorChanger) {
-							ansIcon = 'assets/check.png';
-						} else {
-							ansIcon = 'assets/attention.png';
-						}
-						feedback[counter].setAttribute('material', {
-							src: ansIcon,
-						});
-						feedback[counter].setAttribute('geometry', {
-							primitive: 'circle',
-							radius: '0.15',
-						});
-						feedback[counter].setAttribute('position', {
-							x: '1.7',
-							y: y - 0.08,
-							z: 0.01,
-						});
-						feedback[counter].setAttribute('visible', 'false');
-						this.bodyEl = body[counter];
-						if (valArr.length - counter == 1) {
-							if (mulAns > 1) {
-								ansHint.setAttribute('visible', 'true');
-							} else {
-								ansHint.setAttribute('visible', 'false');
-							}
-							return [body, submit, result, feedback, ansHint];
-						}
+					if (this.hasImage) {
+						y -= imageHeight / 2;
 					}
+
+					body.setAttribute('position', {
+						x: -(width / 2) + padding,
+						y: y,
+						z: 0.01,
+					});
+					this.bodyEl = body;
+					return body;
+				},
+
+				/**
+				 * Generates the image entity.
+				 */
+				generateImage: function generateImage() {
+					var _this$data5 = this.data,
+						src = _this$data5.image,
+						width = _this$data5.imageWidth,
+						height = _this$data5.imageHeight,
+						dialogBoxHeight = _this$data5.dialogBoxHeight;
+
+					if (!src.length) {
+						return null;
+					}
+
+					var image = this.imageEl || document.createElement('a-image');
+					image.setAttribute(
+						'id',
+						''.concat(this.el.getAttribute('id'), '--image')
+					);
+					image.setAttribute('src', src);
+					image.setAttribute('width', width);
+					image.setAttribute('height', height);
+					image.setAttribute('position', {
+						x: 0,
+						y: 0.6,
+						z: 0.01,
+					});
+					this.hasImage = true;
+					this.imageEl = image;
+					return image;
 				},
 
 				/**
@@ -604,11 +523,12 @@
 						color = _this$data6.dialogBoxColor;
 					var plane = this.dialogPlaneEl || document.createElement('a-entity');
 					var idname = this.el.getAttribute('id');
-
 					plane.setAttribute(
 						'id',
 						''.concat(this.el.getAttribute('id'), '--dialog-plane')
 					);
+					plane.setAttribute('look-at', '#cam');
+
 					plane.setAttribute(
 						'position',
 						Object.assign({}, this.el.getAttribute('position'))
@@ -616,37 +536,37 @@
 					plane.setAttribute('visible', false);
 					plane.setAttribute('geometry', {
 						primitive: 'plane',
-						width: width + padding,
-						height: height + padding,
+						width: '3',
+						height: '4.21',
 					});
+					var image = this.generateImage();
+
+					if (image) {
+						plane.appendChild(this.generateImage());
+					}
 
 					plane.setAttribute('material', {
 						color: color,
-						src: 'assets/questionDialog.png',
+						src: 'assets/verticalDialog.png',
 						transparent: true,
 					});
-					let answerArr = this.generateBody();
 					plane.appendChild(this.generateTitle());
-					plane.appendChild(answerArr[4]);
-
-					for (let counter = 0; counter < answerArr[0].length; counter++) {
-						plane.appendChild(answerArr[0][counter]);
-						plane.appendChild(answerArr[3][counter]);
-					}
-					plane.appendChild(answerArr[1]);
-					plane.appendChild(answerArr[2]);
+					plane.appendChild(this.generateBody());
 					document
 						.getElementById('skybox')
 						.addEventListener('mouseenter', function () {
-							document
-								.getElementById(''.concat(idname, '--dialog-plane'))
-								.setAttribute('visible', 'false');
-							document
-								.getElementById(''.concat(idname, '--open-icon'))
-								.setAttribute('visible', 'true');
+							var newEl = document.getElementById(
+								''.concat(idname, '--open-icon')
+							);
+							if (!newEl.classList.contains('invis')) {
+								document
+									.getElementById(''.concat(idname, '--dialog-plane'))
+									.setAttribute('visible', 'false');
+								document
+									.getElementById(''.concat(idname, '--open-icon'))
+									.setAttribute('visible', 'true');
+							}
 						});
-					plane.setAttribute('look-at', '#cam');
-
 					this.dialogPlaneEl = plane;
 					return plane;
 				},
@@ -655,12 +575,13 @@
 						var vector = this.dialogPlaneEl.object3D.parent.worldToLocal(
 							this.cameraEl.object3D.getWorldPosition()
 						);
-						console.log(vector);
 						this.dialogPlaneEl.object3D.lookAt(vector);
 					}
 				},
 				spawnEntities: function spawnEntities() {
-					this.el.appendChild(this.generateOpenIcon());
+					let icons = this.generateOpenIcon();
+					this.el.appendChild(icons[0]);
+					this.el.appendChild(icons[1]);
 					this.el.appendChild(this.generateDialogPlane());
 					this.el.removeAttribute('position');
 				},

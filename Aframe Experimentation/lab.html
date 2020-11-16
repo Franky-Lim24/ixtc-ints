@@ -14,18 +14,9 @@
 			href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap"
 			rel="stylesheet"
 		/>
-		<script>
-			$(document).ready(function () {
-				$('<script/>', {
-					type: 'text/javascript',
-					src: 'lib/aframe-dialog-popup-component.js',
-				}).appendTo('head');
-				$('<script/>', {
-					type: 'text/javascript',
-					src: 'lib/mcq-lib.js',
-				}).appendTo('head');
-			});
-		</script>
+		<!-- <script src="lib/aframe-dialog-popup-component.js"></script> -->
+		<script src="lib/verticalDialog.js"></script>
+		<script src="lib/mcq-lib.js"></script>
 		<link rel="stylesheet" href="loading.css" />
 		<!--Hotspot Functions-->
 		<script>
@@ -80,6 +71,10 @@
 		</script>
 		<title>Lab</title>
 		<style>
+			.rounded {
+				border-top-left-radius: 20px;
+				border-radius: 20px;
+			}
 			#contentPage {
 				visibility: hidden;
 			}
@@ -201,12 +196,14 @@
 		<a-scene id="aframeCanvas">
 			<!--Images Collection-->
 			<a-assets>
-				<img id="loc1" src="360Images/Entrance 360.jpg" />
-				<img id="loc2" src="360Images/Gowning Room 360.jpg" />
-				<img id="gown" src="360Images/gown hotspot.jpg" />
-				<img id="hairnet" src="360Images/Hairnet Hotspot.jpg" />
-				<img id="mask" src="360Images/mask hotspot.jpg" />
-				<img id="arrow" src="assets/arrow.png" />
+				<img
+					style="border-radius: 50px"
+					class="rounded"
+					id="loc1"
+					src="360Images/Entrance 360.jpg"
+				/>
+				<img class="rounded" id="loc2" src="360Images/Gowning Room 360.jpg" />
+				<img class="rounded" id="arrow" src="assets/arrow.png" />
 			</a-assets>
 
 			<!--360 Image-->
@@ -238,9 +235,9 @@
 						dialog-popup="
           openIconImage: assets/info.jpg;
           closeIconImage: assets/close.jpg;
-          title: SP IXTC;
-		  body: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.;
+          title: Put mask on;
 		  multiple: true;
+		  image: 360Images/mask.jpg;
           "
 					>
 					</a-entity>
@@ -250,30 +247,32 @@
 						dialog-popup="
 			openIconImage: assets/info.jpg;
 			closeIconImage: assets/close.jpg;
-			title: SP IXTC;
-			body: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.;
+			title: Put hairnet on;
 			previousDialog: dialog1;		  
-			multiple: true;"
+			multiple: true;
+			image: 360Images/hairnet.jpg;
+			"
 					>
 					</a-entity>
 					<a-entity
 						id="dialog3"
-						position="2.3 1.6 -8"
+						position="2.3 1.6 -6"
 						dialog-popup="
 			openIconImage: assets/info.jpg;
 			closeIconImage: assets/close.jpg;
-			title: SP IXTC;
-			body: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.;
+			title: Put gown on;
 			previousDialog: dialog2;
-			multiple: true;"
+			multiple: true;
+			image: 360Images/gown.jpg;
+			"
 					>
 					</a-entity>
 					<a-entity
 						id="quest"
 						position="1.74 1.32 4"
 						dialog-question="
-		  question: Q1. Please check!;
-          answer: /A. Lorem ipsum()/B. Test1()C. Test2;"
+		  question: What are the operating hours of the wafer lab?;
+          answer: /9-6 PM()9-5 PM()10-6 PM()10-5 PM;"
 					></a-entity>
 				</a-entity>
 				<a-entity id="group-point2" scale="0 0 0">

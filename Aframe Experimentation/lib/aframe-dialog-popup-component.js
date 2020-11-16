@@ -116,7 +116,7 @@
 					},
 					body: {
 						type: 'string',
-						default: 'This dialog has no body yet.',
+						default: '',
 					},
 					bodyColor: {
 						type: 'string',
@@ -168,19 +168,19 @@
 					},
 					imageWidth: {
 						type: 'number',
-						default: 2,
+						default: 3,
 					},
 					imageHeight: {
 						type: 'number',
-						default: 2,
+						default: 3,
 					},
 					dialogBoxWidth: {
 						type: 'number',
-						default: 4,
+						default: 6,
 					},
 					dialogBoxHeight: {
 						type: 'number',
-						default: 4,
+						default: 3,
 					},
 					dialogBoxColor: {
 						type: 'string',
@@ -271,7 +271,6 @@
 					var openIcon = document.createElement('a-entity');
 					var pulseIcon = document.createElement('a-entity');
 					var pos = this.el.getAttribute('position');
-					console.log(pos);
 					openIcon.setAttribute(
 						'id',
 						''.concat(this.el.getAttribute('id'), '--open-icon')
@@ -313,24 +312,17 @@
 								'property: scale; to: 1.2 1.2 1; loop: true;'
 							);
 
-							pulseIcon.addEventListener('mouseenter', function removeAni() {
-								if ($(pulseIcon).attr('animation__scale')) {
-									$(pulseIcon).removeAttr('animation__scale');
-								}
-								pulseIcon.removeEventListener('mouseenter', removeAni);
-								$(pulseIcon).remove();
-							});
 							if (after) {
 								openIcon.setAttribute('class', 'invis');
 
 								openIcon.setAttribute('visible', 'false');
 								pulseIcon.setAttribute('visible', 'false');
 								document
-									.getElementById(after)
+									.getElementById(after.concat('--open-icon'))
 									.addEventListener('mouseenter', function makeVis() {
 										openIcon.setAttribute('visible', 'true');
 										document
-											.getElementById(after)
+											.getElementById(after.concat('--open-icon'))
 											.removeEventListener('mouseenter', makeVis);
 										pulseIcon.setAttribute('visible', 'true');
 										$(openIcon).removeClass('invis');
@@ -351,6 +343,10 @@
 							document
 								.getElementById(''.concat(idname, '--open-icon'))
 								.setAttribute('visible', 'false');
+							if ($(pulseIcon).attr('animation__scale')) {
+								$(pulseIcon).removeAttr('animation__scale');
+								$(pulseIcon).remove();
+							}
 						});
 					});
 					this.openIconEl = openIcon;
@@ -413,8 +409,9 @@
 					title.setAttribute('text', {
 						value: value.substring(0, wrapCount),
 						color: color,
-						font: font,
-						wrapCount: wrapCount,
+						font: 'dejavu',
+						letterSpacing: -2,
+						wrapCount: 28,
 						width: width - padding * 2,
 						baseline: 'top',
 						anchor: 'left',
@@ -426,8 +423,8 @@
 					}
 
 					title.setAttribute('position', {
-						x: -(width / 2) + padding,
-						y: y,
+						x: 0.25,
+						y: 0.18,
 						z: 0.01,
 					});
 					this.titleEl = title;
@@ -500,8 +497,8 @@
 					image.setAttribute('width', width);
 					image.setAttribute('height', height);
 					image.setAttribute('position', {
-						x: 0,
-						y: dialogBoxHeight / 2,
+						x: -1.46,
+						y: 0,
 						z: 0.01,
 					});
 					this.hasImage = true;
@@ -544,6 +541,8 @@
 
 					plane.setAttribute('material', {
 						color: color,
+						src: 'assets/infoDialog.png',
+						transparent: true,
 					});
 					plane.appendChild(this.generateTitle());
 					plane.appendChild(this.generateBody());
