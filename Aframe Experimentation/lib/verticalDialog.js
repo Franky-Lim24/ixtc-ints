@@ -298,6 +298,7 @@
 								src: 'assets/pulse.png',
 								transparent: 'true',
 							});
+							pulseIcon.classList.add('removePulse');
 							var matches = idname.match(/(\d+)/);
 							let iconSrc = '';
 							if (matches[0] == '1') {
@@ -313,9 +314,9 @@
 								'animation__scale',
 								'property: scale; to: 1.2 1.2 1; loop: true;'
 							);
-
 							if (after) {
 								openIcon.classList.add('invis');
+								pulseIcon.classList.add('invis');
 
 								openIcon.setAttribute('visible', 'false');
 								pulseIcon.setAttribute('visible', 'false');
@@ -326,6 +327,14 @@
 										document
 											.getElementById(after.concat('--open-icon'))
 											.removeEventListener('mouseenter', makeVis);
+										pulseIcon.setAttribute('visible', 'true');
+										$(openIcon).removeClass('invis');
+										$(pulseIcon).removeClass('invis');
+									});
+								document
+									.getElementById(after.concat('--pulse-icon'))
+									.addEventListener('mouseenter', function makeVis2() {
+										openIcon.setAttribute('visible', 'true');
 										pulseIcon.setAttribute('visible', 'true');
 										$(openIcon).removeClass('invis');
 									});
@@ -339,7 +348,14 @@
 						pulseIcon.setAttribute('look-at', '#cam');
 						openIcon.setAttribute('look-at', '#cam');
 						openIcon.addEventListener('mouseenter', function () {
+							openPlane();
+						});
+						pulseIcon.addEventListener('mouseenter', function () {
+							openPlane();
+						});
+						function openPlane() {
 							var removeIcon = $('.removeIcon');
+							var removePulse = $('.removePulse');
 
 							document
 								.getElementById(''.concat(idname, '--dialog-plane'))
@@ -348,11 +364,16 @@
 							for (let x = 0; x < removeIcon.length; x++) {
 								removeIcon[x].setAttribute('visible', 'false');
 							}
+							if (removePulse) {
+								for (let x = 0; x < removePulse.length; x++) {
+									removePulse[x].setAttribute('visible', 'false');
+								}
+							}
 							if ($(pulseIcon).attr('animation__scale')) {
 								$(pulseIcon).removeAttr('animation__scale');
 								$(pulseIcon).remove();
 							}
-						});
+						}
 					});
 					this.openIconEl = openIcon;
 
@@ -562,9 +583,15 @@
 								document
 									.getElementById(''.concat(idname, '--dialog-plane'))
 									.setAttribute('visible', 'false');
-								document
-									.getElementById(''.concat(idname, '--open-icon'))
-									.setAttribute('visible', 'true');
+								newEl.setAttribute('visible', 'true');
+							}
+							var newPulse = document.getElementById(
+								''.concat(idname, '--pulse-icon')
+							);
+							if (newPulse) {
+								if (!newPulse.classList.contains('invis')) {
+									newPulse.setAttribute('visible', 'true');
+								}
 							}
 						});
 					this.dialogPlaneEl = plane;
