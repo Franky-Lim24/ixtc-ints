@@ -52,7 +52,22 @@
 					//make the icon look at the camera all the time
 
 					var data = this.data;
-
+					this.el.addEventListener('mouseenter', function () {
+						$('.a-canvas.a-grab-cursor:hover').css('cursor', 'pointer');
+					});
+					this.el.addEventListener('mouseleave', function () {
+						$('.a-canvas.a-grab-cursor:hover').css('cursor', 'grab');
+					});
+					document
+						.getElementsByClassName('a-canvas')[0]
+						.addEventListener('mousedown', function () {
+							$('.a-canvas.a-grab-cursor:hover').css('cursor', 'grabbing');
+						});
+					document
+						.getElementsByClassName('a-canvas')[0]
+						.addEventListener('mouseup', function () {
+							$('.a-canvas.a-grab-cursor:hover').css('cursor', 'grab');
+						});
 					this.el.addEventListener('click', function () {
 						//set the skybox source to the new image as per the spot
 						var sky = document.getElementById('skybox');
@@ -198,7 +213,7 @@
 			<a-assets>
 				<img id="loc1" src="360Images/Entrance 360.jpg" />
 				<img id="loc2" src="360Images/Gowning Room 360.jpg" />
-				<img class="rounded" id="arrow" src="assets/arrow.png" />
+				<img id="arrow" src="assets/arrow.png" />
 			</a-assets>
 
 			<!--360 Image-->
@@ -219,6 +234,7 @@
 			<a-entity id="spots" hotspots>
 				<a-entity id="group-point1">
 					<a-image
+						class="arrowPointer"
 						spot="linkto:#loc2;spotgroup:group-point2"
 						position="-0.2 -2 -6"
 						rotation="90 180 0"
@@ -272,6 +288,7 @@
 				</a-entity>
 				<a-entity id="group-point2" scale="0 0 0">
 					<a-image
+						class="arrowPointer"
 						spot="linkto:#loc1;spotgroup:group-point1"
 						position="-0.2 -2 -5.8"
 						rotation="90 180 0"

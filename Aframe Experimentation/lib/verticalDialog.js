@@ -525,7 +525,7 @@
 					image.setAttribute('height', height);
 					image.setAttribute('position', {
 						x: 0,
-						y: 0.6,
+						y: 0.5,
 						z: 0.01,
 					});
 					this.hasImage = true;
@@ -557,7 +557,7 @@
 					plane.setAttribute('visible', false);
 					plane.setAttribute('geometry', {
 						primitive: 'plane',
-						width: '3',
+						width: '3.2',
 						height: '4.21',
 					});
 					var image = this.generateImage();
