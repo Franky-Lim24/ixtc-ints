@@ -10,6 +10,7 @@
 		<script src="lib/aframe-event-set-component.min.js"></script>
 		<link rel="stylesheet" href="assets/bttn.min.css" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" />
+		<script src="lib/aframe-rounded-component.js"></script>
 		<link
 			href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap"
 			rel="stylesheet"
@@ -17,6 +18,7 @@
 		<!-- <script src="lib/aframe-dialog-popup-component.js"></script> -->
 		<script src="lib/verticalDialog.js"></script>
 		<script src="lib/mcq-lib.js"></script>
+
 		<link rel="stylesheet" href="loading.css" />
 		<!--Hotspot Functions-->
 		<script>
@@ -37,6 +39,7 @@
 				schema: {
 					linkto: { type: 'string', default: '' },
 					spotgroup: { type: 'string', default: '' },
+					nameLink: { type: 'string', default: '' },
 				},
 				init: function () {
 					//add image source of hotspot icon
@@ -50,13 +53,35 @@
 						color: 'white',
 					});
 					//make the icon look at the camera all the time
-
 					var data = this.data;
+					var tooltip = document.createElement('a-text');
+					var rotation = this.el.getAttribute('rotation');
+					tooltip.setAttribute('rotation', Object.assign({}, rotation));
+					tooltip.setAttribute('position', '0 0 -0.45');
+					tooltip.setAttribute('text', {
+						value: data.nameLink,
+						align: 'center',
+						font: 'kelsonsans',
+					});
+					tooltip.setAttribute('visible', 'false');
+
+					// tooltip.setAttribute('geometry', {
+					// 	primitive: 'plane',
+					// 	height: 'auto',
+					// 	width: '0.65',
+					// });
+					// tooltip.setAttribute('material', {
+					// 	color: '#000000',
+					// 	shader: 'flat',
+					// });
+					this.el.appendChild(tooltip);
 					this.el.addEventListener('mouseenter', function () {
 						$('.a-canvas.a-grab-cursor:hover').css('cursor', 'pointer');
+						tooltip.setAttribute('visible', 'true');
 					});
 					this.el.addEventListener('mouseleave', function () {
 						$('.a-canvas.a-grab-cursor:hover').css('cursor', 'grab');
+						tooltip.setAttribute('visible', 'false');
 					});
 					document
 						.getElementsByClassName('a-canvas')[0]
@@ -155,6 +180,48 @@
 				background-attachment: fixed;
 				background-size: cover;
 			}
+			#assessment {
+				z-index: 9999;
+				right: 10px;
+				top: 10px;
+				position: absolute;
+				width: 64px;
+				height: 64px;
+				cursor: pointer;
+				background-image: url('assets/assessment.png');
+			}
+			.alert {
+				padding: 20px;
+				background-color: #f44336;
+				color: white;
+				z-index: 9999;
+				position: absolute;
+				left: 20px;
+				top: 20px;
+				visibility: hidden;
+			}
+
+			.closebtn {
+				margin-left: 15px;
+				color: white;
+				font-weight: bold;
+				float: right;
+				font-size: 22px;
+				line-height: 20px;
+				cursor: pointer;
+				transition: 0.3s;
+			}
+
+			.closebtn:hover {
+				color: black;
+			}
+			#aframeCanvas {
+				padding: 0;
+				margin: 0;
+				border: 0;
+				width: 100%;
+				height: 100%;
+			}
 		</style>
 		<script>
 			setTimeout(function () {
@@ -166,6 +233,53 @@
 				$('#contentPage').fadeOut('slow');
 				$('#contentPage').remove();
 				$('#aframeCanvas').hide().css('visibility', 'visible').fadeIn('slow');
+			}
+
+			var state = false;
+			function assestMode() {
+				var currentOrder = 1;
+				var icons = document.getElementsByClassName('dialogIcon');
+				var invisIcons = document.getElementsByClassName('invis');
+				var ansOrder = document.getElementsByClassName('ansOrder');
+				if (!state) {
+					if (invisIcons.length == 0) {
+						for (let x = 0; x < ansOrder.length; x++) {
+							let iconId = ansOrder[x].getAttribute('id').split('--')[0];
+							let order = ansOrder[x].getAttribute('order');
+							ansOrder[x].addEventListener('click', function checkOrder() {
+								if (currentOrder == order) {
+									document
+										.getElementById(iconId.concat('--open-icon'))
+										.setAttribute('material', 'src: assets/correct.png');
+									ansOrder[x].removeEventListener('click', checkOrder);
+									currentOrder++;
+								} else {
+									document
+										.getElementById(iconId.concat('--open-icon'))
+										.setAttribute('material', 'src: assets/false.png');
+								}
+							});
+						}
+						for (let x = 0; x < icons.length; x++) {
+							icons[x].setAttribute('material', 'src: assets/question.png');
+						}
+						state = true;
+					} else {
+						$('.alert').hide().css('visibility', 'visible').fadeIn('slow');
+					}
+				} else {
+					for (let x = 0; x < ansOrder.length; x++) {
+						let iconId = ansOrder[x].getAttribute('id').split('--')[0];
+						let order = ansOrder[x].getAttribute('order');
+						document
+							.getElementById(iconId.concat('--open-icon'))
+							.setAttribute(
+								'material',
+								'src: assets/question'.concat(order, '.png')
+							);
+					}
+					state = false;
+				}
 			}
 		</script>
 	</head>
@@ -207,55 +321,66 @@
 				</div>
 			</div>
 		</div>
-		<!--Aframe canvas-->
-		<a-scene id="aframeCanvas">
-			<!--Images Collection-->
-			<a-assets>
-				<img id="loc1" src="360Images/Entrance 360.jpg" />
-				<img id="loc2" src="360Images/Gowning Room 360.jpg" />
-				<img id="arrow" src="assets/arrow.png" />
-			</a-assets>
+		<div id="aframeCanvas">
+			<div class="alert">
+				<span
+					class="closebtn"
+					onclick="this.parentElement.style.display='none';"
+					>&times;</span
+				>
+				<strong>Fail!</strong> Please go through every dialog before accessing
+				assessment mode!
+			</div>
+			<div onclick="assestMode()" id="assessment"></div>
+			<!--Aframe canvas-->
+			<a-scene>
+				<!--Images Collection-->
+				<a-assets>
+					<img id="loc1" src="360Images/Entrance 360.jpg" />
+					<img id="loc2" src="360Images/Gowning Room 360.jpg" />
+					<img id="arrow" src="assets/arrow.png" />
+				</a-assets>
 
-			<!--360 Image-->
-			<a-sky id="skybox" radius="10" src="#loc1" rotation="0 270 0"> </a-sky>
+				<!--360 Image-->
+				<a-sky id="skybox" radius="10" src="#loc1" rotation="0 270 0"> </a-sky>
 
-			<!--Camera & Cursor-->
-			<a-entity
-				id="cam"
-				position="0 1.6 0"
-				camera
-				look-controls
-				wasd-controls-enabled="false"
-				cursor="rayOrigin: mouse"
-			>
-			</a-entity>
+				<!--Camera & Cursor-->
+				<a-entity
+					id="cam"
+					position="0 1.6 0"
+					camera
+					look-controls
+					wasd-controls-enabled="false"
+					cursor="rayOrigin: mouse"
+				>
+				</a-entity>
 
-			<!--Hotspot UI-->
-			<a-entity id="spots" hotspots>
-				<a-entity id="group-point1">
-					<a-image
-						class="arrowPointer"
-						spot="linkto:#loc2;spotgroup:group-point2"
-						position="-0.2 -2 -6"
-						rotation="90 180 0"
-					></a-image>
-
-					<a-entity
-						id="dialog1"
-						position="3.5 -1 -2"
-						dialog-popup="
+				<!--Hotspot UI-->
+				<a-entity id="spots" hotspots>
+					<a-entity id="group-point1">
+						<a-image
+							class="arrowPointer"
+							spot="linkto:#loc2;spotgroup:group-point2;
+						nameLink:Area 2;"
+							position="-0.2 -2 -6"
+							rotation="90 180 0"
+						></a-image>
+						<a-entity
+							id="dialog1"
+							position="3.5 -1 -2"
+							dialog-popup="
 			openIconImage: assets/info.jpg;
 			closeIconImage: assets/close.jpg;
 			title: Put mask on;
 			multiple: true;
 			image: 360Images/mask.jpg;
 			"
-					>
-					</a-entity>
-					<a-entity
-						id="dialog2"
-						position="4 0 -3"
-						dialog-popup="
+						>
+						</a-entity>
+						<a-entity
+							id="dialog2"
+							position="4 0 -3"
+							dialog-popup="
 			openIconImage: assets/info.jpg;
 			closeIconImage: assets/close.jpg;
 			title: Put hairnet on;
@@ -263,12 +388,12 @@
 			multiple: true;
 			image: 360Images/hairnet.jpg;
 			"
-					>
-					</a-entity>
-					<a-entity
-						id="dialog3"
-						position="2.3 1.6 -6"
-						dialog-popup="
+						>
+						</a-entity>
+						<a-entity
+							id="dialog3"
+							position="2.3 1.6 -6"
+							dialog-popup="
 			openIconImage: assets/info.jpg;
 			closeIconImage: assets/close.jpg;
 			title: Put gown on;
@@ -276,25 +401,27 @@
 			multiple: true;
 			image: 360Images/gown.jpg;
 			"
-					>
-					</a-entity>
-					<a-entity
-						id="quest"
-						position="1.74 1.32 4"
-						dialog-question="
+						>
+						</a-entity>
+						<a-entity
+							id="quest"
+							position="1.74 1.32 4"
+							dialog-question="
 		  question: What are the operating hours of the wafer lab?;
           answer: /9-6 PM()9-5 PM()10-6 PM()10-5 PM;"
-					></a-entity>
+						></a-entity>
+					</a-entity>
+					<a-entity id="group-point2" scale="0 0 0">
+						<a-image
+							class="arrowPointer"
+							spot="linkto:#loc1;spotgroup:group-point1;
+						nameLink:Area 1;"
+							position="-0.2 -2 -5.8"
+							rotation="90 180 0"
+						></a-image>
+					</a-entity>
 				</a-entity>
-				<a-entity id="group-point2" scale="0 0 0">
-					<a-image
-						class="arrowPointer"
-						spot="linkto:#loc1;spotgroup:group-point1"
-						position="-0.2 -2 -5.8"
-						rotation="90 180 0"
-					></a-image>
-				</a-entity>
-			</a-entity>
-		</a-scene>
+			</a-scene>
+		</div>
 	</body>
 </html>

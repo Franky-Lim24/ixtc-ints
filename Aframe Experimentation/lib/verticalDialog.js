@@ -284,69 +284,69 @@
 
 					// If the parent entity has aa look-at component attached, apply the look-at
 					// component to the openIcon.
-					$(window).on('load', function () {
-						openIcon.classList.add('removeIcon');
+					openIcon.classList.add('removeIcon');
+					openIcon.classList.add('dialogIcon');
 
-						if (multiple) {
-							pulseIcon.setAttribute('id', ''.concat(idname, '--pulse-icon'));
+					if (multiple) {
+						pulseIcon.setAttribute('id', ''.concat(idname, '--pulse-icon'));
 
-							pulseIcon.setAttribute('geometry', {
-								primitive: 'circle',
-								radius: radius + 0.01,
-							});
-							pulseIcon.setAttribute('material', {
-								src: 'assets/pulse.png',
-								transparent: 'true',
-							});
-							pulseIcon.classList.add('removePulse');
-							var matches = idname.match(/(\d+)/);
-							let iconSrc = '';
-							if (matches[0] == '1') {
-								iconSrc = 'assets/q'.concat(matches[0], '(1).png');
-							} else {
-								iconSrc = 'assets/q'.concat(matches[0], '.png');
-							}
-							openIcon.setAttribute('material', {
-								color: color,
-								src: iconSrc,
-							});
-							pulseIcon.setAttribute(
-								'animation__scale',
-								'property: scale; to: 1.2 1.2 1; loop: true;'
-							);
-							if (after) {
-								openIcon.classList.add('invis');
-								pulseIcon.classList.add('invis');
+						pulseIcon.setAttribute('geometry', {
+							primitive: 'circle',
+							radius: radius + 0.01,
+						});
+						pulseIcon.setAttribute('material', {
+							src: 'assets/pulse.png',
+							transparent: 'true',
+						});
+						pulseIcon.classList.add('removePulse');
+						var matches = idname.match(/(\d+)/);
 
-								openIcon.setAttribute('visible', 'false');
-								pulseIcon.setAttribute('visible', 'false');
+						let iconSrc = 'assets/question'.concat(matches[0], '.png');
+
+						openIcon.setAttribute('material', {
+							color: color,
+							src: iconSrc,
+						});
+						pulseIcon.setAttribute(
+							'animation__scale',
+							'property: scale; to: 1.2 1.2 1; loop: true;'
+						);
+						if (after) {
+							openIcon.classList.add('invis');
+							pulseIcon.classList.add('invis');
+
+							openIcon.setAttribute('visible', 'false');
+							pulseIcon.setAttribute('visible', 'false');
+							$(window).on('load', function () {
 								document
 									.getElementById(after.concat('--open-icon'))
-									.addEventListener('mouseenter', function makeVis() {
-										openIcon.setAttribute('visible', 'true');
-										document
-											.getElementById(after.concat('--open-icon'))
-											.removeEventListener('mouseenter', makeVis);
-										pulseIcon.setAttribute('visible', 'true');
-										$(openIcon).removeClass('invis');
-										$(pulseIcon).removeClass('invis');
+									.addEventListener('mouseenter', function () {
+										makeVis();
 									});
 								document
 									.getElementById(after.concat('--pulse-icon'))
-									.addEventListener('mouseenter', function makeVis2() {
-										openIcon.setAttribute('visible', 'true');
-										pulseIcon.setAttribute('visible', 'true');
-										$(openIcon).removeClass('invis');
+									.addEventListener('mouseenter', function () {
+										makeVis();
 									});
-							}
-						} else {
-							openIcon.setAttribute('material', {
-								color: color,
-								src: src,
 							});
+							function makeVis() {
+								document
+									.getElementById(after.concat('--open-icon'))
+									.removeEventListener('mouseenter', makeVis);
+
+								$(openIcon).removeClass('invis');
+								$(pulseIcon).removeClass('invis');
+							}
 						}
-						pulseIcon.setAttribute('look-at', '#cam');
-						openIcon.setAttribute('look-at', '#cam');
+					} else {
+						openIcon.setAttribute('material', {
+							color: color,
+							src: src,
+						});
+					}
+					pulseIcon.setAttribute('look-at', '#cam');
+					openIcon.setAttribute('look-at', '#cam');
+					$(window).on('load', function () {
 						openIcon.addEventListener('mouseenter', function () {
 							openPlane();
 						});
@@ -369,12 +369,12 @@
 									removePulse[x].setAttribute('visible', 'false');
 								}
 							}
-							if ($(pulseIcon).attr('animation__scale')) {
-								$(pulseIcon).removeAttr('animation__scale');
+							if ($(pulseIcon)) {
 								$(pulseIcon).remove();
 							}
 						}
 					});
+
 					this.openIconEl = openIcon;
 
 					return [openIcon, pulseIcon];
@@ -514,18 +514,28 @@
 					if (!src.length) {
 						return null;
 					}
+					var image = this.imageEl || document.createElement('a-rounded');
+					image.classList.add('ansOrder');
+					var idname = this.el.getAttribute('id');
 
-					var image = this.imageEl || document.createElement('a-image');
+					var matches = idname.match(/(\d+)/);
+
+					image.setAttribute('order', matches[0]);
 					image.setAttribute(
 						'id',
 						''.concat(this.el.getAttribute('id'), '--image')
 					);
-					image.setAttribute('src', src);
-					image.setAttribute('width', width);
-					image.setAttribute('height', height);
+					image.setAttribute('material', {
+						src: src,
+						height: height,
+						width: width,
+					});
+					image.setAttribute('scale', '3 3 1');
+					image.setAttribute('width', '1');
+					image.setAttribute('height', '1');
 					image.setAttribute('position', {
-						x: 0,
-						y: 0.5,
+						x: -1.5,
+						y: -1,
 						z: 0.01,
 					});
 					this.hasImage = true;
