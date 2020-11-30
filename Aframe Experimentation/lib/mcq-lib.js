@@ -457,7 +457,7 @@
 								});
 								icon.setAttribute('material', {
 									color: 'white',
-									src: 'assets/tick.png',
+									src: 'assets/correct.png',
 								});
 							} else {
 								result.setAttribute('text', {
@@ -467,7 +467,7 @@
 								});
 								icon.setAttribute('material', {
 									color: 'white',
-									src: 'assets/error.png',
+									src: 'assets/false.png',
 								});
 							}
 						}
@@ -570,6 +570,7 @@
 						}
 						feedback[counter].setAttribute('material', {
 							src: ansIcon,
+							shader: 'flat',
 						});
 						feedback[counter].setAttribute('geometry', {
 							primitive: 'circle',
@@ -624,6 +625,7 @@
 						color: color,
 						src: 'assets/questionDialog.png',
 						transparent: true,
+						shader: 'flat',
 					});
 					let answerArr = this.generateBody();
 					plane.appendChild(this.generateTitle());

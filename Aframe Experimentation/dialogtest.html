@@ -4,24 +4,23 @@
     <meta charset="utf-8">
     <title>A-Frame Simple Link Component - Basic</title>
     <meta name="description" content="Basic example for Simple Link component."></meta>
+    <script src="lib/jquery.min.js"></script>
     <script src="https://aframe.io/releases/0.8.2/aframe.min.js"></script>
-    <script src="aframe-dialog-popup-component.js"></script>
+    <script src="lib/verticalDialog.js"></script>
   </head>
   <body>
-    <a-scene inspector="url: https://aframe.io/releases/0.3.0/aframe-inspector.min.js">
-      <a-camera id="camera" wasd-controls-enabled="false" cursor="rayOrigin: mouse"></a-camera>
+    <a-scene id="skybox" inspector="url: https://aframe.io/releases/0.3.0/aframe-inspector.min.js">
+      <a-camera id="cam" wasd-controls-enabled="false" cursor="rayOrigin: mouse"></a-camera>
       <a-sky color="#24CAFF"></a-sky>
       <a-entity
-        id="dialog"
+        id="dialog1"
         position="0 0 -2"
         dialog-popup="
-          openIconImage: ../assets/info.jpg;
-          closeIconImage: ../assets/close.jpg;
+          openIconImage: assets/info.jpg;
+          closeIconImage: assets/close.jpg;
           title: Kellogg's frosted flakes;
-          image: ../assets/tony.jpg;
-          body: Frosted Flakes or Frosties is a breakfast cereal, produced by the Kellogg Company and consisting of sugar-coated corn flakes. It was introduced in the United States in 1952, as Sugar Frosted Flakes.;
-          image: ../assets/tony.jpg;
-          image: ../assets/tony.jpg;
+          image: 360Images/gown.jpg;
+          title: Hello;
           ">
         </a-entity>
         <a-entity position="0 1.8 -1" scale="0.5 0.5 1"

@@ -56,7 +56,7 @@
 					var data = this.data;
 					var tooltip = document.createElement('a-text');
 					var rotation = this.el.getAttribute('rotation');
-					tooltip.setAttribute('rotation', Object.assign({}, rotation));
+					tooltip.setAttribute('rotation', '90 180 0');
 					tooltip.setAttribute('position', '0 0 -0.45');
 					tooltip.setAttribute('text', {
 						value: data.nameLink,
@@ -105,6 +105,16 @@
 							newspots: data.spotgroup,
 							currspots: currspots,
 						});
+						console.log(data.linkto);
+						if (data.linkto == '#loc2') {
+							document
+								.getElementById('skybox')
+								.setAttribute('rotation', '0 90 0');
+						} else if (data.linkto == '#loc1') {
+							document
+								.getElementById('skybox')
+								.setAttribute('rotation', '0 270 0');
+						}
 					});
 				},
 			});
@@ -222,6 +232,26 @@
 				width: 100%;
 				height: 100%;
 			}
+			#leftArrow {
+				position: absolute;
+				background-image: url(assets/leftArrow.png);
+				left: 0;
+				top: 45%;
+				z-index: 9999;
+				width: 32px;
+				height: 64px;
+				cursor: pointer;
+			}
+			#rightArrow {
+				right: 0;
+				top: 45%;
+				z-index: 9999;
+				position: absolute;
+				background-image: url('assets/rightArrow.png');
+				width: 32px;
+				height: 64px;
+				cursor: pointer;
+			}
 		</style>
 		<script>
 			setTimeout(function () {
@@ -281,6 +311,26 @@
 					state = false;
 				}
 			}
+			function prevscene() {
+				var location = document
+					.getElementById('skybox')
+					.getAttribute('src')
+					.split('#')[1];
+				var currentLoc = parseInt(location.substring(3));
+				if (currentLoc - 1 != 0) {
+					$('#loc'.concat(currentLoc - 1, 'spot')).click();
+				}
+			}
+			function nextscene() {
+				var location = document
+					.getElementById('skybox')
+					.getAttribute('src')
+					.split('#')[1];
+				var currentLoc = parseInt(location.substring(3));
+				if ($('#loc'.concat(currentLoc + 1, 'spot'))) {
+					$('#loc'.concat(currentLoc + 1, 'spot')).click();
+				}
+			}
 		</script>
 	</head>
 	<body>
@@ -331,6 +381,8 @@
 				<strong>Fail!</strong> Please go through every dialog before accessing
 				assessment mode!
 			</div>
+			<div id="leftArrow" onclick="prevscene()"></div>
+			<div id="rightArrow" onclick="nextscene()"></div>
 			<div onclick="assestMode()" id="assessment"></div>
 			<!--Aframe canvas-->
 			<a-scene>
@@ -359,6 +411,7 @@
 				<a-entity id="spots" hotspots>
 					<a-entity id="group-point1">
 						<a-image
+							id="loc2spot"
 							class="arrowPointer"
 							spot="linkto:#loc2;spotgroup:group-point2;
 						nameLink:Area 2;"
@@ -413,11 +466,12 @@
 					</a-entity>
 					<a-entity id="group-point2" scale="0 0 0">
 						<a-image
+							id="loc1spot"
 							class="arrowPointer"
 							spot="linkto:#loc1;spotgroup:group-point1;
 						nameLink:Area 1;"
-							position="-0.2 -2 -5.8"
-							rotation="90 180 0"
+							position="0 -2 5"
+							rotation="90 0 0"
 						></a-image>
 					</a-entity>
 				</a-entity>
