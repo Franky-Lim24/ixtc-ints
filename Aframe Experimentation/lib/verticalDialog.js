@@ -637,12 +637,16 @@ function assestMode() {
 	var ansOrder = document.getElementsByClassName('ansOrder');
 	if (!state) {
 		if (invisIcons.length == 0) {
+			$('#appState').css('visibility', 'visible');
+			$('.tooltiptext').text('Click here to go to freeview mode!');
 			for (let x = 0; x < ansOrder.length; x++) {
 				let iconId = ansOrder[x].getAttribute('id').split('--')[0];
 				let order = ansOrder[x].getAttribute('order');
 				ansOrder[x].addEventListener('click', function checkOrder() {
 					var currIcon = document.getElementById(iconId.concat('--open-icon'));
 					if (currentOrder == order) {
+						var audio = new Audio('assets/positive.mp3');
+						audio.play();
 						currIcon.setAttribute('material', 'src: assets/correct.png');
 						setTimeout(function () {
 							currIcon.setAttribute(
@@ -654,6 +658,8 @@ function assestMode() {
 						ansOrder[x].removeEventListener('click', checkOrder);
 						currentOrder++;
 					} else {
+						var audio = new Audio('assets/negative.mp3');
+						audio.play();
 						currIcon.setAttribute('material', 'src: assets/false.png');
 						setTimeout(function () {
 							currIcon.setAttribute('material', 'src: assets/question.png');
@@ -669,6 +675,8 @@ function assestMode() {
 			$('.alert').hide().css('visibility', 'visible').fadeIn('slow');
 		}
 	} else {
+		$('#appState').css('visibility', 'hidden');
+		$('.tooltiptext').text('Click here to go to assessment mode!');
 		for (let x = 0; x < ansOrder.length; x++) {
 			let iconId = ansOrder[x].getAttribute('id').split('--')[0];
 			let order = ansOrder[x].getAttribute('order');

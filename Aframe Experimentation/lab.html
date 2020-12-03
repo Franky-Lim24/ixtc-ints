@@ -252,6 +252,39 @@
 				height: 64px;
 				cursor: pointer;
 			}
+			#appState {
+				z-index: 9999;
+				position: absolute;
+				margin: auto;
+				text-align: center;
+				color: white;
+				padding: 5px;
+				border-radius: 10px;
+				background-color: black;
+				left: 45%;
+				top: 2%;
+				visibility: hidden;
+			}
+			.tooltip {
+				position: relative;
+				display: inline-block;
+			}
+			.tooltip .tooltiptext {
+				visibility: hidden;
+				width: 120px;
+				background-color: black;
+				color: #fff;
+				text-align: center;
+				border-radius: 6px;
+				padding: 5px 5px;
+				position: absolute;
+				z-index: 1;
+				right: 0;
+				margin-right: 66px;
+			}
+			.tooltip:hover .tooltiptext {
+				visibility: visible;
+			}
 		</style>
 		<script>
 			setTimeout(function () {
@@ -326,6 +359,7 @@
 			</div>
 		</div>
 		<div id="aframeCanvas">
+			<div id="appState">Assessment Mode</div>
 			<div class="alert">
 				<span
 					class="closebtn"
@@ -337,7 +371,9 @@
 			</div>
 			<div id="leftArrow" onclick="prevscene()"></div>
 			<div id="rightArrow" onclick="nextscene()"></div>
-			<div onclick="assestMode()" id="assessment"></div>
+			<div class="tooltip" onclick="assestMode()" id="assessment">
+				<span class="tooltiptext">Click here to go to assessment mode!</span>
+			</div>
 			<!--Aframe canvas-->
 			<a-scene>
 				<!--Images Collection-->
