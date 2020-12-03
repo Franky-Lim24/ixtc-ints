@@ -265,52 +265,6 @@
 				$('#aframeCanvas').hide().css('visibility', 'visible').fadeIn('slow');
 			}
 
-			var state = false;
-			function assestMode() {
-				var currentOrder = 1;
-				var icons = document.getElementsByClassName('dialogIcon');
-				var invisIcons = document.getElementsByClassName('invis');
-				var ansOrder = document.getElementsByClassName('ansOrder');
-				if (!state) {
-					if (invisIcons.length == 0) {
-						for (let x = 0; x < ansOrder.length; x++) {
-							let iconId = ansOrder[x].getAttribute('id').split('--')[0];
-							let order = ansOrder[x].getAttribute('order');
-							ansOrder[x].addEventListener('click', function checkOrder() {
-								if (currentOrder == order) {
-									document
-										.getElementById(iconId.concat('--open-icon'))
-										.setAttribute('material', 'src: assets/correct.png');
-									ansOrder[x].removeEventListener('click', checkOrder);
-									currentOrder++;
-								} else {
-									document
-										.getElementById(iconId.concat('--open-icon'))
-										.setAttribute('material', 'src: assets/false.png');
-								}
-							});
-						}
-						for (let x = 0; x < icons.length; x++) {
-							icons[x].setAttribute('material', 'src: assets/question.png');
-						}
-						state = true;
-					} else {
-						$('.alert').hide().css('visibility', 'visible').fadeIn('slow');
-					}
-				} else {
-					for (let x = 0; x < ansOrder.length; x++) {
-						let iconId = ansOrder[x].getAttribute('id').split('--')[0];
-						let order = ansOrder[x].getAttribute('order');
-						document
-							.getElementById(iconId.concat('--open-icon'))
-							.setAttribute(
-								'material',
-								'src: assets/question'.concat(order, '.png')
-							);
-					}
-					state = false;
-				}
-			}
 			function prevscene() {
 				var location = document
 					.getElementById('skybox')

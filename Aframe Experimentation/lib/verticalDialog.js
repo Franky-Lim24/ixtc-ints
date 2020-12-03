@@ -284,7 +284,7 @@
 
 					// If the parent entity has aa look-at component attached, apply the look-at
 					// component to the openIcon.
-					openIcon.classList.add('removeIcon');
+					//openIcon.classList.add('removeIcon');
 					openIcon.classList.add('dialogIcon');
 
 					if (multiple) {
@@ -298,7 +298,7 @@
 							src: 'assets/pulse.png',
 							transparent: 'true',
 						});
-						pulseIcon.classList.add('removePulse');
+						//pulseIcon.classList.add('removePulse');
 						var matches = idname.match(/(\d+)/);
 
 						let iconSrc = 'assets/question'.concat(matches[0], '.png');
@@ -354,21 +354,21 @@
 							openPlane();
 						});
 						function openPlane() {
-							var removeIcon = $('.removeIcon');
-							var removePulse = $('.removePulse');
+							//var removeIcon = $('.removeIcon');
+							//var removePulse = $('.removePulse');
 
 							document
 								.getElementById(''.concat(idname, '--dialog-plane'))
 								.setAttribute('visible', 'true');
 
-							for (let x = 0; x < removeIcon.length; x++) {
-								removeIcon[x].setAttribute('visible', 'false');
-							}
-							if (removePulse) {
-								for (let x = 0; x < removePulse.length; x++) {
-									removePulse[x].setAttribute('visible', 'false');
-								}
-							}
+							// for (let x = 0; x < removeIcon.length; x++) {
+							// 	removeIcon[x].setAttribute('visible', 'false');
+							// }
+							// if (removePulse) {
+							// 	for (let x = 0; x < removePulse.length; x++) {
+							// 		removePulse[x].setAttribute('visible', 'false');
+							// 	}
+							// }
 							if ($(pulseIcon)) {
 								$(pulseIcon).remove();
 							}
@@ -434,7 +434,7 @@
 					);
 					title.setAttribute('text', {
 						value: value.substring(0, wrapCount),
-						color: '#202a74',
+						color: '#456ab7',
 						align: 'center',
 						font: 'dejavu',
 						letterSpacing: -2,
@@ -629,3 +629,53 @@
 		/******/
 	]
 );
+var state = false;
+function assestMode() {
+	var currentOrder = 1;
+	var icons = document.getElementsByClassName('dialogIcon');
+	var invisIcons = document.getElementsByClassName('invis');
+	var ansOrder = document.getElementsByClassName('ansOrder');
+	if (!state) {
+		if (invisIcons.length == 0) {
+			for (let x = 0; x < ansOrder.length; x++) {
+				let iconId = ansOrder[x].getAttribute('id').split('--')[0];
+				let order = ansOrder[x].getAttribute('order');
+				ansOrder[x].addEventListener('click', function checkOrder() {
+					var currIcon = document.getElementById(iconId.concat('--open-icon'));
+					if (currentOrder == order) {
+						currIcon.setAttribute('material', 'src: assets/correct.png');
+						setTimeout(function () {
+							currIcon.setAttribute(
+								'material',
+								'src: assets/question'.concat(order, '.png')
+							);
+						}, 1000);
+
+						ansOrder[x].removeEventListener('click', checkOrder);
+						currentOrder++;
+					} else {
+						currIcon.setAttribute('material', 'src: assets/false.png');
+						setTimeout(function () {
+							currIcon.setAttribute('material', 'src: assets/question.png');
+						}, 1000);
+					}
+				});
+			}
+			for (let x = 0; x < icons.length; x++) {
+				icons[x].setAttribute('material', 'src: assets/question.png');
+			}
+			state = true;
+		} else {
+			$('.alert').hide().css('visibility', 'visible').fadeIn('slow');
+		}
+	} else {
+		for (let x = 0; x < ansOrder.length; x++) {
+			let iconId = ansOrder[x].getAttribute('id').split('--')[0];
+			let order = ansOrder[x].getAttribute('order');
+			document
+				.getElementById(iconId.concat('--open-icon'))
+				.setAttribute('material', 'src: assets/question'.concat(order, '.png'));
+		}
+		state = false;
+	}
+}

@@ -248,7 +248,7 @@
 						'id',
 						''.concat(this.el.getAttribute('id'), '--open-icon')
 					);
-					openIcon.classList.add('removeIcon');
+					//openIcon.classList.add('removeIcon');
 
 					openIcon.setAttribute(
 						'position',
@@ -268,10 +268,10 @@
 					openIcon.setAttribute('look-at', '#cam');
 					$(window).on('load', function () {
 						openIcon.addEventListener('mouseenter', function () {
-							var removeIcon = $('.removeIcon');
-							for (let x = 0; x < removeIcon.length; x++) {
-								removeIcon[x].setAttribute('visible', 'false');
-							}
+							// var removeIcon = $('.removeIcon');
+							// for (let x = 0; x < removeIcon.length; x++) {
+							// 	removeIcon[x].setAttribute('visible', 'false');
+							// }
 							document
 								.getElementById(''.concat(idname, '--dialog-plane'))
 								.setAttribute('visible', 'true');
