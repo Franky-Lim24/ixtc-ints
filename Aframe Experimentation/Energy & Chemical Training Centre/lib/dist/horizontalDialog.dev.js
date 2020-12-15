@@ -738,24 +738,28 @@ function assestMode() {
       var iconId = ansOrder[x].getAttribute('id').split('--')[0];
       var order = ansOrder[x].getAttribute('order');
       ansOrder[x].addEventListener('click', function checkOrder() {
-        var currIcon = document.getElementById(iconId.concat('--open-icon'));
-
-        if (currentOrder == order) {
-          var audio = new Audio('assets/positive.mp3');
-          audio.play();
-          currIcon.setAttribute('material', 'src: assets/correct.png');
-          setTimeout(function () {
-            currIcon.setAttribute('material', 'src: assets/question'.concat(order, '.png'));
-          }, 1000);
+        if (!state) {
           ansOrder[x].removeEventListener('click', checkOrder);
-          currentOrder++;
         } else {
-          var audio = new Audio('assets/negative.mp3');
-          audio.play();
-          currIcon.setAttribute('material', 'src: assets/false.png');
-          setTimeout(function () {
-            currIcon.setAttribute('material', 'src: assets/question.png');
-          }, 1000);
+          var currIcon = document.getElementById(iconId.concat('--open-icon'));
+
+          if (currentOrder == order) {
+            var audio = new Audio('assets/positive.mp3');
+            audio.play();
+            currIcon.setAttribute('material', 'src: assets/correct.png');
+            setTimeout(function () {
+              currIcon.setAttribute('material', 'src: assets/question'.concat(order, '.png'));
+            }, 1000);
+            ansOrder[x].removeEventListener('click', checkOrder);
+            currentOrder++;
+          } else {
+            var audio = new Audio('assets/negative.mp3');
+            audio.play();
+            currIcon.setAttribute('material', 'src: assets/false.png');
+            setTimeout(function () {
+              currIcon.setAttribute('material', 'src: assets/question.png');
+            }, 1000);
+          }
         }
       });
     };
@@ -809,4 +813,104 @@ function assestMode() {
 
     state = false;
   }
-}
+} //Hotspot Functions
+
+
+AFRAME.registerComponent('hotspots', {
+  init: function init() {
+    this.el.addEventListener('reloadspots', function (evt) {
+      //get the entire current spot group and scale it to 0
+      var currspotgroup = document.getElementById(evt.detail.currspots);
+      currspotgroup.setAttribute('scale', '0 0 0'); //get the entire new spot group and scale it to 1
+
+      var newspotgroup = document.getElementById(evt.detail.newspots);
+      newspotgroup.setAttribute('scale', '1 1 1');
+    });
+  }
+});
+AFRAME.registerComponent('spot', {
+  schema: {
+    linkto: {
+      type: 'string',
+      "default": ''
+    },
+    spotgroup: {
+      type: 'string',
+      "default": ''
+    },
+    nameLink: {
+      type: 'string',
+      "default": ''
+    }
+  },
+  init: function init() {
+    //add image source of hotspot icon
+    this.el.setAttribute('src', '#arrow');
+    this.el.setAttribute('transparent');
+    this.el.setAttribute('geometry', {
+      primitive: 'circle',
+      radius: '0.6'
+    });
+    this.el.setAttribute('material', {
+      color: 'white'
+    }); //make the icon look at the camera all the time
+
+    var data = this.data;
+    var tooltip = document.createElement('a-text');
+    var tooltipPlane = document.createElement('a-rounded');
+    var rotation = this.el.getAttribute('rotation');
+    tooltip.setAttribute('rotation', '60 180 0');
+    tooltip.setAttribute('position', '0 0.47 -0.10');
+    tooltipPlane.setAttribute('rotation', '60 180 0');
+    tooltipPlane.setAttribute('position', '0.6 0.51 0');
+    tooltipPlane.setAttribute('rounded', 'height: 0.35; width: 1.2; color: #ffffff');
+    tooltipPlane.setAttribute('material', 'shader: flat;');
+    tooltip.setAttribute('text', {
+      value: data.nameLink,
+      align: 'center',
+      font: 'assets/raleway.json',
+      shader: 'msdf',
+      baseline: 'top',
+      color: '#456ab7'
+    });
+    tooltip.setAttribute('visible', 'false');
+    tooltipPlane.setAttribute('visible', 'false');
+    this.el.appendChild(tooltip);
+    this.el.appendChild(tooltipPlane);
+    this.el.addEventListener('mouseenter', function () {
+      $('.a-canvas.a-grab-cursor:hover').css('cursor', 'pointer');
+      tooltip.setAttribute('visible', 'true');
+      tooltipPlane.setAttribute('visible', 'true');
+    });
+    this.el.addEventListener('mouseleave', function () {
+      $('.a-canvas.a-grab-cursor:hover').css('cursor', 'grab');
+      tooltip.setAttribute('visible', 'false');
+      tooltipPlane.setAttribute('visible', 'false');
+    });
+    document.getElementsByClassName('a-canvas')[0].addEventListener('mousedown', function () {
+      $('.a-canvas.a-grab-cursor:hover').css('cursor', 'grabbing');
+    });
+    document.getElementsByClassName('a-canvas')[0].addEventListener('mouseup', function () {
+      $('.a-canvas.a-grab-cursor:hover').css('cursor', 'grab');
+    });
+    this.el.addEventListener('click', function () {
+      //set the skybox source to the new image as per the spot
+      var sky = document.getElementById('skybox');
+      sky.setAttribute('src', data.linkto);
+      var spotcomp = document.getElementById('spots');
+      var currspots = this.parentElement.getAttribute('id'); //create event for spots component to change the spots data
+
+      spotcomp.emit('reloadspots', {
+        newspots: data.spotgroup,
+        currspots: currspots
+      });
+      console.log(data.linkto);
+
+      if (data.linkto == '#loc2') {
+        document.getElementById('skybox').setAttribute('rotation', '0 90 0');
+      } else if (data.linkto == '#loc1') {
+        document.getElementById('skybox').setAttribute('rotation', '0 270 0');
+      }
+    });
+  }
+});

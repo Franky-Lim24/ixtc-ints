@@ -108,7 +108,7 @@
 					},
 					titleFont: {
 						type: 'string',
-						default: 'assets/raleway.json',
+						default: 'mozillavr',
 					},
 					titleWrapCount: {
 						type: 'number',
@@ -124,7 +124,7 @@
 					},
 					bodyFont: {
 						type: 'string',
-						default: 'assets/raleway.json',
+						default: 'mozillavr',
 					},
 					bodyWrapCount: {
 						type: 'number',
@@ -176,11 +176,11 @@
 					},
 					dialogBoxWidth: {
 						type: 'number',
-						default: 5,
+						default: 3,
 					},
 					dialogBoxHeight: {
 						type: 'number',
-						default: 2.5,
+						default: 4,
 					},
 					dialogBoxColor: {
 						type: 'string',
@@ -298,7 +298,7 @@
 							src: 'assets/pulse.png',
 							transparent: 'true',
 						});
-						pulseIcon.classList.add('removePulse');
+						//pulseIcon.classList.add('removePulse');
 						var matches = idname.match(/(\d+)/);
 
 						let iconSrc = 'assets/question'.concat(matches[0], '.png');
@@ -360,9 +360,6 @@
 							document
 								.getElementById(''.concat(idname, '--dialog-plane'))
 								.setAttribute('visible', 'true');
-							document
-								.getElementById(''.concat(idname, '--open-icon'))
-								.setAttribute('visible', 'false');
 
 							// for (let x = 0; x < removeIcon.length; x++) {
 							// 	removeIcon[x].setAttribute('visible', 'false');
@@ -439,19 +436,13 @@
 						value: value.substring(0, wrapCount),
 						color: '#456ab7',
 						align: 'center',
-						font: font,
+						font: 'dejavu',
 						letterSpacing: -2,
-						wrapCount: 13,
-						width: 2,
-						shader: 'msdf',
-						baseline: 'top',
+						wrapCount: 15,
+						width: width - padding * 2,
+						baseline: 'center',
 						anchor: 'center',
 					});
-					title.setAttribute(
-						'geometry',
-						'primitive: plane; width: auto; height: auto; '
-					);
-					title.setAttribute('material', 'color: purple;visible:false;');
 					var y = height / 2 - padding;
 
 					if (this.hasImage) {
@@ -459,8 +450,8 @@
 					}
 
 					title.setAttribute('position', {
-						x: 1.16,
-						y: 0,
+						x: 0,
+						y: -1.4,
 						z: 0.01,
 					});
 					this.titleEl = title;
@@ -491,10 +482,9 @@
 						color: color,
 						font: font,
 						wrapCount: wrapCount,
-						shader: 'msdf',
 						width: width - padding * 2,
-						baseline: 'center',
-						anchor: 'center',
+						baseline: 'top',
+						anchor: 'left',
 					});
 					var y = height / 2 - padding * 3;
 
@@ -524,18 +514,12 @@
 					if (!src.length) {
 						return null;
 					}
-					var roundedPlane = document.createElement('a-rounded');
-					roundedPlane.setAttribute('position', '-0.14 -1.14 0');
-					roundedPlane.setAttribute('rounded', {
-						height: 2.3,
-						width: 2.5,
-					});
 					var image = this.imageEl || document.createElement('a-rounded');
 					image.classList.add('ansOrder');
 					var idname = this.el.getAttribute('id');
 
 					var matches = idname.match(/(\d+)/);
-					image.setAttribute('rounded', 'radius: 0.05');
+
 					image.setAttribute('order', matches[0]);
 					image.setAttribute(
 						'id',
@@ -546,17 +530,17 @@
 						height: height,
 						width: width,
 					});
-					image.setAttribute('scale', '2.31 2.31 1');
+					image.setAttribute('scale', '3 3 1');
 					image.setAttribute('width', '1');
 					image.setAttribute('height', '1');
 					image.setAttribute('position', {
-						x: -2.37,
-						y: -1.15,
-						z: 0.02,
+						x: -1.5,
+						y: -1,
+						z: 0.01,
 					});
 					this.hasImage = true;
 					this.imageEl = image;
-					return [image, roundedPlane];
+					return image;
 				},
 
 				/**
@@ -583,21 +567,19 @@
 					plane.setAttribute('visible', false);
 					plane.setAttribute('geometry', {
 						primitive: 'plane',
-						width: width + padding,
-						height: height + padding,
+						width: '3.2',
+						height: '4.21',
 					});
 					var image = this.generateImage();
 
 					if (image) {
-						plane.appendChild(image[0]);
-						plane.appendChild(image[1]);
+						plane.appendChild(this.generateImage());
 					}
 
 					plane.setAttribute('material', {
 						color: color,
-						src: 'assets/infoDialog.png',
+						src: 'assets/verticalDialog.png',
 						transparent: true,
-						opacity: '0.5',
 					});
 					plane.appendChild(this.generateTitle());
 					plane.appendChild(this.generateBody());
@@ -651,88 +633,50 @@ var state = false;
 function assestMode() {
 	var currentOrder = 1;
 	var icons = document.getElementsByClassName('dialogIcon');
-	var removePulse = document.getElementsByClassName('removePulse');
+	var invisIcons = document.getElementsByClassName('invis');
 	var ansOrder = document.getElementsByClassName('ansOrder');
 	if (!state) {
-		$('#appState').css('visibility', 'visible');
-		$('.tooltiptext').text('Click to enter freeview mode!');
+		if (invisIcons.length == 0) {
+			$('#appState').css('visibility', 'visible');
+			$('.tooltiptext').text('Click here to go to freeview mode!');
+			for (let x = 0; x < ansOrder.length; x++) {
+				let iconId = ansOrder[x].getAttribute('id').split('--')[0];
+				let order = ansOrder[x].getAttribute('order');
+				ansOrder[x].addEventListener('click', function checkOrder() {
+					var currIcon = document.getElementById(iconId.concat('--open-icon'));
+					if (currentOrder == order) {
+						var audio = new Audio('assets/positive.mp3');
+						audio.play();
+						currIcon.setAttribute('material', 'src: assets/correct.png');
+						setTimeout(function () {
+							currIcon.setAttribute(
+								'material',
+								'src: assets/question'.concat(order, '.png')
+							);
+						}, 1000);
 
-		anime
-			.timeline({ loop: false })
-			.add({
-				targets: '#morph',
-				width: '235px',
-				x: '0',
-				easing: 'easeInOutQuad',
-				duration: '500',
-				delay: (el, i) => 100 + 30 * i,
-			})
-			.add({
-				targets: '#morphtext',
-				translateX: [40, 0],
-				translateZ: 0,
-				opacity: [0, 1],
-				easing: 'easeOutExpo',
-				duration: 800,
-			});
-		for (let x = 0; x < ansOrder.length; x++) {
-			let iconId = ansOrder[x].getAttribute('id').split('--')[0];
-			let order = ansOrder[x].getAttribute('order');
-			ansOrder[x].addEventListener('click', function checkOrder() {
-				var currIcon = document.getElementById(iconId.concat('--open-icon'));
-				if (currentOrder == order) {
-					var audio = new Audio('assets/positive.mp3');
-					audio.play();
-					currIcon.setAttribute('material', 'src: assets/correct.png');
-					setTimeout(function () {
-						currIcon.setAttribute(
-							'material',
-							'src: assets/question'.concat(order, '.png')
-						);
-					}, 1000);
-
-					ansOrder[x].removeEventListener('click', checkOrder);
-					currentOrder++;
-				} else {
-					var audio = new Audio('assets/negative.mp3');
-					audio.play();
-					currIcon.setAttribute('material', 'src: assets/false.png');
-					setTimeout(function () {
-						currIcon.setAttribute('material', 'src: assets/question.png');
-					}, 1000);
-				}
-			});
+						ansOrder[x].removeEventListener('click', checkOrder);
+						currentOrder++;
+					} else {
+						var audio = new Audio('assets/negative.mp3');
+						audio.play();
+						currIcon.setAttribute('material', 'src: assets/false.png');
+						setTimeout(function () {
+							currIcon.setAttribute('material', 'src: assets/question.png');
+						}, 1000);
+					}
+				});
+			}
+			for (let x = 0; x < icons.length; x++) {
+				icons[x].setAttribute('material', 'src: assets/question.png');
+			}
+			state = true;
+		} else {
+			$('.alert').hide().css('visibility', 'visible').fadeIn('slow');
 		}
-		for (let x = 0; x < icons.length; x++) {
-			icons[x].classList.remove('invis');
-			icons[x].setAttribute('material', 'src: assets/question.png');
-			icons[x].setAttribute('visible', 'true');
-		}
-		for (let x = 0; x < removePulse.length; x++) {
-			$(removePulse[x]).remove();
-		}
-		state = true;
-		// $('.alert').hide().css('visibility', 'visible').fadeIn('slow');
 	} else {
 		$('#appState').css('visibility', 'hidden');
-		$('.tooltiptext').text('Click to enter assessment mode!');
-		anime
-			.timeline({ loop: false })
-			.add({
-				targets: '#morphtext',
-				translateX: [0, -30],
-				opacity: [1, 0],
-				easing: 'easeInExpo',
-				duration: 500,
-				delay: (el, i) => 100 + 30 * i,
-			})
-			.add({
-				targets: '#morph',
-				width: '64px',
-				x: '171',
-				easing: 'easeInOutQuad',
-				duration: '500',
-			});
+		$('.tooltiptext').text('Click here to go to assessment mode!');
 		for (let x = 0; x < ansOrder.length; x++) {
 			let iconId = ansOrder[x].getAttribute('id').split('--')[0];
 			let order = ansOrder[x].getAttribute('order');
