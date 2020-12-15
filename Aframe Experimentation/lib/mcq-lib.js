@@ -108,7 +108,7 @@
 					},
 					questionFont: {
 						type: 'string',
-						default: 'roboto',
+						default: 'assets/ralewaybold.json',
 					},
 					questionWrapCount: {
 						type: 'number',
@@ -124,7 +124,7 @@
 					},
 					answerFont: {
 						type: 'string',
-						default: 'roboto',
+						default: 'assets/raleway.json',
 					},
 					answerWrapCount: {
 						type: 'number',
@@ -140,7 +140,7 @@
 					},
 					openIconImage: {
 						type: 'asset',
-						default: 'assets/question1.png',
+						default: 'assets/mcq1.png',
 					},
 					openIconRadius: {
 						type: 'number',
@@ -261,6 +261,7 @@
 					openIcon.setAttribute('material', {
 						color: color,
 						src: src,
+						shader: 'flat',
 					});
 					// If the parent entity has aa look-at component attached, apply the look-at
 					// component to the openIcon.
@@ -272,6 +273,9 @@
 							// for (let x = 0; x < removeIcon.length; x++) {
 							// 	removeIcon[x].setAttribute('visible', 'false');
 							// }
+							document
+								.getElementById(''.concat(idname, '--open-icon'))
+								.setAttribute('visible', 'false');
 							document
 								.getElementById(''.concat(idname, '--dialog-plane'))
 								.setAttribute('visible', 'true');
@@ -339,14 +343,14 @@
 						font: font,
 						wrapCount: wrapCount,
 						width: width - padding * 2,
-						baseline: 'top',
-						anchor: 'left',
+						baseline: 'center',
+						anchor: 'center',
+						shader: 'msdf',
 					});
 					var y = height / 2 - padding;
-
 					title.setAttribute('position', {
-						x: -(width / 2) + padding,
-						y: 1.26,
+						x: 0,
+						y: 0.75,
 						z: 0.01,
 					});
 					this.titleEl = title;
@@ -376,8 +380,9 @@
 						width: 'auto',
 						height: 'auto',
 						anchor: 'right',
+						shader: 'msdf',
 					});
-					let y = height / 2 - padding * 3 + 0.2;
+					let y = height / 2 - padding * 3 + 0.1;
 
 					ansHint.setAttribute('position', {
 						x: '0.21',
@@ -388,21 +393,12 @@
 					var ans = null;
 					var valArr = value.split('()');
 					let body = [];
-					let checker = 0;
 					var idname = this.el.getAttribute('id');
 					let submit = document.createElement('a-entity');
 					submit.setAttribute('id', 'btnSubmit');
 					submit.setAttribute('position', {
-						x: '1.5',
-						y: -y - padding,
-						z: '0.01',
-					});
-
-					let result = document.createElement('a-entity');
-					result.setAttribute('id', 'results'.concat(idname));
-					result.setAttribute('position', {
-						x: '-1.34',
-						y: -y - padding + 0.2,
+						x: '1.3',
+						y: -y - padding - 0.3,
 						z: '0.01',
 					});
 
@@ -418,6 +414,7 @@
 						xOffset: '0.070',
 						yOffset: '1',
 						zOffset: '0.001',
+						shader: 'msdf',
 					});
 					submit.setAttribute('geometry', {
 						primitive: 'plane',
@@ -429,49 +426,6 @@
 						'color: #0FFFFF; shader: flat; visible: false; '
 					);
 
-					submit.addEventListener('click', function submitFunc() {
-						if (ans != null) {
-							submit.parentNode.removeChild(submit);
-							var choices = document.querySelectorAll(
-								'.answers'.concat(idname)
-							);
-							for (let x = 0; x < choices.length; x++) {
-								$(choices[x]).off();
-							}
-							var result = document.querySelector('#results'.concat(idname));
-							var icon = document.querySelector(
-								'#'.concat(idname.concat('--open-icon'))
-							);
-							var feedbackIcon = document.querySelectorAll(
-								'#feedbackAns'.concat(idname)
-							);
-							for (let x = 0; x < feedbackIcon.length; x++) {
-								feedbackIcon[x].setAttribute('visible', 'true');
-							}
-							if (ans == null) {
-							} else if (ans) {
-								result.setAttribute('text', {
-									value: 'Correct',
-									color: 'lime',
-									wrapCount: '7',
-								});
-								icon.setAttribute('material', {
-									color: 'white',
-									src: 'assets/correct.png',
-								});
-							} else {
-								result.setAttribute('text', {
-									value: 'False',
-									color: 'red',
-									wrapCount: '7',
-								});
-								icon.setAttribute('material', {
-									color: 'white',
-									src: 'assets/false.png',
-								});
-							}
-						}
-					});
 					let feedback = [];
 					let current = [];
 					let mulAns = 0;
@@ -482,6 +436,85 @@
 							mulAns++;
 						}
 					}
+					submit.addEventListener('mouseenter', function hoverAns() {
+						let submitChecker = document.querySelector('.removeEvent');
+
+						if (!submitChecker) {
+							$('.a-canvas.a-grab-cursor:hover').css('cursor', 'pointer');
+						} else {
+							submit.removeEventListener('mouseenter', hoverAns);
+						}
+					});
+					submit.addEventListener('mouseleave', function hoverAns() {
+						let submitChecker = document.querySelector('.removeEvent');
+						if (!submitChecker) {
+							$('.a-canvas.a-grab-cursor:hover').css('cursor', 'grab');
+						} else {
+							submit.removeEventListener('mouseleave', hoverAns);
+						}
+					});
+					submit.addEventListener('click', function submitFunc() {
+						if (ans != null) {
+							submit.classList.add('removeEvent');
+							submit.removeEventListener('click', submitFunc);
+							var matchColor = document.querySelectorAll(
+								'.selectedAns'.concat(idname)
+							);
+
+							var choices = document.querySelectorAll(
+								'.answers'.concat(idname)
+							);
+							for (let x = 0; x < choices.length; x++) {
+								$(choices[x]).off();
+							}
+							var icon = document.querySelector(
+								'#'.concat(idname.concat('--open-icon'))
+							);
+							var feedbackIcon = document.querySelectorAll(
+								'#feedbackAns'.concat(idname)
+							);
+							for (let x = 0; x < feedbackIcon.length; x++) {
+								feedbackIcon[x].setAttribute('visible', 'true');
+							}
+							if (ans) {
+								for (let x = 0; x < matchColor.length; x++) {
+									matchColor[x].setAttribute('text', 'color: lime');
+								}
+								submit.setAttribute('text', {
+									value: 'Correct',
+									color: 'lime',
+									font: font,
+									align: 'center',
+									shader: 'msdf',
+									wrapCount: '7',
+								});
+								icon.setAttribute('material', {
+									color: 'white',
+									src: 'assets/correct.png',
+								});
+								var audio = new Audio('assets/positive.mp3');
+								audio.play();
+							} else {
+								for (let x = 0; x < matchColor.length; x++) {
+									matchColor[x].setAttribute('text', 'color: red');
+								}
+								submit.setAttribute('text', {
+									value: 'False',
+									color: 'red',
+									align: 'center',
+									wrapCount: '7',
+									font: font,
+									shader: 'msdf',
+								});
+								icon.setAttribute('material', {
+									color: 'white',
+									src: 'assets/false.png',
+								});
+								var audio = new Audio('assets/negative.mp3');
+								audio.play();
+							}
+						}
+					});
 					for (let counter = 0; counter < valArr.length; counter++) {
 						body[counter] = document.createElement('a-entity');
 						body[counter].setAttribute('id', 'answers'.concat(counter));
@@ -492,17 +525,20 @@
 							colorChanger = true;
 						}
 						let newwidth = width - padding * 2;
+						body[counter].classList.add('allAns'.concat(idname));
+
 						body[counter].setAttribute('text', {
 							value: valArr[counter],
 							color: color,
 							font: font,
 							wrapCount: wrapCount,
 							width: newwidth,
-							baseline: 'bottom',
+							baseline: 'top',
 							anchor: 'center',
-							xOffset: '0.150',
+							xOffset: '0.070',
 							yOffset: '1',
-							zOffset: '0.301',
+							zOffset: '0.001',
+							shader: 'msdf',
 						});
 						body[counter].setAttribute('geometry', {
 							primitive: 'plane',
@@ -511,10 +547,17 @@
 						});
 						body[counter].setAttribute(
 							'material',
-							'color: #0FFFFF; shader: flat; visible: false;'
+							'color: #000000; shader: flat; visible: false;'
 						);
 						current[counter] = false;
 						$(body[counter]).click(function () {
+							let checkSelected = document.querySelectorAll(
+								'.selectedAns'.concat(idname)
+							);
+							for (let x = 0; x < checkSelected.length; x++) {
+								checkSelected[x].classList.remove('selectedAns'.concat(idname));
+							}
+							body[counter].classList.add('selectedAns'.concat(idname));
 							var allAns = document.querySelectorAll('.answers'.concat(idname));
 							if (mulAns > 1) {
 								if (current[counter]) {
@@ -554,19 +597,50 @@
 						});
 
 						y -= 0.3;
+						body[counter].addEventListener('mouseenter', function hoverAns() {
+							let submitChecker = document.querySelector('.removeEvent');
 
+							if (!submitChecker) {
+								body[counter].setAttribute(
+									'text',
+									'font: assets/ralewaybold.json'
+								);
+								$('.a-canvas.a-grab-cursor:hover').css('cursor', 'pointer');
+							} else {
+								let removeAns = document.querySelectorAll(
+									'.allAns'.concat(idname)
+								);
+								for (let x = 0; x < removeAns.length; x++) {
+									removeAns[x].removeEventListener('mouseenter', hoverAns);
+								}
+							}
+						});
+						body[counter].addEventListener('mouseleave', function hoverAns() {
+							let submitChecker = document.querySelector('.removeEvent');
+							if (!submitChecker) {
+								body[counter].setAttribute('text', 'font: assets/raleway.json');
+								$('.a-canvas.a-grab-cursor:hover').css('cursor', 'grab');
+							} else {
+								let removeAns = document.querySelectorAll(
+									'.allAns'.concat(idname)
+								);
+								for (let x = 0; x < removeAns.length; x++) {
+									removeAns[x].removeEventListener('mouseleave', hoverAns);
+								}
+							}
+						});
 						body[counter].setAttribute('position', {
 							x: '0',
-							y: y - 0.2,
+							y: y - 0.16,
 							z: 0.01,
 						});
 						feedback[counter] = document.createElement('a-entity');
 						feedback[counter].setAttribute('id', 'feedbackAns'.concat(idname));
 						let ansIcon;
 						if (colorChanger) {
-							ansIcon = 'assets/check.png';
+							ansIcon = 'assets/correct.png';
 						} else {
-							ansIcon = 'assets/attention.png';
+							ansIcon = 'assets/false.png';
 						}
 						feedback[counter].setAttribute('material', {
 							src: ansIcon,
@@ -579,7 +653,7 @@
 						feedback[counter].setAttribute('position', {
 							x: '1.7',
 							y: y - 0.08,
-							z: 0.01,
+							z: 0.002,
 						});
 						feedback[counter].setAttribute('visible', 'false');
 						this.bodyEl = body[counter];
@@ -589,7 +663,7 @@
 							} else {
 								ansHint.setAttribute('visible', 'false');
 							}
-							return [body, submit, result, feedback, ansHint];
+							return [body, submit, feedback, ansHint];
 						}
 					}
 				},
@@ -626,17 +700,26 @@
 						src: 'assets/questionDialog.png',
 						transparent: true,
 						shader: 'flat',
+						opacity: 0.5,
 					});
 					let answerArr = this.generateBody();
+					var roundedBG = document.createElement('a-rounded');
+					roundedBG.setAttribute('position', '-1.95 -1.2 0.001');
+					roundedBG.setAttribute('rounded', {
+						color: '#ffffff',
+						width: 3.9,
+						height: 2.4,
+					});
+					roundedBG.setAttribute('material', 'shader:flat;');
+					plane.appendChild(roundedBG);
 					plane.appendChild(this.generateTitle());
-					plane.appendChild(answerArr[4]);
+					plane.appendChild(answerArr[3]);
 
 					for (let counter = 0; counter < answerArr[0].length; counter++) {
 						plane.appendChild(answerArr[0][counter]);
-						plane.appendChild(answerArr[3][counter]);
+						plane.appendChild(answerArr[2][counter]);
 					}
 					plane.appendChild(answerArr[1]);
-					plane.appendChild(answerArr[2]);
 					document
 						.getElementById('skybox')
 						.addEventListener('mouseenter', function () {
@@ -657,7 +740,6 @@
 						var vector = this.dialogPlaneEl.object3D.parent.worldToLocal(
 							this.cameraEl.object3D.getWorldPosition()
 						);
-						console.log(vector);
 						this.dialogPlaneEl.object3D.lookAt(vector);
 					}
 				},
