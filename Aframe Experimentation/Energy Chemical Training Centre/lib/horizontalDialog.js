@@ -140,7 +140,7 @@
 					},
 					openIconImage: {
 						type: 'asset',
-						default: 'assets/info.png',
+						default: 'assets/plus.png',
 					},
 					openIconRadius: {
 						type: 'number',
@@ -311,6 +311,7 @@
 							'animation__scale',
 							'property: scale; to: 1.2 1.2 1; loop: true;'
 						);
+						openIcon.classList.add('changeIcon');
 						if (after) {
 							openIcon.classList.add('invis');
 							pulseIcon.classList.add('invis');
@@ -533,7 +534,8 @@
 						src = _this$data5.image,
 						width = _this$data5.imageWidth,
 						height = _this$data5.imageHeight,
-						dialogBoxHeight = _this$data5.dialogBoxHeight;
+						dialogBoxHeight = _this$data5.dialogBoxHeight,
+						multiple = _this$data5.multiple;
 
 					if (!src.length) {
 						return null;
@@ -548,12 +550,14 @@
 						shader: 'flat',
 					});
 					var image = this.imageEl || document.createElement('a-rounded');
-					image.classList.add('ansOrder');
 					var idname = this.el.getAttribute('id');
 
 					var matches = idname.match(/(\d+)/);
 					image.setAttribute('rounded', 'radius: 0.05');
-					image.setAttribute('order', matches[0]);
+					if (multiple) {
+						image.setAttribute('order', matches[0]);
+						image.classList.add('ansOrder');
+					}
 					image.setAttribute(
 						'id',
 						''.concat(this.el.getAttribute('id'), '--image')
@@ -671,6 +675,7 @@ function assestMode() {
 	var icons = document.getElementsByClassName('dialogIcon');
 	var removePulse = document.getElementsByClassName('removePulse');
 	var ansOrder = document.getElementsByClassName('ansOrder');
+	var changeIcon = document.getElementsByClassName('changeIcon');
 	if (!state) {
 		$('#appState').css('visibility', 'visible');
 		$('.tooltiptext').text('Click to enter freeview mode!');
@@ -693,43 +698,79 @@ function assestMode() {
 				easing: 'easeOutExpo',
 				duration: 800,
 			});
-
+		anime({
+			targets: '#topright',
+			opacity: [0, 0.5],
+			height: '674',
+			easing: 'easeInOutQuad',
+			duration: '1000',
+		});
+		anime({
+			targets: '#topleft',
+			opacity: [0, 0.5],
+			width: '1455',
+			easing: 'easeInOutQuad',
+			duration: '1000',
+		});
+		anime({
+			targets: '#bottomright',
+			opacity: [0, 0.5],
+			height: '674',
+			y: '5',
+			easing: 'easeInOutQuad',
+			duration: '1000',
+		});
+		anime({
+			targets: '#bottomleft',
+			opacity: [0, 0.5],
+			width: '1455',
+			x: '5',
+			easing: 'easeInOutQuad',
+			duration: '1000',
+		});
 		for (let x = 0; x < ansOrder.length; x++) {
 			let iconId = ansOrder[x].getAttribute('id').split('--')[0];
 			let order = ansOrder[x].getAttribute('order');
-			ansOrder[x].addEventListener('click', function checkOrder() {
-				if (!state) {
-					ansOrder[x].removeEventListener('click', checkOrder);
-				} else {
-					var currIcon = document.getElementById(iconId.concat('--open-icon'));
-					if (currentOrder == order) {
-						var audio = new Audio('assets/positive.mp3');
-						audio.play();
-						currIcon.setAttribute('material', 'src: assets/correct.png');
-						setTimeout(function () {
-							currIcon.setAttribute(
-								'material',
-								'src: assets/question'.concat(order, '.png')
-							);
-						}, 1000);
-
-						ansOrder[x].removeEventListener('click', checkOrder);
-						currentOrder++;
+			if (order) {
+				changeIcon[x].classList.remove('invis');
+				changeIcon[x].setAttribute('material', 'src: assets/question.png');
+				changeIcon[x].setAttribute('visible', 'true');
+				ansOrder[x].addEventListener('click', function checkOrder() {
+					if (!state) {
+						for (let y = 0; y < ansOrder.length; y++) {
+							ansOrder[y].removeEventListener('click', checkOrder);
+						}
 					} else {
-						var audio = new Audio('assets/negative.mp3');
-						audio.play();
-						currIcon.setAttribute('material', 'src: assets/false.png');
-						setTimeout(function () {
-							currIcon.setAttribute('material', 'src: assets/question.png');
-						}, 1000);
+						var currIcon = document.getElementById(
+							iconId.concat('--open-icon')
+						);
+						if (currentOrder == order) {
+							var audio = new Audio('assets/positive.mp3');
+							audio.play();
+							currIcon.setAttribute('material', 'src: assets/correct.png');
+							setTimeout(function () {
+								currIcon.setAttribute(
+									'material',
+									'src: assets/question'.concat(order, '.png')
+								);
+							}, 1000);
+
+							ansOrder[x].removeEventListener('click', checkOrder);
+							currentOrder++;
+						} else {
+							var audio = new Audio('assets/negative.mp3');
+							audio.play();
+							currIcon.setAttribute('material', 'src: assets/false.png');
+							setTimeout(function () {
+								currIcon.setAttribute('material', 'src: assets/question.png');
+							}, 1000);
+						}
+						if (ansOrder.length < currentOrder) {
+							assestMode();
+						}
 					}
-				}
-			});
-		}
-		for (let x = 0; x < icons.length; x++) {
-			icons[x].classList.remove('invis');
-			icons[x].setAttribute('material', 'src: assets/question.png');
-			icons[x].setAttribute('visible', 'true');
+				});
+			}
 		}
 		for (let x = 0; x < removePulse.length; x++) {
 			$(removePulse[x]).remove();
@@ -756,13 +797,47 @@ function assestMode() {
 				easing: 'easeInOutQuad',
 				duration: '500',
 			});
-
+		anime({
+			targets: '#topright',
+			opacity: [0.5, 0],
+			height: '5',
+			easing: 'easeInOutQuad',
+			duration: '1000',
+		});
+		anime({
+			targets: '#topleft',
+			opacity: [0.5, 0],
+			width: '5',
+			easing: 'easeInOutQuad',
+			duration: '1000',
+		});
+		anime({
+			targets: '#bottomright',
+			opacity: [0.5, 0],
+			height: '5',
+			y: '674',
+			easing: 'easeInOutQuad',
+			duration: '1000',
+		});
+		anime({
+			targets: '#bottomleft',
+			opacity: [0.5, 0],
+			width: '5',
+			x: '1455',
+			easing: 'easeInOutQuad',
+			duration: '1000',
+		});
 		for (let x = 0; x < ansOrder.length; x++) {
 			let iconId = ansOrder[x].getAttribute('id').split('--')[0];
 			let order = ansOrder[x].getAttribute('order');
-			document
-				.getElementById(iconId.concat('--open-icon'))
-				.setAttribute('material', 'src: assets/question'.concat(order, '.png'));
+			if (order) {
+				document
+					.getElementById(iconId.concat('--open-icon'))
+					.setAttribute(
+						'material',
+						'src: assets/question'.concat(order, '.png')
+					);
+			}
 		}
 		state = false;
 	}
@@ -820,6 +895,7 @@ AFRAME.registerComponent('spot', {
 			baseline: 'top',
 			color: '#456ab7',
 		});
+
 		tooltip.setAttribute('visible', 'false');
 		tooltipPlane.setAttribute('visible', 'false');
 		this.el.appendChild(tooltip);
@@ -829,13 +905,11 @@ AFRAME.registerComponent('spot', {
 			tooltip.setAttribute('visible', 'true');
 			tooltipPlane.setAttribute('visible', 'true');
 			$('.a-canvas.a-grab-cursor:hover').css('cursor', 'pointer');
-			console.log('hovering');
 		});
 		this.el.addEventListener('mouseleave', function () {
 			tooltip.setAttribute('visible', 'false');
 			tooltipPlane.setAttribute('visible', 'false');
 			$('.a-canvas.a-grab-cursor:hover').css('cursor', 'grab');
-			console.log('out');
 		});
 		document
 			.getElementsByClassName('a-canvas')[0]

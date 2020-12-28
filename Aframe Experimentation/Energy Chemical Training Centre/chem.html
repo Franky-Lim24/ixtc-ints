@@ -17,7 +17,7 @@
 		/>
 		<script src="lib/horizontalDialog.js"></script>
 		<script src="lib/mcq-lib.js"></script>
-
+		<link rel="stylesheet" href="assets/animate.min.css" />
 		<link rel="stylesheet" href="loading.css" />
 		<title>Energy & Chemical Training Centre</title>
 		<style>
@@ -181,7 +181,7 @@
 				height: 64px;
 				width: 235px;
 				display: inline-block;
-				z-index: 9999;
+				z-index: 9997;
 				right: 0;
 			}
 			.tooltip .tooltiptext {
@@ -253,6 +253,62 @@
 				top: 10px;
 				right: 10px;
 			}
+			.filtermode {
+				position: absolute;
+				z-index: 9996;
+			}
+			.a-enter-vr {
+				visibility: hidden;
+			}
+			#popupContainer {
+				cursor: pointer;
+				z-index: 9999;
+				position: absolute;
+				width: 600px;
+				height: 400px;
+				border-radius: 20px;
+				background-color: white;
+				font-family: 'raleway';
+				opacity: 0;
+			}
+			#popupTitle {
+				font-size: 30px;
+				text-align: center;
+				padding-top: 30px;
+			}
+			#popupContent {
+				font-size: 24px;
+				position: relative;
+				padding-top: 20px;
+				padding-left: 100px;
+				display: flex;
+				flex-wrap: wrap;
+				align-items: center;
+			}
+			.popupIcons {
+				width: 64px;
+				height: 64px;
+				display: inline-block;
+			}
+			.break {
+				flex-basis: 100%;
+				height: 0;
+			}
+			#blocker {
+				z-index: 9998;
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				background-color: black;
+				opacity: 0.4;
+			}
+			#controlPopup {
+				display: flex;
+				width: 100%;
+				height: 100%;
+				align-items: center;
+				justify-content: center;
+			}
 		</style>
 		<script>
 			setTimeout(function () {
@@ -272,11 +328,26 @@
 				$('#contentPage').fadeOut('slow');
 				$('#contentPage').remove();
 				$('#aframeCanvas').hide().css('visibility', 'visible').fadeIn('slow');
+				$('#popupContainer').css('visibility', 'visible');
+				setTimeout(function () {
+					$('#popupContainer').css('opacity', 1);
+					$('#popupContainer').addClass(
+						'animate__animated animate__slideInRight'
+					);
+				}, 1000);
 				if (toggleAssess) {
 					assestMode();
 				}
 			}
-
+			function slideOut() {
+				$('#popupContainer').removeClass(
+					'animate__animated animate__slideInRight'
+				);
+				$('#popupContainer').addClass(
+					'animate__animated animate__slideOutRight'
+				);
+				$('#blocker').hide();
+			}
 			function prevscene() {
 				var location = document
 					.getElementById('skybox')
@@ -300,15 +371,41 @@
 			function checkCamera(location) {
 				console.log(location);
 				if (
-					location == '#loc3' ||
-					location == '#loc8' ||
-					location == '#loc9' ||
+					location == '#loc10' ||
+					location == '#loc12' ||
 					location == '#loc13'
 				) {
-					console.log('in');
 					document
 						.getElementById('skybox')
 						.setAttribute('rotation', '-6 270 0');
+				} else if (location == '#loc3') {
+					document.getElementById('skybox').setAttribute('rotation', '0 90 0');
+				} else if (location == '#loc4') {
+					document.getElementById('skybox').setAttribute('rotation', '0 170 0');
+				} else if (location == '#loc7') {
+					document.getElementById('skybox').setAttribute('rotation', '0 340 0');
+				} else if (location == '#loc8') {
+					document
+						.getElementById('skybox')
+						.setAttribute('rotation', '-6 155 0');
+				} else if (location == '#loc5') {
+					document.getElementById('skybox').setAttribute('rotation', '0 190 0');
+				} else if (location == '#loc6') {
+					document.getElementById('skybox').setAttribute('rotation', '0 180 0');
+				} else if (location == '#loc9') {
+					document
+						.getElementById('skybox')
+						.setAttribute('rotation', '-6 180 0');
+				} else if (location == '#loc11') {
+					document
+						.getElementById('skybox')
+						.setAttribute('rotation', '-6 180 0');
+				} else if (location == '#loc14') {
+					document.getElementById('skybox').setAttribute('rotation', '0 330 0');
+				} else if (location == '#loc15') {
+					document
+						.getElementById('skybox')
+						.setAttribute('rotation', '-6 330 0');
 				} else {
 					document.getElementById('skybox').setAttribute('rotation', '0 270 0');
 				}
@@ -342,7 +439,8 @@
 						There are four spots that you need to visit to complete the
 						procedure. Worry not, the numbered icons will guide you through the
 						entire process. Once done, please do test yourself by clicking the
-						Assessment Mode button on the top right of the page!
+						Assessment Mode button on the top right of the page or enter
+						Assessment Mode now!
 					</p>
 					<input
 						onclick="toggleAssesst()"
@@ -373,7 +471,72 @@
 			</div> -->
 			<!-- <div id="leftArrow" onclick="prevscene()"></div>
 			<div id="rightArrow" onclick="nextscene()"></div> -->
-
+			<svg
+				class="filtermode"
+				width="5"
+				height="674"
+				viewBox="0 0 5 674"
+				fill="none"
+				style="left: 40px; top: 40px"
+			>
+				<rect
+					style="opacity: 0"
+					id="topright"
+					width="5"
+					height="5"
+					fill="white"
+				/>
+			</svg>
+			<svg
+				class="filtermode"
+				width="1460"
+				height="5"
+				viewBox="0 0 1460 5"
+				fill="none"
+				style="left: 40px; top: 40px"
+			>
+				<rect
+					style="opacity: 0"
+					id="topleft"
+					width="5"
+					height="5"
+					fill="white"
+				/>
+			</svg>
+			<svg
+				class="filtermode"
+				width="5"
+				height="674"
+				viewBox="0 0 5 674"
+				fill="none"
+				style="right: 40px; bottom: 40px"
+			>
+				<rect
+					style="opacity: 0"
+					id="bottomright"
+					width="5"
+					height="5"
+					fill="white"
+					y="674"
+				/>
+			</svg>
+			<svg
+				class="filtermode"
+				width="1460"
+				height="5"
+				viewBox="0 0 1460 5"
+				fill="none"
+				style="right: 40px; bottom: 40px"
+			>
+				<rect
+					style="opacity: 0"
+					id="bottomleft"
+					width="5"
+					height="5"
+					x="1460"
+					fill="white"
+				/>
+			</svg>
 			<div class="tooltip">
 				<svg
 					id="assessment"
@@ -405,6 +568,29 @@
 				</svg>
 				<div class="tooltiptext">Click to enter assessment mode!</div>
 			</div>
+			<div id="blocker"></div>
+			<div id="controlPopup">
+				<div id="popupContainer" onclick="slideOut()">
+					<p id="popupTitle">Controls</p>
+					<div id="popupContent">
+						<span> Click</span>
+						<img class="popupIcons" src="assets/mouse.png" />
+						<span>+ Drag to move around </span>
+						<div class="break"></div>
+						<span>Click</span>
+						<img class="popupIcons" src="assets/arrow2.png" />
+						<span>to teleport</span>
+						<div class="break"></div>
+						<span>Hover over</span>
+						<img class="popupIcons" src="assets/plus.png" />
+						<span>for information</span>
+						<div class="break"></div>
+						<span>Click</span>
+						<img class="popupIcons" src="assets/assessment.png" />
+						<span>to enter assessment mode</span>
+					</div>
+				</div>
+			</div>
 			<!--Aframe canvas-->
 			<a-scene>
 				<!--Images Collection-->
@@ -423,6 +609,7 @@
 					<img id="loc12" src="360Images/T102.jpg" />
 					<img id="loc13" src="360Images/Extinguisher.jpg" />
 					<img id="loc14" src="360Images/Lab.jpg" />
+					<img id="loc15" src="360Images/Pathway.jpg" />
 					<img id="arrow" src="assets/arrow.png" />
 				</a-assets>
 
@@ -447,8 +634,8 @@
 							class="arrowPointer"
 							spot="linkto:#loc2;spotgroup:group-point2;
 						nameLink:Lobby;"
-							position="4.3 -3 -1.6"
-							rotation="90 90 0"
+							position="8 -2 -2"
+							rotation="70 90 0"
 						></a-image>
 					</a-entity>
 					<a-entity id="group-point2" visible="false">
@@ -457,16 +644,16 @@
 							class="arrowPointer"
 							spot="linkto:#loc1;spotgroup:group-point1;
 						nameLink:Entrance;"
-							position="-4.5 -3 0.5"
-							rotation="90 270 0"
+							position="-7.1 -2 0.8"
+							rotation="70 270 0"
 						></a-image>
 						<a-image
 							id="p2loc3spot"
 							class="arrowPointer"
 							spot="linkto:#loc3;spotgroup:group-point3;
 						nameLink:Doorway;"
-							position="0.3 -3 -3.5"
-							rotation="90 180 0"
+							position="0.3 -1.3 -6.2"
+							rotation="70 180 0"
 						></a-image>
 					</a-entity>
 					<a-entity id="group-point3" visible="false">
@@ -475,8 +662,8 @@
 							class="arrowPointer"
 							spot="linkto:#loc2;spotgroup:group-point2;
 						nameLink:Lobby;"
-							position="0.5 -3 3.4"
-							rotation="90 0 0"
+							position="0.33 -2 3.4"
+							rotation="80 0 0"
 						></a-image>
 						<a-image
 							id="p3loc4spot"
@@ -491,8 +678,8 @@
 							class="arrowPointer"
 							spot="linkto:#loc13;spotgroup:group-point13;
 						nameLink:Extinguisher;"
-							position="-1.4 -3 -4.5"
-							rotation="90 180 0"
+							position="-1.2 -2.2 -6.8"
+							rotation="70 180 0"
 						></a-image>
 					</a-entity>
 					<a-entity id="group-point4" visible="false">
@@ -501,28 +688,28 @@
 							class="arrowPointer"
 							spot="linkto:#loc3;spotgroup:group-point3;
 						nameLink:Doorway;"
-							position="1.38 -4 3.4"
-							rotation="90 25 0"
+							position="-5.4 -4 0.3"
+							rotation="80 275 0"
 						></a-image>
 						<a-image
 							id="p4loc5spot"
 							class="arrowPointer"
 							spot="linkto:#loc5;spotgroup:group-point5;
 						nameLink:LCP201;"
-							position="-1.15 -3 -3.4"
-							rotation="90 200 0"
+							position="4.7 -3 -0.5"
+							rotation="90 95 0"
 						></a-image>
 						<a-image
 							id="p4loc12spot"
 							class="arrowPointer"
 							spot="linkto:#loc12;spotgroup:group-point12;
 						nameLink:T102;"
-							position="-4 -3.5 1.7"
-							rotation="90 290 0"
+							position="-0.3 -3.5 -4.4"
+							rotation="90 185 0"
 						></a-image>
 						<a-entity
 							id="dialog3"
-							position="-2 0.5 4"
+							position="-4 0.5 -3"
 							dialog-popup="
 						title: LCP-101 Gas Absorption System;
 						body: 1. Press the ESD red button.\n\n2. Blower, B-101, Pump P-101, P-102 and heater, H-101 will stop automatically.\n\n3. Go to Local Control Panel, LCP-201 Solvent Extraction System;
@@ -537,20 +724,20 @@
 							class="arrowPointer"
 							spot="linkto:#loc4;spotgroup:group-point4;
 						nameLink:Ladder;"
-							position="0 -3 3.4"
-							rotation="90 0 0"
+							position="-4.2 -3 0.6"
+							rotation="90 280 0"
 						></a-image>
 						<a-image
 							id="p5loc6spot"
 							class="arrowPointer"
 							spot="linkto:#loc6;spotgroup:group-point6;
 						nameLink:Center;"
-							position="-0.16 -3 -3.3"
-							rotation="90 180 0"
+							position="5.7 -3 -1"
+							rotation="70 100 0"
 						></a-image>
 						<a-entity
 							id="dialog4"
-							position="-3 0.6 0.6"
+							position="-1.2 0.5 -3.7"
 							dialog-popup="
 						title: LCP-201 Solvent Extraction System;
 						body: 1. Press the ESD red button.\n\n2. Pump P-201, P-202 and P-203 will stop automatically.;
@@ -565,16 +752,16 @@
 							class="arrowPointer"
 							spot="linkto:#loc5;spotgroup:group-point5;
 						nameLink:LCP201;"
-							position="0.2 -4 3.4"
-							rotation="90 0 0"
+							position="-6.2 -3 0.8"
+							rotation="70 275 0"
 						></a-image>
 						<a-image
 							id="p6loc7spot"
 							class="arrowPointer"
 							spot="linkto:#loc7;spotgroup:group-point7;
 						nameLink:LCP302;"
-							position="-3.4 -4 1.6"
-							rotation="90 270 0"
+							position="0.8 -3 -5.8"
+							rotation="70 190 0"
 						></a-image>
 					</a-entity>
 					<a-entity id="group-point7" visible="false">
@@ -583,20 +770,20 @@
 							class="arrowPointer"
 							spot="linkto:#loc6;spotgroup:group-point6;
 						nameLink:Center;"
-							position="-3.3 -2.7 -0.7"
-							rotation="90 270 0"
+							position="-3.7 -3 5"
+							rotation="90 330 0"
 						></a-image>
 						<a-image
 							id="p7loc8spot"
 							class="arrowPointer"
 							spot="linkto:#loc8;spotgroup:group-point8;
 						nameLink:Platform;"
-							position="3.5 -2.7 -1"
-							rotation="90 90 0"
+							position="0.5 -2.7 -4.2"
+							rotation="90 170 0"
 						></a-image>
 						<a-entity
 							id="dialog2"
-							position="2.1 0 -4.2"
+							position="-4.2 0 -4.2"
 							dialog-popup="
 						title: LCP-301 Vacuum Distillation System;
 						body: 1. Press the ESD red button.\n\n2. Pump P-301, P302, P-303A/B and P-305 will stop automatically.\n\n3. Go to Local Control Panel, LCP-101 Gas Absorption System;
@@ -612,24 +799,24 @@
 							class="arrowPointer"
 							spot="linkto:#loc7;spotgroup:group-point7;
 						nameLink:LCP302;"
-							position="3.5 -2.7 0.2"
-							rotation="90 90 0"
+							position="-0.9 -2.7 4.3"
+							rotation="80 340 0"
 						></a-image>
 						<a-image
 							id="p8loc9spot"
 							class="arrowPointer"
 							spot="linkto:#loc9;spotgroup:group-point9;
 						nameLink:C301;"
-							position="2.3 -3 4.5"
-							rotation="90 0 0"
+							position="-5.6 -3 0"
+							rotation="90 250 0"
 						></a-image>
 						<a-image
-							id="p8loc14spot"
+							id="p8loc15spot"
 							class="arrowPointer"
-							spot="linkto:#loc14;spotgroup:group-point14;
-						nameLink:Lab;"
-							position="-4 -4 3.7"
-							rotation="90 330 0"
+							spot="linkto:#loc15;spotgroup:group-point15;
+						nameLink:Pathway;"
+							position="5.6 -3 -4.1"
+							rotation="80 130 0"
 						></a-image>
 					</a-entity>
 					<a-entity id="group-point9" visible="false">
@@ -638,23 +825,23 @@
 							class="arrowPointer"
 							spot="linkto:#loc8;spotgroup:group-point8;
 						nameLink:Platform;"
-							position="-0.2 -4 -3.8"
-							rotation="90 180 0"
+							position="6 -4 -2"
+							rotation="90 110 0"
 						></a-image>
 						<a-image
 							id="p9loc10spot"
 							class="arrowPointer"
 							spot="linkto:#loc10;spotgroup:group-point10;
 						nameLink:T301;"
-							position="3.2 -4.4 4.7"
-							rotation="90 0 0"
+							position="-3.9 -4.4 2.4"
+							rotation="90 300 0"
 						></a-image>
 						<a-entity
 							id="dial1"
-							position="-4 0.6 3.6"
+							position="-4.15 0.6 -4.3"
 							dialog-popup="
 						title: C-301 Distillation Column;
-						image: hotspots/ESD.png;
+						image: hotspots/unavailable.jpeg;
 						"
 						>
 						</a-entity>
@@ -665,7 +852,7 @@
 							class="arrowPointer"
 							spot="linkto:#loc9;spotgroup:group-point9;
 						nameLink:C301;"
-							position="1.8 -4 -3.3"
+							position="3.2 -4 -3.1"
 							rotation="90 135 0"
 						></a-image>
 						<a-image
@@ -683,23 +870,23 @@
 							class="arrowPointer"
 							spot="linkto:#loc10;spotgroup:group-point10;
 						nameLink:T301;"
-							position="-1.5 -4 4"
-							rotation="90 330 0"
+							position="-2.8 -3 -2.7"
+							rotation="90 235 0"
 						></a-image>
 						<a-image
 							id="p11loc12spot"
 							class="arrowPointer"
 							spot="linkto:#loc12;spotgroup:group-point12;
 						nameLink:T102;"
-							position="2.4 -3 7.2"
-							rotation="90 0 0"
+							position="-5.9 -3 1.7"
+							rotation="80 280 0"
 						></a-image>
 						<a-entity
 							id="dial2"
-							position="3.3 -0.2 -3"
+							position="3.3 -0.2 3.7"
 							dialog-popup="
 						title: C-201 Extraction Column;
-						image: hotspots/ESD.png;
+						image: hotspots/unavailable.jpeg;
 						"
 						>
 						</a-entity>
@@ -710,7 +897,7 @@
 							class="arrowPointer"
 							spot="linkto:#loc11;spotgroup:group-point11;
 						nameLink:C201;"
-							position="5.5 -3 -1.2"
+							position="7.4 -3 -1.2"
 							rotation="90 90 0"
 						></a-image>
 						<a-image
@@ -746,16 +933,16 @@
 							class="arrowPointer"
 							spot="linkto:#loc3;spotgroup:group-point3;
 						nameLink:Doorway;"
-							position="0 -3 3.8"
-							rotation="90 0 0"
+							position="0.5 -2 7.8"
+							rotation="70 0 0"
 						></a-image>
 						<a-image
 							id="p13loc14spot"
 							class="arrowPointer"
 							spot="linkto:#loc14;spotgroup:group-point14;
 						nameLink:Lab;"
-							position="0.7 -4 -5.3"
-							rotation="90 145 0"
+							position="3.1 -2 -3.6"
+							rotation="80 145 0"
 						></a-image>
 						<a-entity
 							id="dialog1"
@@ -775,16 +962,34 @@
 							class="arrowPointer"
 							spot="linkto:#loc13;spotgroup:group-point13;
 						nameLink:Extinguisher;"
-							position="-0.3 -3 -3.1"
-							rotation="90 200 0"
+							position="-4.6 -2 1.6"
+							rotation="90 300 0"
 						></a-image>
 						<a-image
-							id="p14loc8spot"
+							id="p14loc15spot"
+							class="arrowPointer"
+							spot="linkto:#loc15;spotgroup:group-point15;
+						nameLink:Pathway;"
+							position="6 -1.4 3"
+							rotation="70 60 0"
+						></a-image>
+					</a-entity>
+					<a-entity id="group-point15" visible="false">
+						<a-image
+							id="p15loc8spot"
 							class="arrowPointer"
 							spot="linkto:#loc8;spotgroup:group-point8;
 						nameLink:Platform;"
-							position="0.5 -4 3.8"
-							rotation="90 0 0"
+							position="-4.8 -2.5 3.3"
+							rotation="70 300 0"
+						></a-image>
+						<a-image
+							id="p15loc14spot"
+							class="arrowPointer"
+							spot="linkto:#loc14;spotgroup:group-point14;
+						nameLink:Lab;"
+							position="-7.8 -2 -4.4"
+							rotation="70 240 0"
 						></a-image>
 					</a-entity>
 				</a-entity>
