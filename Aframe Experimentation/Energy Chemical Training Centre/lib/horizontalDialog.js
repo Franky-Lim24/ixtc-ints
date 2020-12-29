@@ -318,26 +318,6 @@
 
 							openIcon.setAttribute('visible', 'false');
 							pulseIcon.setAttribute('visible', 'false');
-							$(window).on('load', function () {
-								document
-									.getElementById(after.concat('--open-icon'))
-									.addEventListener('mouseenter', function () {
-										makeVis();
-									});
-								document
-									.getElementById(after.concat('--pulse-icon'))
-									.addEventListener('mouseenter', function () {
-										makeVis();
-									});
-							});
-							function makeVis() {
-								document
-									.getElementById(after.concat('--open-icon'))
-									.removeEventListener('mouseenter', makeVis);
-
-								$(openIcon).removeClass('invis');
-								$(pulseIcon).removeClass('invis');
-							}
 						}
 					} else {
 						openIcon.setAttribute('material', {
@@ -379,9 +359,6 @@
 							// 		removePulse[x].setAttribute('visible', 'false');
 							// 	}
 							// }
-							if ($(pulseIcon)) {
-								$(pulseIcon).remove();
-							}
 						}
 					});
 
@@ -437,7 +414,8 @@
 						height = _this$data3.dialogBoxHeight,
 						padding = _this$data3.dialogBoxPadding,
 						body = _this$data3.body,
-						imageHeight = _this$data3.imageHeight;
+						imageHeight = _this$data3.imageHeight,
+						multiple = _this$data3.multiple;
 					var title = this.titleEl || document.createElement('a-entity');
 					title.setAttribute(
 						'id',
@@ -459,6 +437,9 @@
 						'geometry',
 						'primitive: plane; width: auto; height: auto; '
 					);
+					if (multiple) {
+						title.classList.add('clickTitle');
+					}
 					title.setAttribute('material', 'color: purple;visible:false;');
 					var y = height / 2 - padding;
 
@@ -494,7 +475,8 @@
 						width = _this$data4.dialogBoxWidth,
 						height = _this$data4.dialogBoxHeight,
 						padding = _this$data4.dialogBoxPadding,
-						imageHeight = _this$data4.imageHeight;
+						imageHeight = _this$data4.imageHeight,
+						multiple = _this$data4.multiple;
 
 					var body = this.bodyEl || document.createElement('a-entity');
 					body.setAttribute(
@@ -516,7 +498,9 @@
 					if (this.hasImage) {
 						y -= imageHeight / 2;
 					}
-
+					if (multiple) {
+						body.classList.add('clickBody');
+					}
 					body.setAttribute('position', {
 						x: 1.2,
 						y: -0.1,
@@ -557,6 +541,7 @@
 					if (multiple) {
 						image.setAttribute('order', matches[0]);
 						image.classList.add('ansOrder');
+						roundedPlane.classList.add('clickPlane');
 					}
 					image.setAttribute(
 						'id',
@@ -670,12 +655,54 @@
 	]
 );
 var state = false;
+function installEvents() {
+	var eventOrder = 2;
+	var ansOrder = document.getElementsByClassName('ansOrder');
+	var clickPlane = document.getElementsByClassName('clickPlane');
+	var clickTitle = document.getElementsByClassName('clickTitle');
+	var clickBody = document.getElementsByClassName('clickBody');
+	var pulseIcons = document.getElementsByClassName('removePulse');
+	for (let x = 0; x < ansOrder.length; x++) {
+		ansOrder[x].addEventListener('click', function removePulse() {
+			if (state) {
+				for (let y = 0; y < ansOrder.length; y++) {
+					ansOrder[y].removeEventListener('click', removePulse);
+				}
+			} else {
+				pulseIcons[x].classList.add('invis');
+				pulseIcons[x].setAttribute('visible', 'false');
+				ansOrder[x].removeEventListener('click', removePulse);
+				if (eventOrder <= ansOrder.length) {
+					$('#dialog'.concat(eventOrder, '--open-icon')).removeClass('invis');
+					$('#dialog'.concat(eventOrder, '--pulse-icon')).removeClass('invis');
+					eventOrder++;
+				}
+			}
+		});
+		clickPlane[x].addEventListener('click', function removePulse() {
+			$(ansOrder[x]).click();
+			clickPlane[x].removeEventListener('click', removePulse);
+		});
+		clickTitle[x].addEventListener('click', function removePulse() {
+			$(clickPlane[x]).click();
+			clickTitle[x].removeEventListener('click', removePulse);
+		});
+		clickBody[x].addEventListener('click', function removePulse() {
+			$(clickTitle[x]).click();
+			clickBody[x].removeEventListener('click', removePulse);
+		});
+	}
+}
 function assestMode() {
 	var currentOrder = 1;
 	var icons = document.getElementsByClassName('dialogIcon');
 	var removePulse = document.getElementsByClassName('removePulse');
 	var ansOrder = document.getElementsByClassName('ansOrder');
 	var changeIcon = document.getElementsByClassName('changeIcon');
+	var clickPlane = document.getElementsByClassName('clickPlane');
+	var clickTitle = document.getElementsByClassName('clickTitle');
+	var clickBody = document.getElementsByClassName('clickBody');
+
 	if (!state) {
 		$('#appState').css('visibility', 'visible');
 		$('.tooltiptext').text('Click to enter freeview mode!');
@@ -735,6 +762,7 @@ function assestMode() {
 				changeIcon[x].classList.remove('invis');
 				changeIcon[x].setAttribute('material', 'src: assets/question.png');
 				changeIcon[x].setAttribute('visible', 'true');
+
 				ansOrder[x].addEventListener('click', function checkOrder() {
 					if (!state) {
 						for (let y = 0; y < ansOrder.length; y++) {
@@ -770,10 +798,22 @@ function assestMode() {
 						}
 					}
 				});
+				clickPlane[x].addEventListener('click', function clickImage() {
+					$(ansOrder[x]).click();
+					clickPlane[x].removeEventListener('click', clickImage);
+				});
+				clickTitle[x].addEventListener('click', function clickImage() {
+					$(clickPlane[x]).click();
+					clickTitle[x].removeEventListener('click', clickImage);
+				});
+				clickBody[x].addEventListener('click', function clickImage() {
+					$(clickTitle[x]).click();
+					clickBody[x].removeEventListener('click', clickImage);
+				});
 			}
 		}
-		for (let x = 0; x < removePulse.length; x++) {
-			$(removePulse[x]).remove();
+		if (removePulse) {
+			$(removePulse).remove();
 		}
 		state = true;
 		// $('.alert').hide().css('visibility', 'visible').fadeIn('slow');
@@ -878,10 +918,22 @@ AFRAME.registerComponent('spot', {
 		var tooltip = document.createElement('a-text');
 		var tooltipPlane = document.createElement('a-rounded');
 		var rotation = this.el.getAttribute('rotation');
-		tooltip.setAttribute('rotation', '60 180 0');
-		tooltip.setAttribute('position', '0 0.47 -0.10');
-		tooltipPlane.setAttribute('rotation', '60 180 0');
-		tooltipPlane.setAttribute('position', '0.75 0.51 0');
+		tooltip.setAttribute('rotation', {
+			x: rotation.x,
+			y: 180,
+			z: 0,
+		});
+		if (rotation.x == 0) {
+			tooltip.setAttribute('position', '0 0.75 -0.10');
+		} else {
+			tooltip.setAttribute('position', '0 0.6 -0.10');
+		}
+		tooltipPlane.setAttribute('rotation', {
+			x: rotation.x,
+			y: 180,
+			z: 0,
+		});
+		tooltipPlane.setAttribute('position', '0.75 0.65 0');
 		tooltipPlane.setAttribute(
 			'rounded',
 			'height: 0.35; width: 1.5; color: #ffffff'
