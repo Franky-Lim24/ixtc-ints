@@ -800,15 +800,21 @@ function assestMode() {
 				});
 				clickPlane[x].addEventListener('click', function clickImage() {
 					$(ansOrder[x]).click();
-					clickPlane[x].removeEventListener('click', clickImage);
+					if (currentOrder == order) {
+						clickPlane[x].removeEventListener('click', clickImage);
+					}
 				});
 				clickTitle[x].addEventListener('click', function clickImage() {
 					$(clickPlane[x]).click();
-					clickTitle[x].removeEventListener('click', clickImage);
+					if (currentOrder == order) {
+						clickTitle[x].removeEventListener('click', clickImage);
+					}
 				});
 				clickBody[x].addEventListener('click', function clickImage() {
 					$(clickTitle[x]).click();
-					clickBody[x].removeEventListener('click', clickImage);
+					if (currentOrder == order) {
+						clickBody[x].removeEventListener('click', clickImage);
+					}
 				});
 			}
 		}
