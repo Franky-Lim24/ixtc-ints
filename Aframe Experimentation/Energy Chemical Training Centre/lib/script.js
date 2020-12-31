@@ -171,7 +171,7 @@ function assestMode() {
 			targets: '#bottomright',
 			opacity: [0, 0.5],
 			height: height,
-			y: 675 - height,
+			y: 1000 - height,
 			easing: 'easeInOutQuad',
 			duration: '1000',
 		});
@@ -179,7 +179,7 @@ function assestMode() {
 			targets: '#bottomleft',
 			opacity: [0, 0.5],
 			width: width,
-			x: 1460 - width,
+			x: 2000 - width,
 			easing: 'easeInOutQuad',
 			duration: '1000',
 		});
@@ -289,7 +289,7 @@ function assestMode() {
 			targets: '#bottomright',
 			opacity: [0.5, 0],
 			height: '5',
-			y: '674',
+			y: '1000',
 			easing: 'easeInOutQuad',
 			duration: '1000',
 		});
@@ -297,7 +297,7 @@ function assestMode() {
 			targets: '#bottomleft',
 			opacity: [0.5, 0],
 			width: '5',
-			x: '1455',
+			x: '2000',
 			easing: 'easeInOutQuad',
 			duration: '1000',
 		});
