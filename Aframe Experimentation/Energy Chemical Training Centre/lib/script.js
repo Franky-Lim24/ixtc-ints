@@ -150,33 +150,36 @@ function assestMode() {
 				easing: 'easeOutExpo',
 				duration: 800,
 			});
+		var height = window.innerHeight - 80;
+		var width = window.innerWidth - 80;
+
 		anime({
 			targets: '#topright',
 			opacity: [0, 0.5],
-			height: '674',
+			height: height,
 			easing: 'easeInOutQuad',
 			duration: '1000',
 		});
 		anime({
 			targets: '#topleft',
 			opacity: [0, 0.5],
-			width: '1455',
+			width: width,
 			easing: 'easeInOutQuad',
 			duration: '1000',
 		});
 		anime({
 			targets: '#bottomright',
 			opacity: [0, 0.5],
-			height: '674',
-			y: '5',
+			height: height,
+			y: 675 - height,
 			easing: 'easeInOutQuad',
 			duration: '1000',
 		});
 		anime({
 			targets: '#bottomleft',
 			opacity: [0, 0.5],
-			width: '1455',
-			x: '5',
+			width: width,
+			x: 1460 - width,
 			easing: 'easeInOutQuad',
 			duration: '1000',
 		});
