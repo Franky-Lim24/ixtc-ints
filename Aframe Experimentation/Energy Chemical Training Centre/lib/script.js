@@ -26,9 +26,9 @@ function enterVR() {
 		installEvents();
 	}
 }
-function slideOut() {
-	$('#popupContainer').removeClass('animate__animated animate__slideInRight');
-	$('#popupContainer').addClass('animate__animated animate__slideOutRight');
+function slideOut(element) {
+	$(element).removeClass('animate__animated animate__slideInRight');
+	$(element).addClass('animate__animated animate__slideOutRight');
 	$('#blocker').hide();
 	$('.a-canvas').css('filter', 'initial');
 }
@@ -131,7 +131,14 @@ function assestMode() {
 	if (!state) {
 		$('#appState').css('visibility', 'visible');
 		$('.tooltiptext').text('Click to enter freeview mode!');
-
+		setTimeout(function () {
+			let container = document.getElementById('assessmentContainer');
+			$('#assessmentContainer').css('visibility', 'visible');
+			$('#assessmentContainer').css('opacity', 1);
+			$('#assessmentContainer').addClass(
+				'animate__animated animate__slideInRight'
+			);
+		}, 100);
 		anime
 			.timeline({ loop: false })
 			.add({
