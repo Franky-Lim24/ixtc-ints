@@ -348,6 +348,12 @@
 								.getElementById(''.concat(idname, '--dialog-plane'))
 								.setAttribute('visible', 'true');
 							document
+								.getElementById(''.concat(idname, '--dialog-plane'))
+								.setAttribute(
+									'animation__scale',
+									'property: scale; to: 1 1 1;'
+								);
+							document
 								.getElementById(''.concat(idname, '--open-icon'))
 								.setAttribute('visible', 'false');
 
@@ -588,6 +594,7 @@
 						Object.assign({}, this.el.getAttribute('position'))
 					);
 					plane.setAttribute('visible', false);
+					plane.setAttribute('scale', '0 0 0');
 					plane.setAttribute('geometry', {
 						primitive: 'plane',
 						width: width + padding,
@@ -615,6 +622,12 @@
 								''.concat(idname, '--open-icon')
 							);
 							if (!newEl.classList.contains('invis')) {
+								document
+									.getElementById(''.concat(idname, '--dialog-plane'))
+									.setAttribute(
+										'animation__scale',
+										'property: scale; to: 0 0 0;'
+									);
 								document
 									.getElementById(''.concat(idname, '--dialog-plane'))
 									.setAttribute('visible', 'false');
