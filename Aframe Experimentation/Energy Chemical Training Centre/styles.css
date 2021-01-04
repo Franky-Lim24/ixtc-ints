@@ -264,7 +264,20 @@
 	text-align: center;
 	margin-bottom: 10px;
 }
+#assessmentTitle {
+	font-size: 30px;
+	text-align: center;
+	margin-bottom: 10px;
+}
 #popupContent {
+	font-size: 20px;
+	position: relative;
+	padding-left: 15%;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+}
+#assessmentContent {
 	font-size: 20px;
 	position: relative;
 	padding-left: 15%;
@@ -313,7 +326,7 @@
 	top: 0;
 	width: 100%;
 	height: 100%;
-	z-index: 9999;
+	z-index: 9998;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -321,7 +334,7 @@
 }
 #assessmentContainer {
 	cursor: pointer;
-	z-index: 9999;
+	z-index: 9998;
 	position: absolute;
 	width: 650px;
 	height: 200px;
@@ -399,6 +412,17 @@
 		width: 32px;
 		height: 32px;
 	}
+	#assessmentContainer {
+		width: 300px;
+		height: 120px;
+	}
+	#assessmentTitle {
+		font-size: 16px;
+	}
+	#assessmentContent {
+		font-size: 10px;
+		padding-left: 12%;
+	}
 }
 @media only screen and (min-width: 579px) and (max-width: 880px) {
 	#title {
@@ -436,5 +460,16 @@
 	#arrowIcon {
 		width: 40px;
 		height: 40px;
+	}
+	#assessmentContainer {
+		width: 500px;
+		height: 180px;
+	}
+	#assessmentTitle {
+		font-size: 20px;
+	}
+	#assessmentContent {
+		font-size: 16px;
+		padding-left: 12%;
 	}
 }
