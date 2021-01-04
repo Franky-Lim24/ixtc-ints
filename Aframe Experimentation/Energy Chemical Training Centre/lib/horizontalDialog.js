@@ -351,7 +351,7 @@
 								.getElementById(''.concat(idname, '--dialog-plane'))
 								.setAttribute(
 									'animation__scale',
-									'property: scale; to: 1 1 1;'
+									'property: scale; to: 1 1 1; dur:500'
 								);
 							document
 								.getElementById(''.concat(idname, '--open-icon'))
@@ -594,7 +594,7 @@
 						Object.assign({}, this.el.getAttribute('position'))
 					);
 					plane.setAttribute('visible', false);
-					plane.setAttribute('scale', '0 0 0');
+					plane.setAttribute('scale', '0.3 0.3 1');
 					plane.setAttribute('geometry', {
 						primitive: 'plane',
 						width: width + padding,
@@ -626,7 +626,7 @@
 									.getElementById(''.concat(idname, '--dialog-plane'))
 									.setAttribute(
 										'animation__scale',
-										'property: scale; to: 0 0 0;'
+										'property: scale; to: 0.3 0.3 1; dur:1;'
 									);
 								document
 									.getElementById(''.concat(idname, '--dialog-plane'))
