@@ -417,7 +417,7 @@ AFRAME.registerComponent('spot', {
 			.addEventListener('mouseup', function () {
 				$('.a-canvas.a-grab-cursor:hover').css('cursor', 'grab');
 			});
-		this.el.addEventListener('mouseenter', function () {
+		this.el.addEventListener('click', function () {
 			checkCamera(data.linkto);
 			//set the skybox source to the new image as per the spot
 			var sky = document.getElementById('skybox');
