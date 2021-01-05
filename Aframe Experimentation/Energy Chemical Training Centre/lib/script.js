@@ -417,36 +417,19 @@ AFRAME.registerComponent('spot', {
 			.addEventListener('mouseup', function () {
 				$('.a-canvas.a-grab-cursor:hover').css('cursor', 'grab');
 			});
-		if (window.innerWidth > 881) {
-			this.el.addEventListener('click', function () {
-				checkCamera(data.linkto);
-				//set the skybox source to the new image as per the spot
-				var sky = document.getElementById('skybox');
-				sky.setAttribute('src', data.linkto);
+		this.el.addEventListener('click', function () {
+			checkCamera(data.linkto);
+			//set the skybox source to the new image as per the spot
+			var sky = document.getElementById('skybox');
+			sky.setAttribute('src', data.linkto);
 
-				var spotcomp = document.getElementById('spots');
-				var currspots = this.parentElement.getAttribute('id');
-				//create event for spots component to change the spots data
-				spotcomp.emit('reloadspots', {
-					newspots: data.spotgroup,
-					currspots: currspots,
-				});
+			var spotcomp = document.getElementById('spots');
+			var currspots = this.parentElement.getAttribute('id');
+			//create event for spots component to change the spots data
+			spotcomp.emit('reloadspots', {
+				newspots: data.spotgroup,
+				currspots: currspots,
 			});
-		} else {
-			this.el.addEventListener('touchend', function () {
-				checkCamera(data.linkto);
-				//set the skybox source to the new image as per the spot
-				var sky = document.getElementById('skybox');
-				sky.setAttribute('src', data.linkto);
-
-				var spotcomp = document.getElementById('spots');
-				var currspots = this.parentElement.getAttribute('id');
-				//create event for spots component to change the spots data
-				spotcomp.emit('reloadspots', {
-					newspots: data.spotgroup,
-					currspots: currspots,
-				});
-			});
-		}
+		});
 	},
 });
