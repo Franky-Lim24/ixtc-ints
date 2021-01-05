@@ -351,7 +351,7 @@
 								.getElementById(''.concat(idname, '--dialog-plane'))
 								.setAttribute(
 									'animation__scale',
-									'property: scale; to: 1 1 1; dur:500'
+									'property: scale; to: 1 1 1; dur:200'
 								);
 							document
 								.getElementById(''.concat(idname, '--open-icon'))

@@ -209,6 +209,7 @@ function assestMode() {
 						);
 						if (currentOrder == order) {
 							var audio = new Audio('assets/positive.mp3');
+							audio.volume = 0.2;
 							audio.play();
 							currIcon.setAttribute('material', 'src: assets/correct.png');
 							setTimeout(function () {
@@ -222,6 +223,8 @@ function assestMode() {
 							currentOrder++;
 						} else {
 							var audio = new Audio('assets/negative.mp3');
+							audio.volume = 0.2;
+
 							audio.play();
 							currIcon.setAttribute('material', 'src: assets/false.png');
 							setTimeout(function () {
