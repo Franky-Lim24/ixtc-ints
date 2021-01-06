@@ -132,7 +132,7 @@
 					},
 					openOn: {
 						type: 'string',
-						default: 'click',
+						default: 'mousedown',
 					},
 					active: {
 						type: 'boolean',
@@ -453,10 +453,10 @@
 							submit.removeEventListener('mouseleave', hoverAns);
 						}
 					});
-					submit.addEventListener('click', function submitFunc() {
+					submit.addEventListener('mousedown', function submitFunc() {
 						if (ans != null) {
 							submit.classList.add('removeEvent');
-							submit.removeEventListener('click', submitFunc);
+							submit.removeEventListener('mousedown', submitFunc);
 							var matchColor = document.querySelectorAll(
 								'.selectedAns'.concat(idname)
 							);
@@ -550,7 +550,7 @@
 							'color: #000000; shader: flat; visible: false;'
 						);
 						current[counter] = false;
-						$(body[counter]).click(function () {
+						body[counter].addEventListener('mousedown', function () {
 							let checkSelected = document.querySelectorAll(
 								'.selectedAns'.concat(idname)
 							);
