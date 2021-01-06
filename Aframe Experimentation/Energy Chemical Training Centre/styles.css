@@ -1,3 +1,6 @@
+html{
+	touch-action: manipulation;
+}
 @font-face {
 	font-family: 'raleway';
 	src: url(assets/raleway.ttf);

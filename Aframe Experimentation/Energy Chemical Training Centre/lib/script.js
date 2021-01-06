@@ -206,7 +206,6 @@ function assestMode() {
 				changeIcon[x].classList.remove('invis');
 				changeIcon[x].setAttribute('material', 'src: assets/question.png');
 				changeIcon[x].setAttribute('visible', 'true');
-
 				ansOrder[x].addEventListener('click', function checkOrder() {
 					if (!state) {
 						for (let y = 0; y < ansOrder.length; y++) {
