@@ -97,33 +97,31 @@ function installEvents() {
 	var clickBody = document.getElementsByClassName('clickBody');
 	var pulseIcons = document.getElementsByClassName('removePulse');
 	for (let x = 0; x < ansOrder.length; x++) {
-		ansOrder[x].addEventListener('click', function removePulse() {
-			if (state) {
-				for (let y = 0; y < ansOrder.length; y++) {
-					ansOrder[y].removeEventListener('click', removePulse);
+		[ansOrder[x], clickPlane[x], clickTitle[x], clickBody[x]].forEach(function (
+			element
+		) {
+			element.addEventListener('mousedown', function removePulse() {
+				if (state) {
+					for (let y = 0; y < ansOrder.length; y++) {
+						ansOrder[y].removeEventListener('mousedown', removePulse);
+					}
+				} else {
+					pulseIcons[x].classList.add('invis');
+					pulseIcons[x].setAttribute('visible', 'false');
+					ansOrder[x].removeEventListener('mousedown', removePulse);
+					clickPlane[x].removeEventListener('mousedown', removePulse);
+					clickTitle[x].removeEventListener('mousedown', removePulse);
+					clickBody[x].removeEventListener('mousedown', removePulse);
+
+					if (eventOrder <= ansOrder.length) {
+						$('#dialog'.concat(eventOrder, '--open-icon')).removeClass('invis');
+						$('#dialog'.concat(eventOrder, '--pulse-icon')).removeClass(
+							'invis'
+						);
+						eventOrder++;
+					}
 				}
-			} else {
-				pulseIcons[x].classList.add('invis');
-				pulseIcons[x].setAttribute('visible', 'false');
-				ansOrder[x].removeEventListener('click', removePulse);
-				if (eventOrder <= ansOrder.length) {
-					$('#dialog'.concat(eventOrder, '--open-icon')).removeClass('invis');
-					$('#dialog'.concat(eventOrder, '--pulse-icon')).removeClass('invis');
-					eventOrder++;
-				}
-			}
-		});
-		clickPlane[x].addEventListener('click', function removePulse() {
-			$(ansOrder[x]).click();
-			clickPlane[x].removeEventListener('click', removePulse);
-		});
-		clickTitle[x].addEventListener('click', function removePulse() {
-			$(clickPlane[x]).click();
-			clickTitle[x].removeEventListener('click', removePulse);
-		});
-		clickBody[x].addEventListener('click', function removePulse() {
-			$(clickTitle[x]).click();
-			clickBody[x].removeEventListener('click', removePulse);
+			});
 		});
 	}
 }
@@ -206,62 +204,57 @@ function assestMode() {
 				changeIcon[x].classList.remove('invis');
 				changeIcon[x].setAttribute('material', 'src: assets/question.png');
 				changeIcon[x].setAttribute('visible', 'true');
-				ansOrder[x].addEventListener('click', function checkOrder() {
-					if (!state) {
-						for (let y = 0; y < ansOrder.length; y++) {
-							ansOrder[y].removeEventListener('click', checkOrder);
-						}
-					} else {
-						var currIcon = document.getElementById(
-							iconId.concat('--open-icon')
-						);
-						if (currentOrder == order) {
-							var audio = new Audio('assets/positive.mp3');
-							audio.volume = 0.2;
-							audio.play();
-							currIcon.setAttribute('material', 'src: assets/correct.png');
-							setTimeout(function () {
-								currIcon.setAttribute(
-									'material',
-									'src: assets/question'.concat(order, '.png')
+				[ansOrder[x], clickPlane[x], clickTitle[x], clickBody[x]].forEach(
+					function (element) {
+						element.addEventListener('mousedown', function checkOrder() {
+							if (!state) {
+								for (let y = 0; y < ansOrder.length; y++) {
+									ansOrder[y].removeEventListener('mousedown', checkOrder);
+									clickPlane[y].removeEventListener('mousedown', checkOrder);
+									clickTitle[y].removeEventListener('mousedown', checkOrder);
+									clickBody[y].removeEventListener('mousedown', checkOrder);
+								}
+							} else {
+								var currIcon = document.getElementById(
+									iconId.concat('--open-icon')
 								);
-							}, 1000);
+								if (currentOrder == order) {
+									var audio1 = new Audio('assets/positive.mp3');
+									audio1.volume = 0.2;
+									audio1.play();
+									currIcon.setAttribute('material', 'src: assets/correct.png');
+									setTimeout(function () {
+										currIcon.setAttribute(
+											'material',
+											'src: assets/question'.concat(order, '.png')
+										);
+									}, 1000);
 
-							ansOrder[x].removeEventListener('click', checkOrder);
-							currentOrder++;
-						} else {
-							var audio = new Audio('assets/negative.mp3');
-							audio.volume = 0.2;
-
-							audio.play();
-							currIcon.setAttribute('material', 'src: assets/false.png');
-							setTimeout(function () {
-								currIcon.setAttribute('material', 'src: assets/question.png');
-							}, 1000);
-						}
-						if (ansOrder.length < currentOrder) {
-							assestMode();
-						}
+									currentOrder++;
+								} else if (currentOrder > order) {
+									ansOrder[x].removeEventListener('mousedown', checkOrder);
+									clickPlane[x].removeEventListener('mousedown', checkOrder);
+									clickTitle[x].removeEventListener('mousedown', checkOrder);
+									clickBody[x].removeEventListener('mousedown', checkOrder);
+								} else {
+									var audio2 = new Audio('assets/negative.mp3');
+									audio2.volume = 0.2;
+									audio2.play();
+									currIcon.setAttribute('material', 'src: assets/false.png');
+									setTimeout(function () {
+										currIcon.setAttribute(
+											'material',
+											'src: assets/question.png'
+										);
+									}, 1000);
+								}
+								if (ansOrder.length < currentOrder) {
+									assestMode();
+								}
+							}
+						});
 					}
-				});
-				clickPlane[x].addEventListener('click', function clickImage() {
-					$(ansOrder[x]).click();
-					if (currentOrder == order) {
-						clickPlane[x].removeEventListener('click', clickImage);
-					}
-				});
-				clickTitle[x].addEventListener('click', function clickImage() {
-					$(clickPlane[x]).click();
-					if (currentOrder == order) {
-						clickTitle[x].removeEventListener('click', clickImage);
-					}
-				});
-				clickBody[x].addEventListener('click', function clickImage() {
-					$(clickTitle[x]).click();
-					if (currentOrder == order) {
-						clickBody[x].removeEventListener('click', clickImage);
-					}
-				});
+				);
 			}
 		}
 		if (removePulse) {
@@ -425,7 +418,7 @@ AFRAME.registerComponent('spot', {
 			.addEventListener('mouseup', function () {
 				$('.a-canvas.a-grab-cursor:hover').css('cursor', 'grab');
 			});
-		this.el.addEventListener('click', function () {
+		this.el.addEventListener('mousedown', function () {
 			checkCamera(data.linkto);
 			//set the skybox source to the new image as per the spot
 			var sky = document.getElementById('skybox');
