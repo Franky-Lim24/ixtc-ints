@@ -24,10 +24,10 @@
 		/>
 		<script src="lib/horizontalDialog.min.js"></script>
 		<script src="lib/mcq-lib.min.js"></script>
-		<script src="lib/script.js"></script>
+		<script src="lib/script.min.js"></script>
 		<link rel="stylesheet" href="assets/animate.min.css" />
 		<link rel="stylesheet" href="loading.css" />
-		<link rel="stylesheet" href="styles.css" />
+		<link rel="stylesheet" href="styles.min.css" />
 		<title>Energy & Chemical Training Centre</title>
 	</head>
 	<body>
@@ -294,6 +294,13 @@
 							rotation="0 180 0"
 							scale="0.9 0.9 0.9"
 						></a-image>
+						<a-entity
+							id="quest"
+							position="-2.1 0.9 -3"
+							dialog-question="
+		  question: What are the operating hours of the wafer lab?;
+          answer: /09:00 - 17:00()09:00 - 18:00()10:00 - 17:00()10:00 - 18:00;"
+						></a-entity>
 					</a-entity>
 					<a-entity id="group-point3" visible="false">
 						<a-image
