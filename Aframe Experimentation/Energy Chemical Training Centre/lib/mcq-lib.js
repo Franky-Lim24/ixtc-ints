@@ -492,8 +492,9 @@
 									color: 'white',
 									src: 'assets/correct.png',
 								});
-								var audio = new Audio('assets/positive.mp3');
-								audio.play();
+								var audio1 = new Audio('assets/positive.mp3');
+								audio1.volume = 0.2;
+								audio1.play();
 							} else {
 								for (let x = 0; x < matchColor.length; x++) {
 									matchColor[x].setAttribute('text', 'color: red');
@@ -510,8 +511,9 @@
 									color: 'white',
 									src: 'assets/false.png',
 								});
-								var audio = new Audio('assets/negative.mp3');
-								audio.play();
+								var audio2 = new Audio('assets/negative.mp3');
+								audio2.volume = 0.2;
+								audio2.play();
 							}
 						}
 					});
@@ -550,49 +552,57 @@
 							'color: #000000; shader: flat; visible: false;'
 						);
 						current[counter] = false;
-						body[counter].addEventListener('mousedown', function () {
+						body[counter].addEventListener('mousedown', function changeColor() {
 							let checkSelected = document.querySelectorAll(
 								'.selectedAns'.concat(idname)
 							);
-							for (let x = 0; x < checkSelected.length; x++) {
-								checkSelected[x].classList.remove('selectedAns'.concat(idname));
-							}
-							body[counter].classList.add('selectedAns'.concat(idname));
-							var allAns = document.querySelectorAll('.answers'.concat(idname));
-							if (mulAns > 1) {
-								if (current[counter]) {
-									body[counter].setAttribute('text', 'color: #000000');
-									if (colorChanger) {
-										mulAnsChecker--;
+							if (submit.classList.contains('removeEvent')) {
+								body[counter].removeEventListener('mousedown', changeColor);
+							} else {
+								for (let x = 0; x < checkSelected.length; x++) {
+									checkSelected[x].classList.remove(
+										'selectedAns'.concat(idname)
+									);
+								}
+								body[counter].classList.add('selectedAns'.concat(idname));
+								var allAns = document.querySelectorAll(
+									'.answers'.concat(idname)
+								);
+								if (mulAns > 1) {
+									if (current[counter]) {
+										body[counter].setAttribute('text', 'color: #000000');
+										if (colorChanger) {
+											mulAnsChecker--;
+										}
+										totalAns--;
+										current[counter] = false;
+									} else {
+										body[counter].setAttribute('text', 'color: #e5e619');
+										if (colorChanger) {
+											mulAnsChecker++;
+										}
+										totalAns++;
+										current[counter] = true;
 									}
-									totalAns--;
-									current[counter] = false;
-								} else {
+									if (mulAnsChecker == mulAns && totalAns == mulAns) {
+										ans = true;
+									} else if (mulAnsChecker == 0) {
+										ans = null;
+									} else {
+										ans = false;
+									}
+								}
+								if (mulAns < 2) {
+									for (let c1 = 0; c1 < allAns.length; c1++) {
+										allAns[c1].setAttribute('text', 'color: #000000');
+									}
+									if (colorChanger) {
+										ans = true;
+									} else {
+										ans = false;
+									}
 									body[counter].setAttribute('text', 'color: #e5e619');
-									if (colorChanger) {
-										mulAnsChecker++;
-									}
-									totalAns++;
-									current[counter] = true;
 								}
-								if (mulAnsChecker == mulAns && totalAns == mulAns) {
-									ans = true;
-								} else if (mulAnsChecker == 0) {
-									ans = null;
-								} else {
-									ans = false;
-								}
-							}
-							if (mulAns < 2) {
-								for (let c1 = 0; c1 < allAns.length; c1++) {
-									allAns[c1].setAttribute('text', 'color: #000000');
-								}
-								if (colorChanger) {
-									ans = true;
-								} else {
-									ans = false;
-								}
-								body[counter].setAttribute('text', 'color: #e5e619');
 							}
 						});
 
