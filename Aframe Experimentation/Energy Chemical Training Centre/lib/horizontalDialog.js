@@ -525,7 +525,9 @@
 						width = _this$data5.imageWidth,
 						height = _this$data5.imageHeight,
 						dialogBoxHeight = _this$data5.dialogBoxHeight,
-						multiple = _this$data5.multiple;
+						multiple = _this$data5.multiple,
+						title = _this$data5.title,
+						body = _this$data5.body;
 
 					if (!src.length) {
 						return null;
@@ -566,6 +568,62 @@
 						x: -2.37,
 						y: -1.15,
 						z: 0.02,
+					});
+					image.addEventListener('mousedown', function () {
+						console.log('test');
+						var elContainer = document.createElement('div');
+						var leftSide = document.createElement('div');
+						var rightSide = document.createElement('div');
+						var itemtitle = document.createElement('p');
+						var itembody = document.createElement('p');
+						itemtitle.textContent = title;
+						itemtitle.style.cssText =
+							'color:#456ab7; font-family:raleway; font-size:2em; text-align:center;margin-top:1em;';
+						itembody.innerHTML = body.replace(/\\n/g, '<br />');
+						itembody.style.cssText =
+							'margin-top: 5em;margin-left: 2em;font-family:raleway;font-size: 1.2em;margin-right:2em;text-align:justify;';
+
+						if (window.innerHeight > window.innerWidth) {
+							elContainer.style.cssText =
+								'position:absolute;top:0;display:flex;justify-content:center;align-items:center;width:100%;height:100%;background:rgba(0,0,0,.4);z-index: 9999;flex-direction:column;background-position:center;';
+							leftSide.style.cssText =
+								'width:80%;height:40%;background-size:cover;border-radius: 20px 20px 0 0;';
+							if (itembody.innerHTML == '') {
+								rightSide.style.cssText =
+									'width:80%;height:40%;background:white;border-radius: 0 0 20px 20px;display:flex;justify-content:center;flex-direction:column;';
+							} else {
+								rightSide.style.cssText =
+									'width:80%;height:40%;background:white;border-radius: 0 0 20px 20px;';
+							}
+						} else {
+							elContainer.style.cssText =
+								'position:absolute;top:0;display:flex;justify-content:center;align-items:center;width:100%;height:100%;background:rgba(0,0,0,.4);z-index: 9999;background-position:center;';
+							leftSide.style.cssText =
+								'width:40%;height:80%;background-size:cover;border-radius: 20px 0 0 20px;';
+							if (itembody.innerHTML == '') {
+								rightSide.style.cssText =
+									'width:40%;height:80%;background:white;border-radius: 0 20px 20px 0;display:flex;justify-content:center;flex-direction:column;';
+							} else {
+								rightSide.style.cssText =
+									'width:40%;height:80%;background:white;border-radius: 0 20px 20px 0;';
+							}
+						}
+						leftSide.style.backgroundImage = 'url('.concat(src, ')');
+
+						elContainer.classList.add('imgPopup');
+
+						rightSide.appendChild(itemtitle);
+						rightSide.appendChild(itembody);
+						elContainer.appendChild(leftSide);
+						elContainer.appendChild(rightSide);
+						elContainer.onmousedown = function () {
+							var imgPopup = document.querySelectorAll('.imgPopup');
+							for (let x = 0; x < imgPopup.length; x++) {
+								$(imgPopup[x].remove());
+							}
+							console.log('hi');
+						};
+						document.body.appendChild(elContainer);
 					});
 					this.hasImage = true;
 					this.imageEl = image;
