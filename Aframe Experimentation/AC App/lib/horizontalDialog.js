@@ -421,7 +421,8 @@
 						padding = _this$data3.dialogBoxPadding,
 						body = _this$data3.body,
 						imageHeight = _this$data3.imageHeight,
-						multiple = _this$data3.multiple;
+						multiple = _this$data3.multiple,
+						src = _this$data3.image;
 					var title = this.titleEl || document.createElement('a-entity');
 					title.setAttribute(
 						'id',
@@ -452,7 +453,7 @@
 					if (this.hasImage) {
 						y -= imageHeight / 2;
 					}
-					if (body == '') {
+					if (body == '' || value.includes('Air Handling Unit')) {
 						title.setAttribute('position', {
 							x: 1.16,
 							y: 0,
@@ -465,6 +466,68 @@
 							z: 0.01,
 						});
 					}
+					title.addEventListener('mousedown', function () {
+						console.log('test');
+						var elContainer = document.createElement('div');
+						var leftSide = document.createElement('div');
+						var rightSide = document.createElement('div');
+						var itemtitle = document.createElement('p');
+						var itembody = document.createElement('p');
+
+						itemtitle.textContent = value;
+						itemtitle.style.cssText =
+							'color:#456ab7; font-family:raleway; font-size:2em; text-align:center;margin-top:1em;';
+						itembody.innerHTML = body.replace(/\\n/g, '<br />');
+						itembody.style.cssText =
+							'margin-top: 5em;margin-left: 2em;font-family:raleway;font-size: 1.2em;margin-right:2em;text-align:justify;';
+
+						if (window.innerHeight > window.innerWidth) {
+							elContainer.style.cssText =
+								'position:absolute;top:0;display:flex;justify-content:center;align-items:center;width:100%;height:100%;background:rgba(0,0,0,.4);z-index: 9999;flex-direction:column;';
+							leftSide.style.cssText =
+								'width:80%;height:40%;background-size:cover;border-radius: 20px 20px 0 0;background-position:center;';
+							if (itembody.innerHTML == '') {
+								rightSide.style.cssText =
+									'width:80%;height:40%;background:white;border-radius: 0 0 20px 20px;display:flex;justify-content:center;flex-direction:column;';
+							} else {
+								rightSide.style.cssText =
+									'width:80%;height:40%;background:white;border-radius: 0 0 20px 20px;';
+							}
+						} else {
+							elContainer.style.cssText =
+								'position:absolute;top:0;display:flex;justify-content:center;align-items:center;width:100%;height:100%;background:rgba(0,0,0,.4);z-index: 9999;';
+							leftSide.style.cssText =
+								'width:40%;height:80%;background-size:cover;border-radius: 20px 0 0 20px;background-position:center;';
+							if (itembody.innerHTML == '') {
+								rightSide.style.cssText =
+									'width:40%;height:80%;background:white;border-radius: 0 20px 20px 0;display:flex;justify-content:center;flex-direction:column;';
+							} else {
+								rightSide.style.cssText =
+									'width:40%;height:80%;background:white;border-radius: 0 20px 20px 0;';
+							}
+						}
+						leftSide.style.backgroundImage = 'url('.concat(src, ')');
+
+						elContainer.classList.add('imgPopup');
+
+						rightSide.appendChild(itemtitle);
+						rightSide.appendChild(itembody);
+						if (value.includes('Cooling Tower')) {
+							var image = document.createElement('img');
+							image.src = 'assets/counter.jpg';
+							rightSide.appendChild(image);
+						}
+						elContainer.appendChild(leftSide);
+						elContainer.appendChild(rightSide);
+						elContainer.onmousedown = function () {
+							var imgPopup = document.querySelectorAll('.imgPopup');
+							for (let x = 0; x < imgPopup.length; x++) {
+								$(imgPopup[x].remove());
+							}
+							console.log('hi');
+						};
+						document.body.appendChild(elContainer);
+					});
 					this.titleEl = title;
 					return title;
 				},
@@ -482,13 +545,18 @@
 						height = _this$data4.dialogBoxHeight,
 						padding = _this$data4.dialogBoxPadding,
 						imageHeight = _this$data4.imageHeight,
-						multiple = _this$data4.multiple;
+						multiple = _this$data4.multiple,
+						src = _this$data4.image,
+						title = _this$data4.title;
 
 					var body = this.bodyEl || document.createElement('a-entity');
 					body.setAttribute(
 						'id',
 						''.concat(this.el.getAttribute('id'), '--body')
 					);
+					if (title.includes('Air Handling Unit')) {
+						value = '';
+					}
 					body.setAttribute('text', {
 						value: value,
 						color: color,
@@ -511,6 +579,62 @@
 						x: 1.2,
 						y: -0.1,
 						z: 0.01,
+					});
+					body.addEventListener('mousedown', function () {
+						console.log('test');
+						var elContainer = document.createElement('div');
+						var leftSide = document.createElement('div');
+						var rightSide = document.createElement('div');
+						var itemtitle = document.createElement('p');
+						var itembody = document.createElement('p');
+						itemtitle.textContent = title;
+						itemtitle.style.cssText =
+							'color:#456ab7; font-family:raleway; font-size:2em; text-align:center;margin-top:1em;';
+						itembody.innerHTML = value.replace(/\\n/g, '<br />');
+						itembody.style.cssText =
+							'margin-top: 5em;margin-left: 2em;font-family:raleway;font-size: 1.2em;margin-right:2em;text-align:justify;';
+
+						if (window.innerHeight > window.innerWidth) {
+							elContainer.style.cssText =
+								'position:absolute;top:0;display:flex;justify-content:center;align-items:center;width:100%;height:100%;background:rgba(0,0,0,.4);z-index: 9999;flex-direction:column;';
+							leftSide.style.cssText =
+								'width:80%;height:40%;background-size:cover;border-radius: 20px 20px 0 0;background-position:center;';
+							if (itembody.innerHTML == '') {
+								rightSide.style.cssText =
+									'width:80%;height:40%;background:white;border-radius: 0 0 20px 20px;display:flex;justify-content:center;flex-direction:column;';
+							} else {
+								rightSide.style.cssText =
+									'width:80%;height:40%;background:white;border-radius: 0 0 20px 20px;';
+							}
+						} else {
+							elContainer.style.cssText =
+								'position:absolute;top:0;display:flex;justify-content:center;align-items:center;width:100%;height:100%;background:rgba(0,0,0,.4);z-index: 9999;';
+							leftSide.style.cssText =
+								'width:40%;height:80%;background-size:cover;border-radius: 20px 0 0 20px;background-position:center;';
+							if (itembody.innerHTML == '') {
+								rightSide.style.cssText =
+									'width:40%;height:80%;background:white;border-radius: 0 20px 20px 0;display:flex;justify-content:center;flex-direction:column;';
+							} else {
+								rightSide.style.cssText =
+									'width:40%;height:80%;background:white;border-radius: 0 20px 20px 0;';
+							}
+						}
+						leftSide.style.backgroundImage = 'url('.concat(src, ')');
+
+						elContainer.classList.add('imgPopup');
+
+						rightSide.appendChild(itemtitle);
+						rightSide.appendChild(itembody);
+						elContainer.appendChild(leftSide);
+						elContainer.appendChild(rightSide);
+						elContainer.onmousedown = function () {
+							var imgPopup = document.querySelectorAll('.imgPopup');
+							for (let x = 0; x < imgPopup.length; x++) {
+								$(imgPopup[x].remove());
+							}
+							console.log('hi');
+						};
+						document.body.appendChild(elContainer);
 					});
 					this.bodyEl = body;
 					return body;
@@ -537,6 +661,8 @@
 					roundedPlane.setAttribute('rounded', {
 						height: 2.3,
 						width: 2.5,
+						topLeftRadius: 0,
+						bottomLeftRadius: 0,
 					});
 					roundedPlane.setAttribute('material', {
 						shader: 'flat',
@@ -545,7 +671,12 @@
 					var idname = this.el.getAttribute('id');
 
 					var matches = idname.match(/(\d+)/);
-					image.setAttribute('rounded', 'radius: 0.05');
+					image.setAttribute('rounded', {
+						radius: 0.05,
+						topRightRadius: 0,
+						bottomRightRadius: 0,
+						height: 0.99,
+					});
 					if (multiple) {
 						image.setAttribute('order', matches[0]);
 						image.classList.add('ansOrder');
@@ -563,13 +694,84 @@
 					});
 					image.setAttribute('scale', '2.31 2.31 1');
 					image.setAttribute('width', '1');
-					image.setAttribute('height', '1');
 					image.setAttribute('position', {
 						x: -2.37,
-						y: -1.15,
+						y: -1.13,
 						z: 0.02,
 					});
 					image.addEventListener('mousedown', function () {
+						console.log('test');
+						var elContainer = document.createElement('div');
+						var leftSide = document.createElement('div');
+						var rightSide = document.createElement('div');
+						var itemtitle = document.createElement('p');
+						var itembody = document.createElement('p');
+						itemtitle.textContent = title;
+						itemtitle.style.cssText =
+							'color:#456ab7; font-family:raleway; font-size:2em; text-align:center;margin-top:1em;';
+						itembody.innerHTML = body.replace(/\\n/g, '<br />');
+						itembody.style.cssText =
+							'margin-top: 3em;margin-left: 2em;font-family:raleway;font-size: 1.2em;margin-right:2em;text-align:justify;';
+
+						if (window.innerHeight > window.innerWidth) {
+							elContainer.style.cssText =
+								'position:absolute;top:0;display:flex;justify-content:center;align-items:center;width:100%;height:100%;background:rgba(0,0,0,.4);z-index: 9999;flex-direction:column;';
+							leftSide.style.cssText =
+								'width:80%;height:40%;background-size:cover;border-radius: 20px 20px 0 0;background-position:center;';
+							if (itembody.innerHTML == '') {
+								rightSide.style.cssText =
+									'width:80%;height:40%;background:white;border-radius: 0 0 20px 20px;display:flex;justify-content:center;flex-direction:column;';
+							} else {
+								rightSide.style.cssText =
+									'width:80%;height:40%;background:white;border-radius: 0 0 20px 20px;';
+							}
+						} else {
+							elContainer.style.cssText =
+								'position:absolute;top:0;display:flex;justify-content:center;align-items:center;width:100%;height:100%;background:rgba(0,0,0,.4);z-index: 9999;';
+							leftSide.style.cssText =
+								'width:40%;height:80%;background-size:cover;border-radius: 20px 0 0 20px;background-position:center;';
+							if (itembody.innerHTML == '') {
+								rightSide.style.cssText =
+									'width:40%;height:80%;background:white;border-radius: 0 20px 20px 0;display:flex;justify-content:center;flex-direction:column;';
+							} else {
+								rightSide.style.cssText =
+									'width:40%;height:80%;background:white;border-radius: 0 20px 20px 0;';
+							}
+						}
+						leftSide.style.backgroundImage = 'url('.concat(src, ')');
+
+						elContainer.classList.add('imgPopup');
+
+						rightSide.appendChild(itemtitle);
+						rightSide.appendChild(itembody);
+						if (title.includes('Cooling Tower')) {
+							if (window.innerHeight > window.innerWidth) {
+								var image = document.createElement('img');
+								image.src = 'hotspots/counter.jpg';
+								image.style.cssText =
+									'max-width: 80%;max-height: 30%;margin-left: 5%;margin-top: 5%;';
+								rightSide.appendChild(image);
+							} else {
+								var image = document.createElement('img');
+								image.src = 'hotspots/counter.jpg';
+								image.style.cssText =
+									'max-width: 80%;max-height: 50%;margin-left: 5%;margin-top: 5%;';
+								rightSide.appendChild(image);
+							}
+						}
+						elContainer.appendChild(leftSide);
+						elContainer.appendChild(rightSide);
+						elContainer.onmousedown = function () {
+							var imgPopup = document.querySelectorAll('.imgPopup');
+							for (let x = 0; x < imgPopup.length; x++) {
+								$(imgPopup[x].remove());
+							}
+							console.log('hi');
+						};
+						document.body.appendChild(elContainer);
+					});
+
+					roundedPlane.addEventListener('mousedown', function () {
 						console.log('test');
 						var elContainer = document.createElement('div');
 						var leftSide = document.createElement('div');

@@ -393,8 +393,8 @@ AFRAME.registerComponent('spot', {
 
 		tooltip.setAttribute('visible', 'false');
 		tooltipPlane.setAttribute('visible', 'false');
-		this.el.appendChild(tooltip);
-		this.el.appendChild(tooltipPlane);
+		// this.el.appendChild(tooltip);
+		// this.el.appendChild(tooltipPlane);
 
 		this.el.addEventListener('mouseenter', function () {
 			tooltip.setAttribute('visible', 'true');
