@@ -575,7 +575,6 @@
 						z: 0.02,
 					});
 					image.addEventListener('mousedown', function () {
-						console.log('test');
 						var elContainer = document.createElement('div');
 						var leftSide = document.createElement('div');
 						var rightSide = document.createElement('div');
@@ -584,38 +583,20 @@
 						itemtitle.textContent = title;
 
 						itembody.innerHTML = body.replace(/\\n/g, '<br />');
-
+						leftSide.classList.add('leftPopup');
+						rightSide.classList.add('rightPopup');
+						itemtitle.classList.add('itemTitle');
+						itembody.classList.add('itemBody');
+						elContainer.classList.add('elcontainer');
 						if (window.innerHeight > window.innerWidth) {
-							itemtitle.style.cssText =
-								'color:#456ab7; font-family:raleway; font-size:1.2em; text-align:center;';
-							itembody.style.cssText =
-								'font-family:raleway;font-size: 0.8em;text-align:justify;margin-left: 5%;margin-right: 5%;';
-							elContainer.style.cssText =
-								'position:absolute;top:0;display:flex;justify-content:center;align-items:center;width:100%;height:100%;background:rgba(0,0,0,.4);z-index: 9999;flex-direction:column;';
-							leftSide.style.cssText =
-								'width:80%;height:40%;background-size:cover;border-radius: 20px 20px 0 0;background-position:center;';
 							if (itembody.innerHTML == '') {
 								rightSide.style.cssText =
 									'width:80%;height:40%;background:white;border-radius: 0 0 20px 20px;display:flex;justify-content:center;flex-direction:column;';
-							} else {
-								rightSide.style.cssText =
-									'width:80%;height:40%;background:white;border-radius: 0 0 20px 20px;display: flex;flex-direction: column;align-items:center;justify-content:space-around;';
 							}
 						} else {
-							itemtitle.style.cssText =
-								'color:#456ab7; font-family:raleway; font-size:2em; text-align:center;margin-top:1em;';
-							itembody.style.cssText =
-								'margin-top: 3em;margin-left: 2em;font-family:raleway;font-size: 1.2em;margin-right:2em;text-align:justify;';
-							elContainer.style.cssText =
-								'position:absolute;top:0;display:flex;justify-content:center;align-items:center;width:100%;height:100%;background:rgba(0,0,0,.4);z-index: 9999;';
-							leftSide.style.cssText =
-								'width:40%;height:80%;background-size:cover;border-radius: 20px 0 0 20px;background-position:center;';
 							if (itembody.innerHTML == '') {
 								rightSide.style.cssText =
 									'width:40%;height:80%;background:white;border-radius: 0 20px 20px 0;display:flex;justify-content:center;flex-direction:column;';
-							} else {
-								rightSide.style.cssText =
-									'width:40%;height:80%;background:white;border-radius: 0 20px 20px 0;display: flex;flex-direction: column;';
 							}
 						}
 						leftSide.style.backgroundImage = 'url('.concat(src, ')');
@@ -625,18 +606,10 @@
 						rightSide.appendChild(itemtitle);
 						rightSide.appendChild(itembody);
 						if (title.includes('Cooling Tower')) {
-							if (window.innerHeight > window.innerWidth) {
-								var image = document.createElement('img');
-								image.src = 'hotspots/counter.jpg';
-								image.style.cssText = 'max-width: 80%;max-height: 50%;';
-								rightSide.appendChild(image);
-							} else {
-								var image = document.createElement('img');
-								image.src = 'hotspots/counter.jpg';
-								image.style.cssText =
-									'max-width: 80%;max-height: 50%;margin-left: 5%;margin-top: 5%;';
-								rightSide.appendChild(image);
-							}
+							var image = document.createElement('img');
+							image.src = 'hotspots/counter.jpg';
+							image.classList.add('itemImage');
+							rightSide.appendChild(image);
 						}
 						elContainer.appendChild(leftSide);
 						elContainer.appendChild(rightSide);
@@ -645,7 +618,6 @@
 							for (let x = 0; x < imgPopup.length; x++) {
 								$(imgPopup[x].remove());
 							}
-							console.log('hi');
 						};
 						document.body.appendChild(elContainer);
 					});
