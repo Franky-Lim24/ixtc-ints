@@ -476,14 +476,14 @@ html {
 	}
 	.leftPopup {
 		width: 80%;
-		height: 40%;
+		height: 47%;
 		background-size: cover;
 		border-radius: 20px 20px 0 0;
 		background-position: center;
 	}
 	.rightPopup {
 		width: 80%;
-		height: 40%;
+		height: 47%;
 		background: white;
 		border-radius: 0 0 20px 20px;
 		display: flex;
@@ -494,12 +494,12 @@ html {
 	.itemTitle {
 		color: #456ab7;
 		font-family: raleway;
-		font-size: 1.2em;
+		font-size: 1em;
 		text-align: center;
 	}
 	.itemBody {
 		font-family: raleway;
-		font-size: 0.8em;
+		font-size: 0.7em;
 		text-align: justify;
 		margin-top: 1.2em;
 		margin-left: 5%;
