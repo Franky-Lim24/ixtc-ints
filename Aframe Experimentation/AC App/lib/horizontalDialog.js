@@ -707,13 +707,14 @@
 						var itemtitle = document.createElement('p');
 						var itembody = document.createElement('p');
 						itemtitle.textContent = title;
-						itemtitle.style.cssText =
-							'color:#456ab7; font-family:raleway; font-size:2em; text-align:center;margin-top:1em;';
+
 						itembody.innerHTML = body.replace(/\\n/g, '<br />');
-						itembody.style.cssText =
-							'margin-top: 3em;margin-left: 2em;font-family:raleway;font-size: 1.2em;margin-right:2em;text-align:justify;';
 
 						if (window.innerHeight > window.innerWidth) {
+							itemtitle.style.cssText =
+								'color:#456ab7; font-family:raleway; font-size:1.2em; text-align:center;';
+							itembody.style.cssText =
+								'font-family:raleway;font-size: 0.8em;text-align:justify;margin-left: 5%;margin-top: 5%;';
 							elContainer.style.cssText =
 								'position:absolute;top:0;display:flex;justify-content:center;align-items:center;width:100%;height:100%;background:rgba(0,0,0,.4);z-index: 9999;flex-direction:column;';
 							leftSide.style.cssText =
@@ -723,9 +724,13 @@
 									'width:80%;height:40%;background:white;border-radius: 0 0 20px 20px;display:flex;justify-content:center;flex-direction:column;';
 							} else {
 								rightSide.style.cssText =
-									'width:80%;height:40%;background:white;border-radius: 0 0 20px 20px;';
+									'width:80%;height:40%;background:white;border-radius: 0 0 20px 20px;display: flex;flex-direction: column;align-items:center;justify-content:space-around;';
 							}
 						} else {
+							itemtitle.style.cssText =
+								'color:#456ab7; font-family:raleway; font-size:2em; text-align:center;margin-top:1em;';
+							itembody.style.cssText =
+								'margin-top: 3em;margin-left: 2em;font-family:raleway;font-size: 1.2em;margin-right:2em;text-align:justify;';
 							elContainer.style.cssText =
 								'position:absolute;top:0;display:flex;justify-content:center;align-items:center;width:100%;height:100%;background:rgba(0,0,0,.4);z-index: 9999;';
 							leftSide.style.cssText =
@@ -735,7 +740,7 @@
 									'width:40%;height:80%;background:white;border-radius: 0 20px 20px 0;display:flex;justify-content:center;flex-direction:column;';
 							} else {
 								rightSide.style.cssText =
-									'width:40%;height:80%;background:white;border-radius: 0 20px 20px 0;';
+									'width:40%;height:80%;background:white;border-radius: 0 20px 20px 0;display: flex;flex-direction: column;';
 							}
 						}
 						leftSide.style.backgroundImage = 'url('.concat(src, ')');
@@ -748,8 +753,7 @@
 							if (window.innerHeight > window.innerWidth) {
 								var image = document.createElement('img');
 								image.src = 'hotspots/counter.jpg';
-								image.style.cssText =
-									'max-width: 80%;max-height: 30%;margin-left: 5%;margin-top: 5%;';
+								image.style.cssText = 'max-width: 80%;max-height: 50%;';
 								rightSide.appendChild(image);
 							} else {
 								var image = document.createElement('img');
