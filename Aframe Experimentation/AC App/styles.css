@@ -494,12 +494,12 @@ html {
 	.itemTitle {
 		color: #456ab7;
 		font-family: raleway;
-		font-size: 1em;
+		font-size: 1.2em;
 		text-align: center;
 	}
 	.itemBody {
 		font-family: raleway;
-		font-size: 0.7em;
+		font-size: 0.8em;
 		text-align: justify;
 		margin-top: 1.2em;
 		margin-left: 5%;
