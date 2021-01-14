@@ -453,81 +453,12 @@
 					if (this.hasImage) {
 						y -= imageHeight / 2;
 					}
-					if (body == '' || value.includes('Air Handling Unit')) {
-						title.setAttribute('position', {
-							x: 1.16,
-							y: 0,
-							z: 0.01,
-						});
-					} else {
-						title.setAttribute('position', {
-							x: 1.16,
-							y: 0.8,
-							z: 0.01,
-						});
-					}
-					title.addEventListener('mousedown', function () {
-						console.log('test');
-						var elContainer = document.createElement('div');
-						var leftSide = document.createElement('div');
-						var rightSide = document.createElement('div');
-						var itemtitle = document.createElement('p');
-						var itembody = document.createElement('p');
-
-						itemtitle.textContent = value;
-						itemtitle.style.cssText =
-							'color:#456ab7; font-family:raleway; font-size:2em; text-align:center;margin-top:1em;';
-						itembody.innerHTML = body.replace(/\\n/g, '<br />');
-						itembody.style.cssText =
-							'margin-top: 5em;margin-left: 2em;font-family:raleway;font-size: 1.2em;margin-right:2em;text-align:justify;';
-
-						if (window.innerHeight > window.innerWidth) {
-							elContainer.style.cssText =
-								'position:absolute;top:0;display:flex;justify-content:center;align-items:center;width:100%;height:100%;background:rgba(0,0,0,.4);z-index: 9999;flex-direction:column;';
-							leftSide.style.cssText =
-								'width:80%;height:40%;background-size:cover;border-radius: 20px 20px 0 0;background-position:center;';
-							if (itembody.innerHTML == '') {
-								rightSide.style.cssText =
-									'width:80%;height:40%;background:white;border-radius: 0 0 20px 20px;display:flex;justify-content:center;flex-direction:column;';
-							} else {
-								rightSide.style.cssText =
-									'width:80%;height:40%;background:white;border-radius: 0 0 20px 20px;';
-							}
-						} else {
-							elContainer.style.cssText =
-								'position:absolute;top:0;display:flex;justify-content:center;align-items:center;width:100%;height:100%;background:rgba(0,0,0,.4);z-index: 9999;';
-							leftSide.style.cssText =
-								'width:40%;height:80%;background-size:cover;border-radius: 20px 0 0 20px;background-position:center;';
-							if (itembody.innerHTML == '') {
-								rightSide.style.cssText =
-									'width:40%;height:80%;background:white;border-radius: 0 20px 20px 0;display:flex;justify-content:center;flex-direction:column;';
-							} else {
-								rightSide.style.cssText =
-									'width:40%;height:80%;background:white;border-radius: 0 20px 20px 0;';
-							}
-						}
-						leftSide.style.backgroundImage = 'url('.concat(src, ')');
-
-						elContainer.classList.add('imgPopup');
-
-						rightSide.appendChild(itemtitle);
-						rightSide.appendChild(itembody);
-						if (value.includes('Cooling Tower')) {
-							var image = document.createElement('img');
-							image.src = 'assets/counter.jpg';
-							rightSide.appendChild(image);
-						}
-						elContainer.appendChild(leftSide);
-						elContainer.appendChild(rightSide);
-						elContainer.onmousedown = function () {
-							var imgPopup = document.querySelectorAll('.imgPopup');
-							for (let x = 0; x < imgPopup.length; x++) {
-								$(imgPopup[x].remove());
-							}
-							console.log('hi');
-						};
-						document.body.appendChild(elContainer);
+					title.setAttribute('position', {
+						x: 1.16,
+						y: 0,
+						z: 0.01,
 					});
+
 					this.titleEl = title;
 					return title;
 				},
@@ -554,9 +485,8 @@
 						'id',
 						''.concat(this.el.getAttribute('id'), '--body')
 					);
-					if (title.includes('Air Handling Unit')) {
-						value = '';
-					}
+					value = '';
+
 					body.setAttribute('text', {
 						value: value,
 						color: color,
@@ -580,62 +510,7 @@
 						y: -0.1,
 						z: 0.01,
 					});
-					body.addEventListener('mousedown', function () {
-						console.log('test');
-						var elContainer = document.createElement('div');
-						var leftSide = document.createElement('div');
-						var rightSide = document.createElement('div');
-						var itemtitle = document.createElement('p');
-						var itembody = document.createElement('p');
-						itemtitle.textContent = title;
-						itemtitle.style.cssText =
-							'color:#456ab7; font-family:raleway; font-size:2em; text-align:center;margin-top:1em;';
-						itembody.innerHTML = value.replace(/\\n/g, '<br />');
-						itembody.style.cssText =
-							'margin-top: 5em;margin-left: 2em;font-family:raleway;font-size: 1.2em;margin-right:2em;text-align:justify;';
 
-						if (window.innerHeight > window.innerWidth) {
-							elContainer.style.cssText =
-								'position:absolute;top:0;display:flex;justify-content:center;align-items:center;width:100%;height:100%;background:rgba(0,0,0,.4);z-index: 9999;flex-direction:column;';
-							leftSide.style.cssText =
-								'width:80%;height:40%;background-size:cover;border-radius: 20px 20px 0 0;background-position:center;';
-							if (itembody.innerHTML == '') {
-								rightSide.style.cssText =
-									'width:80%;height:40%;background:white;border-radius: 0 0 20px 20px;display:flex;justify-content:center;flex-direction:column;';
-							} else {
-								rightSide.style.cssText =
-									'width:80%;height:40%;background:white;border-radius: 0 0 20px 20px;';
-							}
-						} else {
-							elContainer.style.cssText =
-								'position:absolute;top:0;display:flex;justify-content:center;align-items:center;width:100%;height:100%;background:rgba(0,0,0,.4);z-index: 9999;';
-							leftSide.style.cssText =
-								'width:40%;height:80%;background-size:cover;border-radius: 20px 0 0 20px;background-position:center;';
-							if (itembody.innerHTML == '') {
-								rightSide.style.cssText =
-									'width:40%;height:80%;background:white;border-radius: 0 20px 20px 0;display:flex;justify-content:center;flex-direction:column;';
-							} else {
-								rightSide.style.cssText =
-									'width:40%;height:80%;background:white;border-radius: 0 20px 20px 0;';
-							}
-						}
-						leftSide.style.backgroundImage = 'url('.concat(src, ')');
-
-						elContainer.classList.add('imgPopup');
-
-						rightSide.appendChild(itemtitle);
-						rightSide.appendChild(itembody);
-						elContainer.appendChild(leftSide);
-						elContainer.appendChild(rightSide);
-						elContainer.onmousedown = function () {
-							var imgPopup = document.querySelectorAll('.imgPopup');
-							for (let x = 0; x < imgPopup.length; x++) {
-								$(imgPopup[x].remove());
-							}
-							console.log('hi');
-						};
-						document.body.appendChild(elContainer);
-					});
 					this.bodyEl = body;
 					return body;
 				},
@@ -775,62 +650,6 @@
 						document.body.appendChild(elContainer);
 					});
 
-					roundedPlane.addEventListener('mousedown', function () {
-						console.log('test');
-						var elContainer = document.createElement('div');
-						var leftSide = document.createElement('div');
-						var rightSide = document.createElement('div');
-						var itemtitle = document.createElement('p');
-						var itembody = document.createElement('p');
-						itemtitle.textContent = title;
-						itemtitle.style.cssText =
-							'color:#456ab7; font-family:raleway; font-size:2em; text-align:center;margin-top:1em;';
-						itembody.innerHTML = body.replace(/\\n/g, '<br />');
-						itembody.style.cssText =
-							'margin-top: 5em;margin-left: 2em;font-family:raleway;font-size: 1.2em;margin-right:2em;text-align:justify;';
-
-						if (window.innerHeight > window.innerWidth) {
-							elContainer.style.cssText =
-								'position:absolute;top:0;display:flex;justify-content:center;align-items:center;width:100%;height:100%;background:rgba(0,0,0,.4);z-index: 9999;flex-direction:column;';
-							leftSide.style.cssText =
-								'width:80%;height:40%;background-size:cover;border-radius: 20px 20px 0 0;background-position:center;';
-							if (itembody.innerHTML == '') {
-								rightSide.style.cssText =
-									'width:80%;height:40%;background:white;border-radius: 0 0 20px 20px;display:flex;justify-content:center;flex-direction:column;';
-							} else {
-								rightSide.style.cssText =
-									'width:80%;height:40%;background:white;border-radius: 0 0 20px 20px;';
-							}
-						} else {
-							elContainer.style.cssText =
-								'position:absolute;top:0;display:flex;justify-content:center;align-items:center;width:100%;height:100%;background:rgba(0,0,0,.4);z-index: 9999;';
-							leftSide.style.cssText =
-								'width:40%;height:80%;background-size:cover;border-radius: 20px 0 0 20px;background-position:center;';
-							if (itembody.innerHTML == '') {
-								rightSide.style.cssText =
-									'width:40%;height:80%;background:white;border-radius: 0 20px 20px 0;display:flex;justify-content:center;flex-direction:column;';
-							} else {
-								rightSide.style.cssText =
-									'width:40%;height:80%;background:white;border-radius: 0 20px 20px 0;';
-							}
-						}
-						leftSide.style.backgroundImage = 'url('.concat(src, ')');
-
-						elContainer.classList.add('imgPopup');
-
-						rightSide.appendChild(itemtitle);
-						rightSide.appendChild(itembody);
-						elContainer.appendChild(leftSide);
-						elContainer.appendChild(rightSide);
-						elContainer.onmousedown = function () {
-							var imgPopup = document.querySelectorAll('.imgPopup');
-							for (let x = 0; x < imgPopup.length; x++) {
-								$(imgPopup[x].remove());
-							}
-							console.log('hi');
-						};
-						document.body.appendChild(elContainer);
-					});
 					this.hasImage = true;
 					this.imageEl = image;
 					return [image, roundedPlane];

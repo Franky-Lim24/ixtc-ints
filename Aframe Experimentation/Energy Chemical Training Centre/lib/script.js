@@ -441,7 +441,6 @@ AFRAME.registerComponent('animatemodel', {
 	init: function () {
 		this.el.addEventListener('model-loaded', function () {
 			let modelState = false;
-
 			this.addEventListener('mousedown', function () {
 				if (modelState) {
 					document
@@ -463,7 +462,6 @@ AFRAME.registerComponent('animatemodel', {
 						property: 'scale',
 						to: '0.03 0.03 0.03',
 					});
-
 					modelState = false;
 				} else {
 					rx = document.getElementById('cam').getAttribute('rotation').x;
