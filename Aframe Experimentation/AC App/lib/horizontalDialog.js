@@ -714,7 +714,7 @@
 							itemtitle.style.cssText =
 								'color:#456ab7; font-family:raleway; font-size:1.2em; text-align:center;';
 							itembody.style.cssText =
-								'font-family:raleway;font-size: 0.8em;text-align:justify;margin-left: 5%;margin-top: 5%;';
+								'font-family:raleway;font-size: 0.8em;text-align:justify;margin-left: 5%;margin-right: 5%;';
 							elContainer.style.cssText =
 								'position:absolute;top:0;display:flex;justify-content:center;align-items:center;width:100%;height:100%;background:rgba(0,0,0,.4);z-index: 9999;flex-direction:column;';
 							leftSide.style.cssText =
