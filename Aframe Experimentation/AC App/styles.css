@@ -489,7 +489,7 @@ html {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		justify-content: space-around;
+		justify-content: flex-start;
 	}
 	.itemTitle {
 		color: #456ab7;
@@ -501,6 +501,7 @@ html {
 		font-family: raleway;
 		font-size: 0.8em;
 		text-align: justify;
+		margin-top: 1.2em;
 		margin-left: 5%;
 		margin-right: 5%;
 	}
