@@ -434,3 +434,66 @@ AFRAME.registerComponent('spot', {
 		});
 	},
 });
+let rx;
+let ry;
+let rz;
+AFRAME.registerComponent('animatemodel', {
+	init: function () {
+		this.el.addEventListener('model-loaded', function () {
+			let modelState = false;
+
+			this.addEventListener('mousedown', function () {
+				if (modelState) {
+					document
+						.getElementById('cam')
+						.setAttribute('look-controls', 'enabled: true;');
+					document.getElementById('cam').setAttribute('animation__rotate', {
+						property: 'rotation',
+						to: rx + ' ' + ry + ' ' + rz,
+					});
+					this.setAttribute('animation__rotate', {
+						property: 'rotation',
+						to: '0 0 0',
+					});
+					this.setAttribute('animation__move', {
+						property: 'position',
+						to: '3.4 -4.6 -2.9',
+					});
+					this.setAttribute('animation__scale', {
+						property: 'scale',
+						to: '0.03 0.03 0.03',
+					});
+
+					modelState = false;
+				} else {
+					rx = document.getElementById('cam').getAttribute('rotation').x;
+					ry = document.getElementById('cam').getAttribute('rotation').y;
+					rz = document.getElementById('cam').getAttribute('rotation').z;
+					document
+						.getElementById('cam')
+						.setAttribute(
+							'animation__rotate',
+							'property:rotation;to:-35 -41 0;'
+						);
+					this.setAttribute('animation__rotate', {
+						property: 'rotation',
+						to: '0 232 0',
+					});
+					this.setAttribute('animation__move', {
+						property: 'position',
+						to: '0.5 -0.5 -0.5',
+					});
+					this.setAttribute('animation__scale', {
+						property: 'scale',
+						to: '0.01 0.01 0.01',
+					});
+					document
+						.getElementById('cam')
+						.setAttribute('look-controls', 'enabled: false;');
+					modelState = true;
+				}
+			});
+		});
+	},
+	update: function () {},
+});

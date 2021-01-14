@@ -24,7 +24,7 @@
 		/>
 		<script src="lib/horizontalDialog.js"></script>
 		<script src="lib/mcq-lib.min.js"></script>
-		<script src="lib/script.min.js"></script>
+		<script src="lib/script.js"></script>
 		<link rel="stylesheet" href="assets/animate.min.css" />
 		<link rel="stylesheet" href="loading.css" />
 		<link rel="stylesheet" href="styles.min.css" />
@@ -514,10 +514,11 @@
 						>
 						</a-entity>
 						<a-entity
+							id="animatemodel"
 							gltf-model="#model1"
 							scale="0.030 0.030 0.030"
 							position="3.4 -4.6 -2.9"
-							event-set__click="animation__rotate.property:rotation; animation__rotate.to:0 360 0;"
+							animateModel
 						></a-entity>
 					</a-entity>
 					<a-entity id="group-point10" visible="false">
