@@ -469,6 +469,64 @@
 						y: 0,
 						z: 0.01,
 					});
+					title.addEventListener('mousedown', function () {
+						var elContainer = document.createElement('div');
+						var leftSide = document.createElement('div');
+						var rightSide = document.createElement('div');
+						var itemtitle = document.createElement('p');
+						var itembody = document.createElement('p');
+						itemtitle.innerHTML = value;
+						itembody.innerHTML = body.replace(/\\n/g, '<br />');
+
+						if (title == 'Cooling Tower') {
+							itembody.innerHTML =
+								body.substring(0, body.indexOf('Counter Flow')) +
+								'<b>' +
+								body.substring(
+									body.indexOf('Counter Flow'),
+									body.indexOf(' method')
+								) +
+								'</b>' +
+								body.substring(body.indexOf(' method'));
+						}
+						leftSide.classList.add('leftPopup');
+						rightSide.classList.add('rightPopup');
+						itemtitle.classList.add('itemTitle');
+						itembody.classList.add('itemBody');
+						elContainer.classList.add('elcontainer');
+						if (window.innerHeight > window.innerWidth) {
+							if (itembody.innerHTML == '') {
+								rightSide.style.cssText =
+									'width:80%;height:40%;background:white;border-radius: 0 0 20px 20px;display:flex;justify-content:center;flex-direction:column;';
+							}
+						} else {
+							if (itembody.innerHTML == '') {
+								rightSide.style.cssText =
+									'width:40%;height:80%;background:white;border-radius: 0 20px 20px 0;display:flex;justify-content:center;flex-direction:column;';
+							}
+						}
+						leftSide.style.backgroundImage = 'url('.concat(src, ')');
+
+						elContainer.classList.add('imgPopup');
+
+						rightSide.appendChild(itemtitle);
+						rightSide.appendChild(itembody);
+						if (title == 'Cooling Tower') {
+							var image = document.createElement('img');
+							image.src = 'hotspots/counter.jpg';
+							image.classList.add('itemImage');
+							rightSide.appendChild(image);
+						}
+						elContainer.appendChild(leftSide);
+						elContainer.appendChild(rightSide);
+						elContainer.onmousedown = function () {
+							var imgPopup = document.querySelectorAll('.imgPopup');
+							for (let x = 0; x < imgPopup.length; x++) {
+								$(imgPopup[x].remove());
+							}
+						};
+						document.body.appendChild(elContainer);
+					});
 
 					this.titleEl = title;
 					return title;
@@ -509,6 +567,64 @@
 						anchor: 'center',
 					});
 					var y = height / 2 - padding * 3;
+					body.addEventListener('mousedown', function () {
+						var elContainer = document.createElement('div');
+						var leftSide = document.createElement('div');
+						var rightSide = document.createElement('div');
+						var itemtitle = document.createElement('p');
+						var itembody = document.createElement('p');
+						itemtitle.innerHTML = title;
+						itembody.innerHTML = value.replace(/\\n/g, '<br />');
+
+						if (title == 'Cooling Tower') {
+							itembody.innerHTML =
+								value.substring(0, value.indexOf('Counter Flow')) +
+								'<b>' +
+								value.substring(
+									value.indexOf('Counter Flow'),
+									value.indexOf(' method')
+								) +
+								'</b>' +
+								value.substring(value.indexOf(' method'));
+						}
+						leftSide.classList.add('leftPopup');
+						rightSide.classList.add('rightPopup');
+						itemtitle.classList.add('itemTitle');
+						itembody.classList.add('itemBody');
+						elContainer.classList.add('elcontainer');
+						if (window.innerHeight > window.innerWidth) {
+							if (itembody.innerHTML == '') {
+								rightSide.style.cssText =
+									'width:80%;height:40%;background:white;border-radius: 0 0 20px 20px;display:flex;justify-content:center;flex-direction:column;';
+							}
+						} else {
+							if (itembody.innerHTML == '') {
+								rightSide.style.cssText =
+									'width:40%;height:80%;background:white;border-radius: 0 20px 20px 0;display:flex;justify-content:center;flex-direction:column;';
+							}
+						}
+						leftSide.style.backgroundImage = 'url('.concat(src, ')');
+
+						elContainer.classList.add('imgPopup');
+
+						rightSide.appendChild(itemtitle);
+						rightSide.appendChild(itembody);
+						if (title == 'Cooling Tower') {
+							var image = document.createElement('img');
+							image.src = 'hotspots/counter.jpg';
+							image.classList.add('itemImage');
+							rightSide.appendChild(image);
+						}
+						elContainer.appendChild(leftSide);
+						elContainer.appendChild(rightSide);
+						elContainer.onmousedown = function () {
+							var imgPopup = document.querySelectorAll('.imgPopup');
+							for (let x = 0; x < imgPopup.length; x++) {
+								$(imgPopup[x].remove());
+							}
+						};
+						document.body.appendChild(elContainer);
+					});
 
 					if (this.hasImage) {
 						y -= imageHeight / 2;
@@ -553,6 +669,65 @@
 					roundedPlane.setAttribute('material', {
 						shader: 'flat',
 					});
+					roundedPlane.addEventListener('mousedown', function () {
+						var elContainer = document.createElement('div');
+						var leftSide = document.createElement('div');
+						var rightSide = document.createElement('div');
+						var itemtitle = document.createElement('p');
+						var itembody = document.createElement('p');
+						itemtitle.innerHTML = title;
+						itembody.innerHTML = body.replace(/\\n/g, '<br />');
+
+						if (title == 'Cooling Tower') {
+							itembody.innerHTML =
+								body.substring(0, body.indexOf('Counter Flow')) +
+								'<b>' +
+								body.substring(
+									body.indexOf('Counter Flow'),
+									body.indexOf(' method')
+								) +
+								'</b>' +
+								body.substring(body.indexOf(' method'));
+						}
+						leftSide.classList.add('leftPopup');
+						rightSide.classList.add('rightPopup');
+						itemtitle.classList.add('itemTitle');
+						itembody.classList.add('itemBody');
+						elContainer.classList.add('elcontainer');
+						if (window.innerHeight > window.innerWidth) {
+							if (itembody.innerHTML == '') {
+								rightSide.style.cssText =
+									'width:80%;height:40%;background:white;border-radius: 0 0 20px 20px;display:flex;justify-content:center;flex-direction:column;';
+							}
+						} else {
+							if (itembody.innerHTML == '') {
+								rightSide.style.cssText =
+									'width:40%;height:80%;background:white;border-radius: 0 20px 20px 0;display:flex;justify-content:center;flex-direction:column;';
+							}
+						}
+						leftSide.style.backgroundImage = 'url('.concat(src, ')');
+
+						elContainer.classList.add('imgPopup');
+
+						rightSide.appendChild(itemtitle);
+						rightSide.appendChild(itembody);
+						if (title == 'Cooling Tower') {
+							var image = document.createElement('img');
+							image.src = 'hotspots/counter.jpg';
+							image.classList.add('itemImage');
+							rightSide.appendChild(image);
+						}
+						elContainer.appendChild(leftSide);
+						elContainer.appendChild(rightSide);
+						elContainer.onmousedown = function () {
+							var imgPopup = document.querySelectorAll('.imgPopup');
+							for (let x = 0; x < imgPopup.length; x++) {
+								$(imgPopup[x].remove());
+							}
+						};
+						document.body.appendChild(elContainer);
+					});
+
 					var image = this.imageEl || document.createElement('a-rounded');
 					var idname = this.el.getAttribute('id');
 
