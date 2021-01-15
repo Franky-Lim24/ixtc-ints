@@ -196,7 +196,7 @@
 					},
 					multiple: {
 						type: 'boolean',
-						default: 'false',
+						default: false,
 					},
 				},
 				multiple: true,
