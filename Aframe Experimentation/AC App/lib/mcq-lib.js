@@ -265,7 +265,7 @@
 					});
 					// If the parent entity has aa look-at component attached, apply the look-at
 					// component to the openIcon.
-
+					openIcon.classList.add('openChecker');
 					openIcon.setAttribute('look-at', '#cam');
 					$(window).on('load', function () {
 						openIcon.addEventListener('mouseenter', function () {
@@ -278,7 +278,24 @@
 								.setAttribute('visible', 'false');
 							document
 								.getElementById(''.concat(idname, '--dialog-plane'))
+								.setAttribute(
+									'animation__scale',
+									'property: scale; to: 1 1 1; dur:200'
+								);
+							document
+								.getElementById(''.concat(idname, '--dialog-plane'))
 								.setAttribute('visible', 'true');
+							var openChecker = $('.openChecker');
+							var planeChecker = $('.planeChecker');
+							for (let x = 0; x < openChecker.length; x++) {
+								if (
+									openChecker[x].getAttribute('id') !=
+									idname.concat('--open-icon')
+								) {
+									openChecker[x].setAttribute('visible', 'true');
+									planeChecker[x].setAttribute('visible', 'false');
+								}
+							}
 						});
 					});
 
@@ -455,7 +472,7 @@
 					});
 					submit.addEventListener('mousedown', function submitFunc() {
 						if (ans != null) {
-							submit.classList.add('removeEvent');
+							submit.classList.add('removeEvent'.concat(idname));
 							submit.removeEventListener('mousedown', submitFunc);
 							var matchColor = document.querySelectorAll(
 								'.selectedAns'.concat(idname)
@@ -608,7 +625,9 @@
 
 						y -= 0.3;
 						body[counter].addEventListener('mouseenter', function hoverAns() {
-							let submitChecker = document.querySelector('.removeEvent');
+							let submitChecker = document.querySelector(
+								'.removeEvent'.concat(idname)
+							);
 
 							if (!submitChecker) {
 								body[counter].setAttribute(
@@ -626,7 +645,9 @@
 							}
 						});
 						body[counter].addEventListener('mouseleave', function hoverAns() {
-							let submitChecker = document.querySelector('.removeEvent');
+							let submitChecker = document.querySelector(
+								'.removeEvent'.concat(idname)
+							);
 							if (!submitChecker) {
 								body[counter].setAttribute('text', 'font: assets/raleway.json');
 								$('.a-canvas.a-grab-cursor:hover').css('cursor', 'grab');
@@ -732,6 +753,7 @@
 					plane.appendChild(roundedBG);
 					plane.appendChild(this.generateTitle());
 					plane.appendChild(answerArr[3]);
+					plane.classList.add('planeChecker');
 
 					for (let counter = 0; counter < answerArr[0].length; counter++) {
 						plane.appendChild(answerArr[0][counter]);
@@ -741,6 +763,12 @@
 					document
 						.getElementById('skybox')
 						.addEventListener('mouseenter', function () {
+							document
+								.getElementById(''.concat(idname, '--dialog-plane'))
+								.setAttribute(
+									'animation__scale',
+									'property: scale; to: 0.3 0.3 1; dur:1;'
+								);
 							document
 								.getElementById(''.concat(idname, '--dialog-plane'))
 								.setAttribute('visible', 'false');

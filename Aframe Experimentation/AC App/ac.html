@@ -27,7 +27,7 @@
 			rel="stylesheet"
 		/>
 		<script defer src="lib/horizontalDialog.js"></script>
-		<script defer src="lib/mcq-lib.min.js"></script>
+		<script defer src="lib/mcq-lib.js"></script>
 		<script defer src="lib/script.min.js"></script>
 		<link
 			rel="preload"
@@ -118,7 +118,7 @@
 				</div>
 			</div>
 			<!--Aframe canvas-->
-			<a-scene>
+			<a-scene id="test">
 				<!--Images Collection-->
 				<a-assets timeout="3000">
 					<img id="loc1" src="360Images/Area1.jpg" />
@@ -912,7 +912,7 @@
 							position="-2.9 1.2 3.5"
 							dialog-popup="
 						title: Cooling Tower;
-						body:- This cooling tower uses the counter flow method to cool the warm condenser water from the condenser of the chiller unit.;	  
+						body:- This cooling tower uses the Counter Flow method to cool the warm condenser water from the condenser of the chiller unit.;	  
 						image: hotspots/CoolingTower2.jpg;"
 						></a-entity>
 					</a-entity>

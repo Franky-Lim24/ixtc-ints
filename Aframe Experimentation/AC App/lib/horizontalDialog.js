@@ -331,6 +331,8 @@
 					pulseIcon.setAttribute('material', {
 						shader: 'flat',
 					});
+					openIcon.classList.add('openChecker');
+
 					pulseIcon.setAttribute('look-at', '#cam');
 					openIcon.setAttribute('look-at', '#cam');
 					$(window).on('load', function () {
@@ -343,7 +345,8 @@
 						function openPlane() {
 							//var removeIcon = $('.removeIcon');
 							//var removePulse = $('.removePulse');
-
+							var openChecker = $('.openChecker');
+							var planeChecker = $('.planeChecker');
 							document
 								.getElementById(''.concat(idname, '--dialog-plane'))
 								.setAttribute('visible', 'true');
@@ -356,7 +359,15 @@
 							document
 								.getElementById(''.concat(idname, '--open-icon'))
 								.setAttribute('visible', 'false');
-
+							for (let x = 0; x < openChecker.length; x++) {
+								if (
+									openChecker[x].getAttribute('id') !=
+									idname.concat('--open-icon')
+								) {
+									openChecker[x].setAttribute('visible', 'true');
+									planeChecker[x].setAttribute('visible', 'false');
+								}
+							}
 							// for (let x = 0; x < removeIcon.length; x++) {
 							// 	removeIcon[x].setAttribute('visible', 'false');
 							// }
@@ -580,9 +591,20 @@
 						var rightSide = document.createElement('div');
 						var itemtitle = document.createElement('p');
 						var itembody = document.createElement('p');
-						itemtitle.textContent = title;
-
+						itemtitle.innerHTML = title;
 						itembody.innerHTML = body.replace(/\\n/g, '<br />');
+
+						if (title == 'Cooling Tower') {
+							itembody.innerHTML =
+								body.substring(0, body.indexOf('Counter Flow')) +
+								'<b>' +
+								body.substring(
+									body.indexOf('Counter Flow'),
+									body.indexOf(' method')
+								) +
+								'</b>' +
+								body.substring(body.indexOf(' method'));
+						}
 						leftSide.classList.add('leftPopup');
 						rightSide.classList.add('rightPopup');
 						itemtitle.classList.add('itemTitle');
@@ -605,7 +627,7 @@
 
 						rightSide.appendChild(itemtitle);
 						rightSide.appendChild(itembody);
-						if (title.includes('Cooling Tower')) {
+						if (title == 'Cooling Tower') {
 							var image = document.createElement('img');
 							image.src = 'hotspots/counter.jpg';
 							image.classList.add('itemImage');
@@ -663,6 +685,7 @@
 						height: height + padding,
 					});
 					var image = this.generateImage();
+					plane.classList.add('planeChecker');
 
 					if (image) {
 						plane.appendChild(image[0]);
