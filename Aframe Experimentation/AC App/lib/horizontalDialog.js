@@ -464,6 +464,12 @@
 					if (this.hasImage) {
 						y -= imageHeight / 2;
 					}
+					title.addEventListener('mouseenter', function hoverAns() {
+						$('.a-canvas.a-grab-cursor:hover').css('cursor', 'pointer');
+					});
+					title.addEventListener('mouseleave', function hoverAns() {
+						$('.a-canvas.a-grab-cursor:hover').css('cursor', 'grab');
+					});
 					title.setAttribute('position', {
 						x: 1.16,
 						y: 0,
@@ -567,6 +573,12 @@
 						anchor: 'center',
 					});
 					var y = height / 2 - padding * 3;
+					body.addEventListener('mouseenter', function hoverAns() {
+						$('.a-canvas.a-grab-cursor:hover').css('cursor', 'pointer');
+					});
+					body.addEventListener('mouseleave', function hoverAns() {
+						$('.a-canvas.a-grab-cursor:hover').css('cursor', 'grab');
+					});
 					body.addEventListener('mousedown', function () {
 						var elContainer = document.createElement('div');
 						var leftSide = document.createElement('div');
@@ -669,6 +681,13 @@
 					roundedPlane.setAttribute('material', {
 						shader: 'flat',
 					});
+
+					roundedPlane.addEventListener('mouseenter', function hoverAns() {
+						$('.a-canvas.a-grab-cursor:hover').css('cursor', 'pointer');
+					});
+					roundedPlane.addEventListener('mouseleave', function hoverAns() {
+						$('.a-canvas.a-grab-cursor:hover').css('cursor', 'grab');
+					});
 					roundedPlane.addEventListener('mousedown', function () {
 						var elContainer = document.createElement('div');
 						var leftSide = document.createElement('div');
@@ -747,6 +766,12 @@
 						'id',
 						''.concat(this.el.getAttribute('id'), '--image')
 					);
+					image.addEventListener('mouseenter', function hoverAns() {
+						$('.a-canvas.a-grab-cursor:hover').css('cursor', 'pointer');
+					});
+					image.addEventListener('mouseleave', function hoverAns() {
+						$('.a-canvas.a-grab-cursor:hover').css('cursor', 'grab');
+					});
 					image.setAttribute('material', {
 						src: src,
 						height: height,
