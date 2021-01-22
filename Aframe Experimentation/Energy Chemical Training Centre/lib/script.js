@@ -475,7 +475,7 @@ AFRAME.registerComponent('animatemodel', {
 						);
 					this.setAttribute('animation__rotate', {
 						property: 'rotation',
-						to: '0 232 0',
+						to: '0 232 28',
 					});
 					this.setAttribute('animation__move', {
 						property: 'position',
