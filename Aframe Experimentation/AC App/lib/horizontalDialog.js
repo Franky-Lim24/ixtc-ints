@@ -198,6 +198,10 @@
 						type: 'boolean',
 						default: false,
 					},
+					addImage: {
+						type: 'string',
+						default: '',
+					},
 				},
 				multiple: true,
 				dialogPlaneEl: null,
@@ -433,7 +437,8 @@
 						body = _this$data3.body,
 						imageHeight = _this$data3.imageHeight,
 						multiple = _this$data3.multiple,
-						src = _this$data3.image;
+						src = _this$data3.image,
+						addImage = _this$data3.addImage;
 					var title = this.titleEl || document.createElement('a-entity');
 					title.setAttribute(
 						'id',
@@ -483,18 +488,6 @@
 						var itembody = document.createElement('p');
 						itemtitle.innerHTML = value;
 						itembody.innerHTML = body.replace(/\\n/g, '<br />');
-
-						if (title == 'Cooling Tower') {
-							itembody.innerHTML =
-								body.substring(0, body.indexOf('Counter Flow')) +
-								'<b>' +
-								body.substring(
-									body.indexOf('Counter Flow'),
-									body.indexOf(' method')
-								) +
-								'</b>' +
-								body.substring(body.indexOf(' method'));
-						}
 						leftSide.classList.add('leftPopup');
 						rightSide.classList.add('rightPopup');
 						itemtitle.classList.add('itemTitle');
@@ -517,9 +510,9 @@
 
 						rightSide.appendChild(itemtitle);
 						rightSide.appendChild(itembody);
-						if (title == 'Cooling Tower') {
+						if (addImage) {
 							var image = document.createElement('img');
-							image.src = 'hotspots/counter.jpg';
+							image.src = addImage;
 							image.classList.add('itemImage');
 							rightSide.appendChild(image);
 						}
@@ -553,7 +546,8 @@
 						imageHeight = _this$data4.imageHeight,
 						multiple = _this$data4.multiple,
 						src = _this$data4.image,
-						title = _this$data4.title;
+						title = _this$data4.title,
+						addImage = _this$data4.addImage;
 
 					var body = this.bodyEl || document.createElement('a-entity');
 					body.setAttribute(
@@ -587,18 +581,6 @@
 						var itembody = document.createElement('p');
 						itemtitle.innerHTML = title;
 						itembody.innerHTML = value.replace(/\\n/g, '<br />');
-
-						if (title == 'Cooling Tower') {
-							itembody.innerHTML =
-								value.substring(0, value.indexOf('Counter Flow')) +
-								'<b>' +
-								value.substring(
-									value.indexOf('Counter Flow'),
-									value.indexOf(' method')
-								) +
-								'</b>' +
-								value.substring(value.indexOf(' method'));
-						}
 						leftSide.classList.add('leftPopup');
 						rightSide.classList.add('rightPopup');
 						itemtitle.classList.add('itemTitle');
@@ -621,9 +603,9 @@
 
 						rightSide.appendChild(itemtitle);
 						rightSide.appendChild(itembody);
-						if (title == 'Cooling Tower') {
+						if (addImage) {
 							var image = document.createElement('img');
-							image.src = 'hotspots/counter.jpg';
+							image.src = addImage;
 							image.classList.add('itemImage');
 							rightSide.appendChild(image);
 						}
@@ -665,7 +647,8 @@
 						dialogBoxHeight = _this$data5.dialogBoxHeight,
 						multiple = _this$data5.multiple,
 						title = _this$data5.title,
-						body = _this$data5.body;
+						body = _this$data5.body,
+						addImage = _this$data5.addImage;
 
 					if (!src.length) {
 						return null;
@@ -696,18 +679,6 @@
 						var itembody = document.createElement('p');
 						itemtitle.innerHTML = title;
 						itembody.innerHTML = body.replace(/\\n/g, '<br />');
-
-						if (title == 'Cooling Tower') {
-							itembody.innerHTML =
-								body.substring(0, body.indexOf('Counter Flow')) +
-								'<b>' +
-								body.substring(
-									body.indexOf('Counter Flow'),
-									body.indexOf(' method')
-								) +
-								'</b>' +
-								body.substring(body.indexOf(' method'));
-						}
 						leftSide.classList.add('leftPopup');
 						rightSide.classList.add('rightPopup');
 						itemtitle.classList.add('itemTitle');
@@ -730,9 +701,9 @@
 
 						rightSide.appendChild(itemtitle);
 						rightSide.appendChild(itembody);
-						if (title == 'Cooling Tower') {
+						if (addImage) {
 							var image = document.createElement('img');
-							image.src = 'hotspots/counter.jpg';
+							image.src = addImage;
 							image.classList.add('itemImage');
 							rightSide.appendChild(image);
 						}
@@ -794,17 +765,6 @@
 						itemtitle.innerHTML = title;
 						itembody.innerHTML = body.replace(/\\n/g, '<br />');
 
-						if (title == 'Cooling Tower') {
-							itembody.innerHTML =
-								body.substring(0, body.indexOf('Counter Flow')) +
-								'<b>' +
-								body.substring(
-									body.indexOf('Counter Flow'),
-									body.indexOf(' method')
-								) +
-								'</b>' +
-								body.substring(body.indexOf(' method'));
-						}
 						leftSide.classList.add('leftPopup');
 						rightSide.classList.add('rightPopup');
 						itemtitle.classList.add('itemTitle');
@@ -827,9 +787,9 @@
 
 						rightSide.appendChild(itemtitle);
 						rightSide.appendChild(itembody);
-						if (title == 'Cooling Tower') {
+						if (addImage) {
 							var image = document.createElement('img');
-							image.src = 'hotspots/counter.jpg';
+							image.src = addImage;
 							image.classList.add('itemImage');
 							rightSide.appendChild(image);
 						}
