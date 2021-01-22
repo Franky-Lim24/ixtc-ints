@@ -356,7 +356,7 @@ html {
 	z-index: 9999;
 	position: absolute;
 	width: 650px;
-	height: 420px;
+	height: 380px;
 	border-radius: 20px;
 	background-color: white;
 	font-family: 'raleway';
@@ -484,7 +484,7 @@ html {
 	}
 	#popupContainer {
 		width: 360px;
-		height: 260px;
+		height: 220px;
 	}
 	#popupTitle {
 		font-size: 18px;
@@ -560,7 +560,7 @@ html {
 	}
 	#popupContainer {
 		width: 450px;
-		height: 340px;
+		height: 300px;
 	}
 	#popupTitle {
 		font-size: 20px;
