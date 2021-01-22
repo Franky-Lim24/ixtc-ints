@@ -421,8 +421,8 @@ AFRAME.registerComponent('spot', {
 			var sky = document.getElementById('skybox');
 			sky.setAttribute('animation__opacity', {
 				property: 'material.opacity',
-				to: 0.5,
-				dur: 500,
+				to: 0.4,
+				dur: 600,
 			});
 			setTimeout(() => {
 				checkCamera(data.linkto);
@@ -431,7 +431,7 @@ AFRAME.registerComponent('spot', {
 				sky.setAttribute('animation__opacity', {
 					property: 'material.opacity',
 					to: 1,
-					dur: 500,
+					dur: 400,
 				});
 
 				var spotcomp = document.getElementById('spots');
@@ -441,7 +441,7 @@ AFRAME.registerComponent('spot', {
 					newspots: data.spotgroup,
 					currspots: currspots,
 				});
-			}, 400);
+			}, 500);
 		});
 	},
 });
