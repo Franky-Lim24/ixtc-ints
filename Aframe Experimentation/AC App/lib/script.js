@@ -417,18 +417,31 @@ AFRAME.registerComponent('spot', {
 				$('.a-canvas.a-grab-cursor:hover').css('cursor', 'grab');
 			});
 		this.el.addEventListener('mousedown', function () {
-			checkCamera(data.linkto);
 			//set the skybox source to the new image as per the spot
 			var sky = document.getElementById('skybox');
-			sky.setAttribute('src', data.linkto);
-
-			var spotcomp = document.getElementById('spots');
-			var currspots = this.parentElement.getAttribute('id');
-			//create event for spots component to change the spots data
-			spotcomp.emit('reloadspots', {
-				newspots: data.spotgroup,
-				currspots: currspots,
+			sky.setAttribute('animation__opacity', {
+				property: 'material.opacity',
+				to: 0.5,
+				dur: 500,
 			});
+			setTimeout(() => {
+				checkCamera(data.linkto);
+
+				sky.setAttribute('src', data.linkto);
+				sky.setAttribute('animation__opacity', {
+					property: 'material.opacity',
+					to: 1,
+					dur: 500,
+				});
+
+				var spotcomp = document.getElementById('spots');
+				var currspots = this.parentElement.getAttribute('id');
+				//create event for spots component to change the spots data
+				spotcomp.emit('reloadspots', {
+					newspots: data.spotgroup,
+					currspots: currspots,
+				});
+			}, 400);
 		});
 	},
 });
