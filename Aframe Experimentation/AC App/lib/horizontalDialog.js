@@ -262,6 +262,80 @@
 				/**
 				 * Generates the open icon.
 				 */
+				generateCloseUp: function generateCloseUp() {},
+				generateClickAnimation: function generateClickAnimation() {
+					var _this$data7 = this.data,
+						value = _this$data7.title,
+						body = _this$data7.body,
+						src = _this$data7.image,
+						addImage = _this$data7.addImage;
+					var an = document.createElement('a-entity');
+					an.setAttribute('geometry', 'primitive:plane;width:0.6;height:0.6;');
+					an.setAttribute(
+						'material',
+						'shader:gif;src:url(assets/click-animation.gif);transparent:true;alphaTest:0.5;'
+					);
+					an.classList.add('clickOnce');
+					an.setAttribute('rotation', '0 0 30');
+					an.setAttribute('position', '1 -0.4 1.5');
+					an.addEventListener('mouseenter', function hoverAns() {
+						$('.a-canvas.a-grab-cursor:hover').css('cursor', 'pointer');
+					});
+					an.addEventListener('mouseleave', function hoverAns() {
+						$('.a-canvas.a-grab-cursor:hover').css('cursor', 'grab');
+					});
+					an.addEventListener('mousedown', function () {
+						var elContainer = document.createElement('div');
+						var leftSide = document.createElement('div');
+						var rightSide = document.createElement('div');
+						var itemtitle = document.createElement('p');
+						var itembody = document.createElement('p');
+						itemtitle.innerHTML = value;
+						itembody.innerHTML = body.replace(/\\n/g, '<br />');
+						leftSide.classList.add('leftPopup');
+						rightSide.classList.add('rightPopup');
+						itemtitle.classList.add('itemTitle');
+						itembody.classList.add('itemBody');
+						elContainer.classList.add('elcontainer');
+						if (window.innerHeight > window.innerWidth) {
+							if (itembody.innerHTML == '') {
+								rightSide.style.cssText =
+									'width:80%;height:40%;background:white;border-radius: 0 0 20px 20px;display:flex;justify-content:center;flex-direction:column;';
+							}
+						} else {
+							if (itembody.innerHTML == '') {
+								rightSide.style.cssText =
+									'width:40%;height:80%;background:white;border-radius: 0 20px 20px 0;display:flex;justify-content:center;flex-direction:column;';
+							}
+						}
+						leftSide.style.backgroundImage = 'url('.concat(src, ')');
+
+						elContainer.classList.add('imgPopup');
+
+						rightSide.appendChild(itemtitle);
+						rightSide.appendChild(itembody);
+						if (addImage) {
+							var image = document.createElement('img');
+							image.src = addImage;
+							image.classList.add('itemImage');
+							rightSide.appendChild(image);
+						}
+						elContainer.appendChild(leftSide);
+						elContainer.appendChild(rightSide);
+						elContainer.onmousedown = function () {
+							var imgPopup = document.querySelectorAll('.imgPopup');
+							for (let x = 0; x < imgPopup.length; x++) {
+								$(imgPopup[x].remove());
+							}
+						};
+						document.body.appendChild(elContainer);
+						var clickOnce = document.querySelectorAll('.clickOnce');
+						clickOnce.forEach((element) => {
+							$(element).remove();
+						});
+					});
+					return an;
+				},
 				generateOpenIcon: function generateOpenIcon() {
 					var _this$data = this.data,
 						radius = _this$data.openIconRadius,
@@ -525,6 +599,10 @@
 							}
 						};
 						document.body.appendChild(elContainer);
+						var clickOnce = document.querySelectorAll('.clickOnce');
+						clickOnce.forEach((element) => {
+							$(element).remove();
+						});
 					});
 
 					this.titleEl = title;
@@ -618,6 +696,10 @@
 							}
 						};
 						document.body.appendChild(elContainer);
+						var clickOnce = document.querySelectorAll('.clickOnce');
+						clickOnce.forEach((element) => {
+							$(element).remove();
+						});
 					});
 
 					if (this.hasImage) {
@@ -716,6 +798,10 @@
 							}
 						};
 						document.body.appendChild(elContainer);
+						var clickOnce = document.querySelectorAll('.clickOnce');
+						clickOnce.forEach((element) => {
+							$(element).remove();
+						});
 					});
 
 					var image = this.imageEl || document.createElement('a-rounded');
@@ -802,6 +888,10 @@
 							}
 						};
 						document.body.appendChild(elContainer);
+						var clickOnce = document.querySelectorAll('.clickOnce');
+						clickOnce.forEach((element) => {
+							$(element).remove();
+						});
 					});
 
 					this.hasImage = true;
@@ -860,6 +950,7 @@
 					});
 					plane.appendChild(this.generateTitle());
 					plane.appendChild(this.generateBody());
+					plane.appendChild(this.generateClickAnimation());
 					document
 						.getElementById('skybox')
 						.addEventListener('mouseenter', function () {
