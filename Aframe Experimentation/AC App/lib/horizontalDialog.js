@@ -277,7 +277,8 @@
 					);
 					an.classList.add('clickOnce');
 					an.setAttribute('rotation', '0 0 30');
-					an.setAttribute('position', '1 -0.4 1.5');
+					an.setAttribute('position', '2 -0.8 0.01');
+					an.setAttribute('scale', '2 2 2');
 					an.addEventListener('mouseenter', function hoverAns() {
 						$('.a-canvas.a-grab-cursor:hover').css('cursor', 'pointer');
 					});
