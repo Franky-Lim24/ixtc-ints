@@ -267,19 +267,17 @@
 					// component to the openIcon.
 
 					openIcon.setAttribute('look-at', '#cam');
-					$(window).on('load', function () {
-						openIcon.addEventListener('mouseenter', function () {
-							// var removeIcon = $('.removeIcon');
-							// for (let x = 0; x < removeIcon.length; x++) {
-							// 	removeIcon[x].setAttribute('visible', 'false');
-							// }
-							document
-								.getElementById(''.concat(idname, '--open-icon'))
-								.setAttribute('visible', 'false');
-							document
-								.getElementById(''.concat(idname, '--dialog-plane'))
-								.setAttribute('visible', 'true');
-						});
+					openIcon.addEventListener('mouseenter', function () {
+						// var removeIcon = $('.removeIcon');
+						// for (let x = 0; x < removeIcon.length; x++) {
+						// 	removeIcon[x].setAttribute('visible', 'false');
+						// }
+						document
+							.getElementById(''.concat(idname, '--open-icon'))
+							.setAttribute('visible', 'false');
+						document
+							.getElementById(''.concat(idname, '--dialog-plane'))
+							.setAttribute('visible', 'true');
 					});
 
 					this.openIconEl = openIcon;

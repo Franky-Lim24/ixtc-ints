@@ -7,26 +7,39 @@
 			content="width=device-width, user-scalable=no,
 		initial-scale=1"
 		/>
-		<script src="lib/fastclick.js"></script>
-		<script src="lib/jquery.min.js"></script>
-		<script src="lib/anime.min.js"></script>
+		<link rel="icon" type="image/png" href="assets/favicon.png" />
+		<script defer src="lib/jquery.min.js"></script>
+		<script defer src="lib/anime.min.js"></script>
 		<script src="lib/aframe.min.js"></script>
-		<script src="lib/aframe-look-at-component.min.js"></script>
-		<script src="lib/aframe-animation-component.min.js"></script>
-		<script src="lib/aframe-event-set-component.min.js"></script>
-		<link rel="stylesheet" href="assets/bttn.min.css" />
+		<script defer src="lib/aframe-gif-shader.min.js"></script>
+		<script defer src="lib/aframe-look-at-component.min.js"></script>
+		<script defer src="lib/aframe-animation-component.min.js"></script>
+		<script defer src="lib/aframe-event-set-component.min.js"></script>
+		<link
+			rel="preload"
+			href="assets/bttn.min.css"
+			as="style"
+			onload="this.onload=null;this.rel='stylesheet'"
+		/>
+		<noscript><link rel="stylesheet" href="assets/bttn.min.css" /></noscript>
 		<link rel="preconnect" href="https://fonts.gstatic.com" />
 		<script src="lib/aframe-rounded-component.min.js"></script>
 		<link
 			href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap"
 			rel="stylesheet"
 		/>
-		<script src="lib/horizontalDialog.js"></script>
-		<script src="lib/mcq-lib.min.js"></script>
-		<script src="lib/script.js"></script>
-		<link rel="stylesheet" href="assets/animate.min.css" />
+		<script defer src="lib/horizontalDialog.js"></script>
+		<script defer src="lib/mcq-lib.js"></script>
+		<script defer src="lib/script.js"></script>
+		<link
+			rel="preload"
+			href="assets/animate.min.css"
+			as="style"
+			onload="this.onload=null;this.rel='stylesheet'"
+		/>
+		<noscript><link rel="stylesheet" href="assets/animate.min.css" /></noscript>
 		<link rel="stylesheet" href="loading.css" />
-		<link rel="stylesheet" href="styles.min.css" />
+		<link rel="stylesheet" href="styles.css" />
 		<title>Energy & Chemical Training Centre</title>
 	</head>
 	<body>
@@ -230,6 +243,7 @@
 					</div>
 				</div>
 			</div>
+			<div id="minimap"></div>
 			<!--Aframe canvas-->
 			<a-scene>
 				<!--Images Collection-->
