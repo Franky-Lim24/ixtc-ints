@@ -986,74 +986,76 @@
 						color = _this$data6.dialogBoxColor;
 					var plane = this.dialogPlaneEl || document.createElement('a-entity');
 					var idname = this.el.getAttribute('id');
-					plane.setAttribute(
-						'id',
-						''.concat(this.el.getAttribute('id'), '--dialog-plane')
-					);
-					plane.setAttribute('look-at', '#cam');
-					var pos = Object.assign({}, this.el.getAttribute('position'));
-					let posz = 0;
-					if (pos.z > 0) {
-						posz = pos.z - 0.5;
-					} else {
-						posz = pos.z + 0.5;
-					}
-					plane.setAttribute('position', {
-						x: pos.x,
-						y: pos.y,
-						z: posz,
-					});
-					plane.setAttribute('visible', false);
-					plane.setAttribute('scale', '0.3 0.3 1');
-					plane.setAttribute('geometry', {
-						primitive: 'plane',
-						width: width + padding,
-						height: height + padding,
-					});
-					var image = this.generateImage();
-					plane.classList.add('planeChecker');
-
-					if (image) {
-						plane.appendChild(image[0]);
-						plane.appendChild(image[1]);
-					}
-
-					plane.setAttribute('material', {
-						color: color,
-						src: 'assets/infoDialog.png',
-						transparent: true,
-						opacity: '0.5',
-					});
-					plane.appendChild(this.generateTitle());
-					plane.appendChild(this.generateBody());
-					plane.appendChild(this.generateClickAnimation());
-					document
-						.getElementById('skybox')
-						.addEventListener('mouseenter', function () {
-							var newEl = document.getElementById(
-								''.concat(idname, '--open-icon')
-							);
-							if (!newEl.classList.contains('invis')) {
-								document
-									.getElementById(''.concat(idname, '--dialog-plane'))
-									.setAttribute(
-										'animation__scale',
-										'property: scale; to: 0.3 0.3 1; dur:1;'
-									);
-								document
-									.getElementById(''.concat(idname, '--dialog-plane'))
-									.setAttribute('visible', 'false');
-								newEl.setAttribute('visible', 'true');
-							}
-							var newPulse = document.getElementById(
-								''.concat(idname, '--pulse-icon')
-							);
-							if (newPulse) {
-								if (!newPulse.classList.contains('invis')) {
-									newPulse.setAttribute('visible', 'true');
-								}
-							}
+					if (!AFRAME.utils.device.isMobile()) {
+						plane.setAttribute(
+							'id',
+							''.concat(this.el.getAttribute('id'), '--dialog-plane')
+						);
+						plane.setAttribute('look-at', '#cam');
+						var pos = Object.assign({}, this.el.getAttribute('position'));
+						let posz = 0;
+						if (pos.z > 0) {
+							posz = pos.z - 0.5;
+						} else {
+							posz = pos.z + 0.5;
+						}
+						plane.setAttribute('position', {
+							x: pos.x,
+							y: pos.y,
+							z: posz,
 						});
+						plane.setAttribute('visible', false);
+						plane.setAttribute('scale', '0.3 0.3 1');
+						plane.setAttribute('geometry', {
+							primitive: 'plane',
+							width: width + padding,
+							height: height + padding,
+						});
+						var image = this.generateImage();
+						plane.classList.add('planeChecker');
+
+						if (image) {
+							plane.appendChild(image[0]);
+							plane.appendChild(image[1]);
+						}
+
+						plane.setAttribute('material', {
+							color: color,
+							src: 'assets/infoDialog.png',
+							transparent: true,
+							opacity: '0.5',
+						});
+						plane.appendChild(this.generateTitle());
+						plane.appendChild(this.generateBody());
+						plane.appendChild(this.generateClickAnimation());
+						document
+							.getElementById('skybox')
+							.addEventListener('mouseenter', function () {
+								var newEl = document.getElementById(
+									''.concat(idname, '--open-icon')
+								);
+								if (!newEl.classList.contains('invis')) {
+									document
+										.getElementById(''.concat(idname, '--dialog-plane'))
+										.setAttribute(
+											'animation__scale',
+											'property: scale; to: 0.3 0.3 1; dur:1;'
+										);
+									document
+										.getElementById(''.concat(idname, '--dialog-plane'))
+										.setAttribute('visible', 'false');
+									newEl.setAttribute('visible', 'true');
+								}
+								var newPulse = document.getElementById(
+									''.concat(idname, '--pulse-icon')
+								);
+								if (newPulse) {
+									if (!newPulse.classList.contains('invis')) {
+										newPulse.setAttribute('visible', 'true');
+									}
+								}
+							});
+					}
 					this.dialogPlaneEl = plane;
 					return plane;
 				},
@@ -1069,9 +1071,9 @@
 					let icons = this.generateOpenIcon();
 					this.el.appendChild(icons[0]);
 					this.el.appendChild(icons[1]);
-					if (!AFRAME.utils.device.isMobile) {
-						this.el.appendChild(this.generateDialogPlane());
-					}
+
+					this.el.appendChild(this.generateDialogPlane());
+
 					this.el.removeAttribute('position');
 				},
 			});
