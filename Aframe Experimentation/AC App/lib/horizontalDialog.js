@@ -421,12 +421,21 @@
 					pulseIcon.setAttribute('look-at', '#cam');
 					openIcon.setAttribute('look-at', '#cam');
 					$(window).on('load', function () {
-						openIcon.addEventListener('mouseenter', function () {
-							openPlane();
-						});
-						pulseIcon.addEventListener('mouseenter', function () {
-							openPlane();
-						});
+						if (AFRAME.utils.device.isMobile()) {
+							openIcon.addEventListener('mousedown', function () {
+								openPlane();
+							});
+							pulseIcon.addEventListener('mousedown', function () {
+								openPlane();
+							});
+						} else {
+							openIcon.addEventListener('mouseenter', function () {
+								openPlane();
+							});
+							pulseIcon.addEventListener('mouseenter', function () {
+								openPlane();
+							});
+						}
 					});
 					function openPlane() {
 						//var removeIcon = $('.removeIcon');
