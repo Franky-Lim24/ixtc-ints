@@ -409,30 +409,35 @@ AFRAME.registerComponent('spot', {
 			});
 		this.el.addEventListener('mousedown', function () {
 			//set the skybox source to the new image as per the spot
+			let animCheck = true;
 			var sky = document.getElementById('skybox');
-			// sky.setAttribute('animation__opacity', {
-			// 	property: 'material.opacity',
-			// 	to: 0.4,
-			// 	dur: 600,
-			// });
-			//setTimeout(() => {
-			checkCamera(data.linkto);
-
-			sky.setAttribute('src', data.linkto);
-			// sky.setAttribute('animation__opacity', {
-			// 	property: 'material.opacity',
-			// 	to: 1,
-			// 	dur: 400,
-			// });
 
 			var spotcomp = document.getElementById('spots');
 			var currspots = this.parentElement.getAttribute('id');
-			//create event for spots component to change the spots data
-			spotcomp.emit('reloadspots', {
-				newspots: data.spotgroup,
-				currspots: currspots,
+
+			sky.setAttribute('animation__color', {
+				property: 'material.color',
+				to: '#000000',
+				dur: 300,
 			});
-			//}, 500);
+			setTimeout(() => {
+				if (animCheck) {
+					sky.setAttribute('animation__color', {
+						property: 'material.color',
+						to: '#fff',
+						dur: 300,
+					});
+					sky.setAttribute('src', data.linkto);
+
+					checkCamera(data.linkto);
+					animCheck = false;
+					//create event for spots component to change the spots data
+					spotcomp.emit('reloadspots', {
+						newspots: data.spotgroup,
+						currspots: currspots,
+					});
+				}
+			}, 250);
 		});
 	},
 });
