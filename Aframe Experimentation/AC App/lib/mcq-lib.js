@@ -287,13 +287,15 @@
 								.setAttribute('visible', 'true');
 							var openChecker = $('.openChecker');
 							var planeChecker = $('.planeChecker');
-							for (let x = 0; x < openChecker.length; x++) {
-								if (
-									openChecker[x].getAttribute('id') !=
-									idname.concat('--open-icon')
-								) {
-									openChecker[x].setAttribute('visible', 'true');
-									planeChecker[x].setAttribute('visible', 'false');
+							if (!AFRAME.utils.device.isMobile()) {
+								for (let x = 0; x < openChecker.length; x++) {
+									if (
+										openChecker[x].getAttribute('id') !=
+										idname.concat('--open-icon')
+									) {
+										openChecker[x].setAttribute('visible', 'true');
+										planeChecker[x].setAttribute('visible', 'false');
+									}
 								}
 							}
 						});
