@@ -1,16 +1,23 @@
 @media only screen and (orientation: landscape) {
 	.leftPopup {
-		width: 46%;
 		height: 80%;
-		background-size: 100% 100%;
-		border-radius: 20px 0 0 20px;
-		background-position: center;
+		width: 46%;
+		background: white;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 10px 0 0 10px;
+	}
+	.itemImg {
+		border-radius: 10px 10px 10px 10px;
+		max-height: 85%;
+		max-width: 85%;
 	}
 	.rightPopup {
 		width: 46%;
 		height: 80%;
 		background: white;
-		border-radius: 0 20px 20px 0;
+		border-radius: 0 10px 10px 0;
 		display: flex;
 		flex-direction: column;
 	}
@@ -52,9 +59,16 @@
 	.leftPopup {
 		width: 80%;
 		height: 47%;
-		background-size: 100% 100%;
-		border-radius: 20px 20px 0 0;
-		background-position: center;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background: white;
+		border-radius: 10px 10px 0 0;
+	}
+	.itemImg {
+		max-width: 90%;
+		max-height: 90%;
+		border-radius: 10px 10px 10px 10px;
 	}
 	.itemImage {
 		max-width: 80%;
@@ -66,7 +80,7 @@
 		width: 80%;
 		height: 47%;
 		background: white;
-		border-radius: 0 0 20px 20px;
+		border-radius: 0 0 10px 10px;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
@@ -536,7 +550,7 @@ html {
 		margin-top: 1em;
 	}
 	.itemBody {
-		font-size: 0.8em;
+		font-size: 0.7em;
 		margin-top: 1.2em;
 	}
 }

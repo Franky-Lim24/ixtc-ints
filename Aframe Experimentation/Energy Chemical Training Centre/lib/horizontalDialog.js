@@ -262,7 +262,6 @@
 				/**
 				 * Generates the open icon.
 				 */
-				generateCloseUp: function generateCloseUp() {},
 				generateClickAnimation: function generateClickAnimation() {
 					var _this$data7 = this.data,
 						value = _this$data7.title,
@@ -291,8 +290,11 @@
 						var rightSide = document.createElement('div');
 						var itemtitle = document.createElement('p');
 						var itembody = document.createElement('p');
+						var itemImg = document.createElement('img');
+
 						itemtitle.innerHTML = value;
 						itembody.innerHTML = body.replace(/\\n/g, '<br />');
+						itemImg.classList.add('itemImg');
 						leftSide.classList.add('leftPopup');
 						rightSide.classList.add('rightPopup');
 						itemtitle.classList.add('itemTitle');
@@ -309,10 +311,10 @@
 									'width:40%;height:80%;background:white;border-radius: 0 20px 20px 0;display:flex;justify-content:center;flex-direction:column;';
 							}
 						}
-						leftSide.style.backgroundImage = 'url('.concat(src, ')');
+						itemImg.src = src;
 
 						elContainer.classList.add('imgPopup');
-
+						leftSide.appendChild(itemImg);
 						rightSide.appendChild(itemtitle);
 						rightSide.appendChild(itembody);
 						if (addImage) {
@@ -559,6 +561,8 @@
 						var rightSide = document.createElement('div');
 						var itemtitle = document.createElement('p');
 						var itembody = document.createElement('p');
+						var itemImg = document.createElement('img');
+
 						itemtitle.innerHTML = value;
 						itembody.innerHTML = body.replace(/\\n/g, '<br />');
 						leftSide.classList.add('leftPopup');
@@ -566,6 +570,7 @@
 						itemtitle.classList.add('itemTitle');
 						itembody.classList.add('itemBody');
 						elContainer.classList.add('elcontainer');
+						itemImg.classList.add('itemImg');
 						if (window.innerHeight > window.innerWidth) {
 							if (itembody.innerHTML == '') {
 								rightSide.style.cssText =
@@ -577,10 +582,10 @@
 									'width:40%;height:80%;background:white;border-radius: 0 20px 20px 0;display:flex;justify-content:center;flex-direction:column;';
 							}
 						}
-						leftSide.style.backgroundImage = 'url('.concat(src, ')');
+						itemImg.src = src;
 
 						elContainer.classList.add('imgPopup');
-
+						leftSide.appendChild(itemImg);
 						rightSide.appendChild(itemtitle);
 						rightSide.appendChild(itembody);
 						if (addImage) {
@@ -758,6 +763,7 @@
 						var rightSide = document.createElement('div');
 						var itemtitle = document.createElement('p');
 						var itembody = document.createElement('p');
+						var itemImg = document.createElement('img');
 						itemtitle.innerHTML = title;
 						itembody.innerHTML = body.replace(/\\n/g, '<br />');
 						leftSide.classList.add('leftPopup');
@@ -765,6 +771,7 @@
 						itemtitle.classList.add('itemTitle');
 						itembody.classList.add('itemBody');
 						elContainer.classList.add('elcontainer');
+						itemImg.classList.add('itemImg');
 						if (window.innerHeight > window.innerWidth) {
 							if (itembody.innerHTML == '') {
 								rightSide.style.cssText =
@@ -776,10 +783,9 @@
 									'width:40%;height:80%;background:white;border-radius: 0 20px 20px 0;display:flex;justify-content:center;flex-direction:column;';
 							}
 						}
-						leftSide.style.backgroundImage = 'url('.concat(src, ')');
-
+						itemImg.src = src;
 						elContainer.classList.add('imgPopup');
-
+						leftSide.appendChild(itemImg);
 						rightSide.appendChild(itemtitle);
 						rightSide.appendChild(itembody);
 						if (addImage) {
@@ -847,9 +853,11 @@
 						var rightSide = document.createElement('div');
 						var itemtitle = document.createElement('p');
 						var itembody = document.createElement('p');
+						var itemImg = document.createElement('img');
+
 						itemtitle.innerHTML = title;
 						itembody.innerHTML = body.replace(/\\n/g, '<br />');
-
+						itemImg.classList.add('itemImg');
 						leftSide.classList.add('leftPopup');
 						rightSide.classList.add('rightPopup');
 						itemtitle.classList.add('itemTitle');
@@ -866,10 +874,10 @@
 									'width:40%;height:80%;background:white;border-radius: 0 20px 20px 0;display:flex;justify-content:center;flex-direction:column;';
 							}
 						}
-						leftSide.style.backgroundImage = 'url('.concat(src, ')');
+						itemImg.src = src;
 
 						elContainer.classList.add('imgPopup');
-
+						leftSide.appendChild(itemImg);
 						rightSide.appendChild(itemtitle);
 						rightSide.appendChild(itembody);
 						if (addImage) {

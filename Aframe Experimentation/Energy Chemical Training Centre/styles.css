@@ -1,10 +1,10 @@
 @media only screen and (orientation: landscape) {
 	.leftPopup {
-		width: 46%;
 		height: 80%;
-		background-size: 100% 100%;
+	}
+	.itemImg {
 		border-radius: 20px 0 0 20px;
-		background-position: center;
+		height: 100%;
 	}
 	.rightPopup {
 		width: 46%;
@@ -51,10 +51,11 @@
 @media only screen and (orientation: portrait) {
 	.leftPopup {
 		width: 80%;
-		height: 47%;
-		background-size: 100% 100%;
+	}
+	.itemImg {
+		width: 100%;
+		height: 100%;
 		border-radius: 20px 20px 0 0;
-		background-position: center;
 	}
 	.itemImage {
 		max-width: 80%;
@@ -458,7 +459,7 @@ html {
 	position: absolute;
 	bottom: 20px;
 	left: 20px;
-	z-index: 9999;
+	z-index: 9998;
 	background: white;
 	background-image: url('assets/ECTCMap.png');
 	width: 100px;
@@ -468,6 +469,16 @@ html {
 	background-repeat: no-repeat;
 	cursor: pointer;
 	border-radius: 10px;
+}
+#dot {
+	position: absolute;
+	height: 7px;
+	left: 8px;
+	top: 66px;
+	width: 7px;
+	background-color: #df5349;
+	border-radius: 50%;
+	display: inline-block;
 }
 @media only screen and (min-width: 1px) and (max-width: 578px) {
 	#title {

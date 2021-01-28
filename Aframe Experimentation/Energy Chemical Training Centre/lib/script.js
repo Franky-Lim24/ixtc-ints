@@ -411,6 +411,7 @@ AFRAME.registerComponent('spot', {
 			});
 		this.el.addEventListener('mousedown', function () {
 			checkCamera(data.linkto);
+			changeDot(data.linkto);
 			//set the skybox source to the new image as per the spot
 			var sky = document.getElementById('skybox');
 			sky.setAttribute('src', data.linkto);
@@ -486,3 +487,57 @@ AFRAME.registerComponent('animatemodel', {
 	},
 	update: function () {},
 });
+document.querySelector('#minimap').addEventListener('click', function (evt) {
+	console.log(evt.offsetX, evt.offsetY);
+	$('#dot').css({ left: evt.offsetX, top: evt.offsetY });
+});
+function changeDot(loc) {
+	var dotPosition = [
+		[8, 66],
+		[30, 62],
+		[27, 45],
+		[38, 46],
+		[46, 46],
+		[58, 46],
+		[64, 32],
+		[64, 23],
+		[49, 23],
+		[47, 31],
+		[50, 37],
+		[39, 37],
+		[28, 24],
+		[37, 11],
+		[63, 14],
+	];
+	if (loc == '#loc1') {
+		$('#dot').css({ left: dotPosition[0][0], top: dotPosition[0][1] });
+	} else if (loc == '#loc2') {
+		$('#dot').css({ left: dotPosition[1][0], top: dotPosition[1][1] });
+	} else if (loc == '#loc3') {
+		$('#dot').css({ left: dotPosition[2][0], top: dotPosition[2][1] });
+	} else if (loc == '#loc4') {
+		$('#dot').css({ left: dotPosition[3][0], top: dotPosition[3][1] });
+	} else if (loc == '#loc5') {
+		$('#dot').css({ left: dotPosition[4][0], top: dotPosition[4][1] });
+	} else if (loc == '#loc6') {
+		$('#dot').css({ left: dotPosition[5][0], top: dotPosition[5][1] });
+	} else if (loc == '#loc7') {
+		$('#dot').css({ left: dotPosition[6][0], top: dotPosition[6][1] });
+	} else if (loc == '#loc8') {
+		$('#dot').css({ left: dotPosition[7][0], top: dotPosition[7][1] });
+	} else if (loc == '#loc9') {
+		$('#dot').css({ left: dotPosition[8][0], top: dotPosition[8][1] });
+	} else if (loc == '#loc10') {
+		$('#dot').css({ left: dotPosition[9][0], top: dotPosition[9][1] });
+	} else if (loc == '#loc11') {
+		$('#dot').css({ left: dotPosition[10][0], top: dotPosition[10][1] });
+	} else if (loc == '#loc12') {
+		$('#dot').css({ left: dotPosition[11][0], top: dotPosition[11][1] });
+	} else if (loc == '#loc13') {
+		$('#dot').css({ left: dotPosition[12][0], top: dotPosition[12][1] });
+	} else if (loc == '#loc14') {
+		$('#dot').css({ left: dotPosition[13][0], top: dotPosition[13][1] });
+	} else if (loc == '#loc15') {
+		$('#dot').css({ left: dotPosition[14][0], top: dotPosition[14][1] });
+	}
+}

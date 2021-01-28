@@ -262,7 +262,6 @@
 				/**
 				 * Generates the open icon.
 				 */
-				generateCloseUp: function generateCloseUp() {},
 				generateClickAnimation: function generateClickAnimation() {
 					var _this$data7 = this.data,
 						value = _this$data7.title,
@@ -291,8 +290,11 @@
 						var rightSide = document.createElement('div');
 						var itemtitle = document.createElement('p');
 						var itembody = document.createElement('p');
+						var itemImg = document.createElement('img');
+
 						itemtitle.innerHTML = value;
 						itembody.innerHTML = body.replace(/\\n/g, '<br />');
+						itemImg.classList.add('itemImg');
 						leftSide.classList.add('leftPopup');
 						rightSide.classList.add('rightPopup');
 						itemtitle.classList.add('itemTitle');
@@ -301,18 +303,18 @@
 						if (window.innerHeight > window.innerWidth) {
 							if (itembody.innerHTML == '') {
 								rightSide.style.cssText =
-									'width:80%;height:40%;background:white;border-radius: 0 0 20px 20px;display:flex;justify-content:center;flex-direction:column;';
+									'width:80%;height:40%;background:white;border-radius: 0 0 10px 10px;display:flex;justify-content:center;flex-direction:column;';
 							}
 						} else {
 							if (itembody.innerHTML == '') {
 								rightSide.style.cssText =
-									'width:40%;height:80%;background:white;border-radius: 0 20px 20px 0;display:flex;justify-content:center;flex-direction:column;';
+									'width:40%;height:80%;background:white;border-radius: 0 10px 10px 0;display:flex;justify-content:center;flex-direction:column;';
 							}
 						}
-						leftSide.style.backgroundImage = 'url('.concat(src, ')');
+						itemImg.src = src;
 
 						elContainer.classList.add('imgPopup');
-
+						leftSide.appendChild(itemImg);
 						rightSide.appendChild(itemtitle);
 						rightSide.appendChild(itembody);
 						if (addImage) {
@@ -414,49 +416,47 @@
 
 					pulseIcon.setAttribute('look-at', '#cam');
 					openIcon.setAttribute('look-at', '#cam');
-					$(window).on('load', function () {
-						openIcon.addEventListener('mouseenter', function () {
-							openPlane();
-						});
-						pulseIcon.addEventListener('mouseenter', function () {
-							openPlane();
-						});
-						function openPlane() {
-							//var removeIcon = $('.removeIcon');
-							//var removePulse = $('.removePulse');
-							var openChecker = $('.openChecker');
-							var planeChecker = $('.planeChecker');
-							document
-								.getElementById(''.concat(idname, '--dialog-plane'))
-								.setAttribute('visible', 'true');
-							document
-								.getElementById(''.concat(idname, '--dialog-plane'))
-								.setAttribute(
-									'animation__scale',
-									'property: scale; to: 1 1 1; dur:200'
-								);
-							document
-								.getElementById(''.concat(idname, '--open-icon'))
-								.setAttribute('visible', 'false');
-							for (let x = 0; x < openChecker.length; x++) {
-								if (
-									openChecker[x].getAttribute('id') !=
-									idname.concat('--open-icon')
-								) {
-									openChecker[x].setAttribute('visible', 'true');
-									planeChecker[x].setAttribute('visible', 'false');
-								}
-							}
-							// for (let x = 0; x < removeIcon.length; x++) {
-							// 	removeIcon[x].setAttribute('visible', 'false');
-							// }
-							// if (removePulse) {
-							// 	for (let x = 0; x < removePulse.length; x++) {
-							// 		removePulse[x].setAttribute('visible', 'false');
-							// 	}
-							// }
-						}
+					openIcon.addEventListener('mouseenter', function () {
+						openPlane();
 					});
+					pulseIcon.addEventListener('mouseenter', function () {
+						openPlane();
+					});
+					function openPlane() {
+						//var removeIcon = $('.removeIcon');
+						//var removePulse = $('.removePulse');
+						var openChecker = $('.openChecker');
+						var planeChecker = $('.planeChecker');
+						document
+							.getElementById(''.concat(idname, '--dialog-plane'))
+							.setAttribute('visible', 'true');
+						document
+							.getElementById(''.concat(idname, '--dialog-plane'))
+							.setAttribute(
+								'animation__scale',
+								'property: scale; to: 1 1 1; dur:200'
+							);
+						document
+							.getElementById(''.concat(idname, '--open-icon'))
+							.setAttribute('visible', 'false');
+						for (let x = 0; x < openChecker.length; x++) {
+							if (
+								openChecker[x].getAttribute('id') !=
+								idname.concat('--open-icon')
+							) {
+								openChecker[x].setAttribute('visible', 'true');
+								planeChecker[x].setAttribute('visible', 'false');
+							}
+						}
+						// for (let x = 0; x < removeIcon.length; x++) {
+						// 	removeIcon[x].setAttribute('visible', 'false');
+						// }
+						// if (removePulse) {
+						// 	for (let x = 0; x < removePulse.length; x++) {
+						// 		removePulse[x].setAttribute('visible', 'false');
+						// 	}
+						// }
+					}
 
 					this.openIconEl = openIcon;
 
@@ -561,6 +561,8 @@
 						var rightSide = document.createElement('div');
 						var itemtitle = document.createElement('p');
 						var itembody = document.createElement('p');
+						var itemImg = document.createElement('img');
+
 						itemtitle.innerHTML = value;
 						itembody.innerHTML = body.replace(/\\n/g, '<br />');
 						leftSide.classList.add('leftPopup');
@@ -568,6 +570,7 @@
 						itemtitle.classList.add('itemTitle');
 						itembody.classList.add('itemBody');
 						elContainer.classList.add('elcontainer');
+						itemImg.classList.add('itemImg');
 						if (window.innerHeight > window.innerWidth) {
 							if (itembody.innerHTML == '') {
 								rightSide.style.cssText =
@@ -579,10 +582,10 @@
 									'width:40%;height:80%;background:white;border-radius: 0 20px 20px 0;display:flex;justify-content:center;flex-direction:column;';
 							}
 						}
-						leftSide.style.backgroundImage = 'url('.concat(src, ')');
+						itemImg.src = src;
 
 						elContainer.classList.add('imgPopup');
-
+						leftSide.appendChild(itemImg);
 						rightSide.appendChild(itemtitle);
 						rightSide.appendChild(itembody);
 						if (addImage) {
@@ -760,6 +763,7 @@
 						var rightSide = document.createElement('div');
 						var itemtitle = document.createElement('p');
 						var itembody = document.createElement('p');
+						var itemImg = document.createElement('img');
 						itemtitle.innerHTML = title;
 						itembody.innerHTML = body.replace(/\\n/g, '<br />');
 						leftSide.classList.add('leftPopup');
@@ -767,6 +771,7 @@
 						itemtitle.classList.add('itemTitle');
 						itembody.classList.add('itemBody');
 						elContainer.classList.add('elcontainer');
+						itemImg.classList.add('itemImg');
 						if (window.innerHeight > window.innerWidth) {
 							if (itembody.innerHTML == '') {
 								rightSide.style.cssText =
@@ -778,10 +783,9 @@
 									'width:40%;height:80%;background:white;border-radius: 0 20px 20px 0;display:flex;justify-content:center;flex-direction:column;';
 							}
 						}
-						leftSide.style.backgroundImage = 'url('.concat(src, ')');
-
+						itemImg.src = src;
 						elContainer.classList.add('imgPopup');
-
+						leftSide.appendChild(itemImg);
 						rightSide.appendChild(itemtitle);
 						rightSide.appendChild(itembody);
 						if (addImage) {
@@ -849,9 +853,11 @@
 						var rightSide = document.createElement('div');
 						var itemtitle = document.createElement('p');
 						var itembody = document.createElement('p');
+						var itemImg = document.createElement('img');
+
 						itemtitle.innerHTML = title;
 						itembody.innerHTML = body.replace(/\\n/g, '<br />');
-
+						itemImg.classList.add('itemImg');
 						leftSide.classList.add('leftPopup');
 						rightSide.classList.add('rightPopup');
 						itemtitle.classList.add('itemTitle');
@@ -868,10 +874,10 @@
 									'width:40%;height:80%;background:white;border-radius: 0 20px 20px 0;display:flex;justify-content:center;flex-direction:column;';
 							}
 						}
-						leftSide.style.backgroundImage = 'url('.concat(src, ')');
+						itemImg.src = src;
 
 						elContainer.classList.add('imgPopup');
-
+						leftSide.appendChild(itemImg);
 						rightSide.appendChild(itemtitle);
 						rightSide.appendChild(itembody);
 						if (addImage) {
