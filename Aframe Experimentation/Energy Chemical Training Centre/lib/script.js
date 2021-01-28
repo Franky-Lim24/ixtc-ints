@@ -410,6 +410,9 @@ AFRAME.registerComponent('spot', {
 				$('.a-canvas.a-grab-cursor:hover').css('cursor', 'grab');
 			});
 		this.el.addEventListener('mousedown', function () {
+			if (openModel) {
+				clickModel();
+			}
 			checkCamera(data.linkto);
 			changeDot(data.linkto);
 			//set the skybox source to the new image as per the spot
@@ -429,33 +432,45 @@ AFRAME.registerComponent('spot', {
 let rx;
 let ry;
 let rz;
+let openModel = false;
+let modelName;
+function clickModel() {
+	document
+		.getElementById('cam')
+		.setAttribute('look-controls', 'enabled: true;');
+	document.getElementById('skybox').setAttribute('animation__color', {
+		property: 'material.color',
+		to: '#fff',
+	});
+	document.getElementById('cam').setAttribute('animation__rotate', {
+		property: 'rotation',
+		to: rx + ' ' + ry + ' ' + rz,
+	});
+	modelName.setAttribute('animation__rotate', {
+		property: 'rotation',
+		to: '0 0 0',
+	});
+	modelName.setAttribute('animation__move', {
+		property: 'position',
+		to: '3.4 -4.6 -2.9',
+	});
+	modelName.setAttribute('animation__scale', {
+		property: 'scale',
+		to: '0.03 0.03 0.03',
+	});
+}
 AFRAME.registerComponent('animatemodel', {
 	init: function () {
 		this.el.addEventListener('model-loaded', function () {
 			let modelState = false;
 			this.addEventListener('mousedown', function () {
 				if (modelState) {
-					document
-						.getElementById('cam')
-						.setAttribute('look-controls', 'enabled: true;');
-					document.getElementById('cam').setAttribute('animation__rotate', {
-						property: 'rotation',
-						to: rx + ' ' + ry + ' ' + rz,
-					});
-					this.setAttribute('animation__rotate', {
-						property: 'rotation',
-						to: '0 0 0',
-					});
-					this.setAttribute('animation__move', {
-						property: 'position',
-						to: '3.4 -4.6 -2.9',
-					});
-					this.setAttribute('animation__scale', {
-						property: 'scale',
-						to: '0.03 0.03 0.03',
-					});
+					modelName = this;
+					clickModel();
 					modelState = false;
+					openModel = false;
 				} else {
+					openModel = true;
 					rx = document.getElementById('cam').getAttribute('rotation').x;
 					ry = document.getElementById('cam').getAttribute('rotation').y;
 					rz = document.getElementById('cam').getAttribute('rotation').z;
@@ -465,6 +480,10 @@ AFRAME.registerComponent('animatemodel', {
 							'animation__rotate',
 							'property:rotation;to:-35 -41 0;'
 						);
+					document.getElementById('skybox').setAttribute('animation__color', {
+						property: 'material.color',
+						to: '#6b6b6b',
+					});
 					this.setAttribute('animation__rotate', {
 						property: 'rotation',
 						to: '0 232 28',
