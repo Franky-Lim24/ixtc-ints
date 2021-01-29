@@ -4,6 +4,7 @@ setTimeout(function () {
 	$('#contentPage').hide().css('visibility', 'visible').fadeIn('slow');
 }, 5000);
 let toggleAssess = false;
+
 function toggleAssesst() {
 	if (toggleAssess) {
 		toggleAssess = false;
@@ -422,12 +423,13 @@ AFRAME.registerComponent('spot', {
 			});
 			setTimeout(() => {
 				if (animCheck) {
+					sky.setAttribute('src', data.linkto);
+
 					sky.setAttribute('animation__color', {
 						property: 'material.color',
 						to: '#fff',
 						dur: 300,
 					});
-					sky.setAttribute('src', data.linkto);
 
 					checkCamera(data.linkto);
 					animCheck = false;
