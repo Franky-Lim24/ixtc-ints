@@ -554,7 +554,7 @@
 							let checkSelected = document.querySelectorAll(
 								'.selectedAns'.concat(idname)
 							);
-							if (submit.classList.contains('removeEvent')) {
+							if (submit.classList.contains('removeEvent'.concat(idname))) {
 								body[counter].removeEventListener('mousedown', changeColor);
 							} else {
 								for (let x = 0; x < checkSelected.length; x++) {

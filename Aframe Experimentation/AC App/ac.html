@@ -28,9 +28,9 @@
 			href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap"
 			rel="stylesheet"
 		/>
-		<script defer src="lib/horizontalDialog.js"></script>
-		<script defer src="lib/mcq-lib.js"></script>
-		<script defer src="lib/script.js"></script>
+		<script defer src="lib/horizontalDialog.min.js"></script>
+		<script defer src="lib/mcq-lib.min.js"></script>
+		<script defer src="lib/script.min.js"></script>
 		<link
 			rel="preload"
 			href="assets/animate.min.css"
@@ -38,8 +38,8 @@
 			onload="this.onload=null;this.rel='stylesheet'"
 		/>
 		<noscript><link rel="stylesheet" href="assets/animate.min.css" /></noscript>
-		<link rel="stylesheet" href="loading.css" />
-		<link rel="stylesheet" href="styles.css" />
+		<link rel="stylesheet" href="lib/loading.css" />
+		<link rel="stylesheet" href="styles.min.css" />
 		<title>AC Room</title>
 	</head>
 	<body>
@@ -117,7 +117,7 @@
 				</div>
 			</div>
 			<!--Aframe canvas-->
-			<a-scene id="test">
+			<a-scene>
 				<!--Images Collection-->
 				<a-assets timeout="99999">
 					<img id="loc1" src="360Images/Area1.jpg" />

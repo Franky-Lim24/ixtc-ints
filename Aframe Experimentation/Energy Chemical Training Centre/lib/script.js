@@ -434,7 +434,10 @@ let ry;
 let rz;
 let openModel = false;
 let modelName;
-function clickModel() {
+let currentRot;
+let currentPos;
+let currentScale;
+function clickModel(rotate, move, scale) {
 	document
 		.getElementById('cam')
 		.setAttribute('look-controls', 'enabled: true;');
@@ -448,58 +451,119 @@ function clickModel() {
 	});
 	modelName.setAttribute('animation__rotate', {
 		property: 'rotation',
-		to: '0 0 0',
+		to: rotate[0] + ' ' + rotate[1] + ' ' + rotate[2],
 	});
 	modelName.setAttribute('animation__move', {
 		property: 'position',
-		to: '3.4 -4.6 -2.9',
+		to: move[0] + ' ' + move[1] + ' ' + move[2],
 	});
 	modelName.setAttribute('animation__scale', {
 		property: 'scale',
-		to: '0.03 0.03 0.03',
+		to: scale[0] + ' ' + scale[1] + ' ' + scale[2],
 	});
 }
 AFRAME.registerComponent('animatemodel', {
+	schema: {
+		scaleProp: {
+			type: 'string',
+			default: '0 0 0',
+		},
+		rotationProp: {
+			type: 'string',
+			default: '0 0 0',
+		},
+		qrCode: {
+			type: 'string',
+			default: 'assets/qrcode.png',
+		},
+	},
 	init: function () {
+		var _this$data = this.data,
+			qrCode = _this$data.qrCode,
+			rotationProp = _this$data.rotationProp,
+			scaleProp = _this$data.scaleProp;
 		this.el.addEventListener('model-loaded', function () {
 			let modelState = false;
 			this.addEventListener('mousedown', function () {
+				qr = document.createElement('div');
 				if (modelState) {
+					let newqr = document.querySelector('.qrcode');
 					modelName = this;
-					clickModel();
+					clickModel(currentRot, currentPos, currentScale);
 					modelState = false;
 					openModel = false;
+					newqr.classList.add('animate__animated', 'animate__fadeOut');
+					newqr.addEventListener('animationend', () => {
+						$(newqr).remove();
+					});
 				} else {
 					openModel = true;
 					rx = document.getElementById('cam').getAttribute('rotation').x;
 					ry = document.getElementById('cam').getAttribute('rotation').y;
 					rz = document.getElementById('cam').getAttribute('rotation').z;
-					document
-						.getElementById('cam')
-						.setAttribute(
-							'animation__rotate',
-							'property:rotation;to:-35 -41 0;'
-						);
+					currentRot = [
+						this.getAttribute('rotation').x,
+						this.getAttribute('rotation').y,
+						this.getAttribute('rotation').z,
+					];
+					currentScale = [
+						this.getAttribute('scale').x,
+						this.getAttribute('scale').y,
+						this.getAttribute('scale').z,
+					];
+					currentPos = [
+						this.getAttribute('position').x,
+						this.getAttribute('position').y,
+						this.getAttribute('position').z,
+					];
 					document.getElementById('skybox').setAttribute('animation__color', {
 						property: 'material.color',
 						to: '#6b6b6b',
 					});
 					this.setAttribute('animation__rotate', {
 						property: 'rotation',
-						to: '0 232 28',
+						to: rotationProp,
+					});
+					let position = this.getAttribute('position');
+					let moveProp = '';
+					let moveCam = '';
+					if (position.x >= 0 && position.y < 0) {
+						moveProp = '0.5 -0.5 -0.5';
+						moveCam = '-35 -41 2';
+					} else if (position.x >= 0 && position.y >= 0) {
+						moveProp = '0.5 -0.5 0.5';
+						moveCam = '-35 220 2';
+					} else if (position.x < 0 && position.y < 0) {
+						moveProp = '-0.5 -0.5 -0.5';
+						moveCam = '-35 41 2';
+					} else {
+						moveProp = '-0.5 -0.5 0.5';
+						moveCam = '-35 130 2';
+					}
+					document.getElementById('cam').setAttribute('animation__rotate', {
+						property: 'rotation',
+						to: moveCam,
 					});
 					this.setAttribute('animation__move', {
 						property: 'position',
-						to: '0.5 -0.5 -0.5',
+						to: moveProp,
 					});
 					this.setAttribute('animation__scale', {
 						property: 'scale',
-						to: '0.01 0.01 0.01',
+						to: scaleProp,
 					});
 					document
 						.getElementById('cam')
 						.setAttribute('look-controls', 'enabled: false;');
 					modelState = true;
+					qr.style.backgroundImage = 'url(' + qrCode + ')';
+					qr.classList.add('qrcode', 'animate__animated', 'animate__fadeIn');
+					qr.addEventListener('animationend', function removeAnimation() {
+						qr.classList.remove('animate__animated', 'animate__fadeIn');
+						qr.removeEventListener('animationend', removeAnimation);
+					});
+
+					document.body.appendChild(qr);
 				}
 			});
 		});
