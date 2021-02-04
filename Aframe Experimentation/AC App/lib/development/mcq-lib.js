@@ -555,7 +555,7 @@
 							wrapCount: wrapCount,
 							width: newwidth,
 							baseline: 'top',
-							anchor: 'center',
+							anchor: 'left',
 							xOffset: '0.070',
 							yOffset: '1',
 							zOffset: '0.001',
@@ -563,19 +563,19 @@
 						});
 						body[counter].setAttribute('geometry', {
 							primitive: 'plane',
-							width: newwidth,
+							width: 1,
 							height: 'auto',
 						});
 						body[counter].setAttribute(
 							'material',
-							'color: #000000; shader: flat; visible: false;'
+							'color: #000000; shader: flat; visible: false;width:2'
 						);
 						current[counter] = false;
 						body[counter].addEventListener('mousedown', function changeColor() {
 							let checkSelected = document.querySelectorAll(
 								'.selectedAns'.concat(idname)
 							);
-							if (submit.classList.contains('removeEvent').concat(idname)) {
+							if (submit.classList.contains('removeEvent'.concat(idname))) {
 								body[counter].removeEventListener('mousedown', changeColor);
 							} else {
 								for (let x = 0; x < checkSelected.length; x++) {
@@ -626,26 +626,28 @@
 						});
 
 						y -= 0.3;
-						body[counter].addEventListener('mouseenter', function hoverAns() {
-							let submitChecker = document.querySelector(
-								'.removeEvent'.concat(idname)
-							);
+						if (!AFRAME.utils.device.isMobile()) {
+							body[counter].addEventListener('mouseenter', function hoverAns() {
+								let submitChecker = document.querySelector(
+									'.removeEvent'.concat(idname)
+								);
 
-							if (!submitChecker) {
-								body[counter].setAttribute(
-									'text',
-									'font: assets/ralewaybold.json'
-								);
-								$('.a-canvas.a-grab-cursor:hover').css('cursor', 'pointer');
-							} else {
-								let removeAns = document.querySelectorAll(
-									'.allAns'.concat(idname)
-								);
-								for (let x = 0; x < removeAns.length; x++) {
-									removeAns[x].removeEventListener('mouseenter', hoverAns);
+								if (!submitChecker) {
+									body[counter].setAttribute(
+										'text',
+										'font: assets/ralewaybold.json'
+									);
+									$('.a-canvas.a-grab-cursor:hover').css('cursor', 'pointer');
+								} else {
+									let removeAns = document.querySelectorAll(
+										'.allAns'.concat(idname)
+									);
+									for (let x = 0; x < removeAns.length; x++) {
+										removeAns[x].removeEventListener('mouseenter', hoverAns);
+									}
 								}
-							}
-						});
+							});
+						}
 						body[counter].addEventListener('mouseleave', function hoverAns() {
 							let submitChecker = document.querySelector(
 								'.removeEvent'.concat(idname)
@@ -663,7 +665,7 @@
 							}
 						});
 						body[counter].setAttribute('position', {
-							x: '0',
+							x: '-1.8',
 							y: y - 0.16,
 							z: 0.01,
 						});
