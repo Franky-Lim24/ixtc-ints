@@ -43,9 +43,9 @@
 		<title>AC Room</title>
 	</head>
 	<body>
+		<!--5 seconds loading screen-->
 		<div id="splashscreen">
 			<img id="logo" src="assets/ixtc.png" />
-
 			<div class="wrapper">
 				<div class="box-wrap">
 					<div class="box one"></div>
@@ -57,6 +57,7 @@
 				</div>
 			</div>
 		</div>
+		<!--Description of the application-->
 		<div id="contentPage">
 			<div id="leftHalf"></div>
 			<div id="rightHalf">
@@ -79,8 +80,10 @@
 				</div>
 			</div>
 		</div>
+		<!--Aframe Canvas-->
 		<div id="aframeCanvas">
 			<div id="blocker"></div>
+			<!--Control tutorial-->
 			<div id="controlPopup">
 				<div id="popupContainer" onclick="slideOut(this)">
 					<p id="popupTitle">Controls</p>
@@ -102,17 +105,6 @@
 						<img class="popupIcons" src="assets/plus.png" />
 						<span>for machine information</span>
 						<div class="break"></div>
-					</div>
-				</div>
-			</div>
-			<div id="assessmentPopup">
-				<div id="assessmentContainer" onclick="slideOut(this)">
-					<p id="assessmentTitle">Assessment Mode</p>
-					<div id="assessmentContent">
-						<span>Click the</span>
-						<img class="popupIcons" src="assets/question.png" /><span>
-							, in the correct order to complete</span
-						><span> the Emergency Shutdown Procedure. </span>
 					</div>
 				</div>
 			</div>
@@ -148,10 +140,8 @@
 					<img id="loc26" src="360Images/Area26.jpg" />
 					<img id="arrow" src="assets/arrow.png" />
 				</a-assets>
-
 				<!--360 Skybox-->
 				<a-sky id="skybox" radius="10" src="#loc1" rotation="0 270 0"> </a-sky>
-
 				<!--Camera & Cursor-->
 				<a-entity
 					id="cam"
@@ -162,7 +152,6 @@
 					cursor="rayOrigin: mouse"
 				>
 				</a-entity>
-
 				<!--Hotspots UI-->
 				<a-entity id="spots" hotspots>
 					<a-entity id="group-point1">

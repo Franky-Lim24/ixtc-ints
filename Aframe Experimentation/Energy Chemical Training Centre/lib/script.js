@@ -584,9 +584,55 @@ AFRAME.registerComponent('drag-rotate-component', {
 		this.ifMouseDown = false;
 		this.x_cord = 0;
 		this.y_cord = 0;
-		document.addEventListener('mousedown', this.OnDocumentMouseDown.bind(this));
-		document.addEventListener('mouseup', this.OnDocumentMouseUp.bind(this));
-		document.addEventListener('mousemove', this.OnDocumentMouseMove.bind(this));
+		var model = this.el;
+		console.log(model);
+		if (!AFRAME.utils.device.isMobile()) {
+			document.addEventListener(
+				'mousedown',
+				this.OnDocumentMouseDown.bind(this)
+			);
+			document.addEventListener('mouseup', this.OnDocumentMouseUp.bind(this));
+			document.addEventListener(
+				'mousemove',
+				this.OnDocumentMouseMove.bind(this)
+			);
+		} else {
+			var element = document.querySelector('body');
+
+			var hammertime = new Hammer(element);
+			var pinch = new Hammer.Pinch(); // Pinch is not by default in the recognisers
+			hammertime.add(pinch); // add it to the Manager instance
+
+			hammertime.on('pan', (ev) => {
+				if (openModel) {
+					let rotation = model.getAttribute('rotation');
+					switch (ev.direction) {
+						case 2:
+							rotation.y = rotation.y - 2;
+							break;
+						case 4:
+							rotation.y = rotation.y + 2;
+							break;
+						case 8:
+							rotation.x = rotation.x - 2;
+							break;
+						case 16:
+							rotation.x = rotation.x + 2;
+							break;
+						default:
+							break;
+					}
+					model.setAttribute('rotation', rotation);
+				}
+			});
+
+			hammertime.on('pinch', (ev) => {
+				if (openModel) {
+					let scale = { x: ev.scale, y: ev.scale, z: ev.scale };
+					model.setAttribute('scale', scale);
+				}
+			});
+		}
 	},
 	OnDocumentMouseDown: function (event) {
 		this.ifMouseDown = true;
