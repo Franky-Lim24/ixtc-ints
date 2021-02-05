@@ -485,6 +485,21 @@ AFRAME.registerComponent('animatemodel', {
 		this.el.addEventListener('model-loaded', function () {
 			let modelState = false;
 			this.setAttribute('material', 'color:white;shader: flat;');
+			currentRot = [
+				this.getAttribute('rotation').x,
+				this.getAttribute('rotation').y,
+				this.getAttribute('rotation').z,
+			];
+			currentScale = [
+				this.getAttribute('scale').x,
+				this.getAttribute('scale').y,
+				this.getAttribute('scale').z,
+			];
+			currentPos = [
+				this.getAttribute('position').x,
+				this.getAttribute('position').y,
+				this.getAttribute('position').z,
+			];
 			this.addEventListener('mousedown', function (evt) {
 				var object = evt.detail.intersection.object;
 				// name of object directly clicked
@@ -517,21 +532,7 @@ AFRAME.registerComponent('animatemodel', {
 					rx = document.getElementById('cam').getAttribute('rotation').x;
 					ry = document.getElementById('cam').getAttribute('rotation').y;
 					rz = document.getElementById('cam').getAttribute('rotation').z;
-					currentRot = [
-						this.getAttribute('rotation').x,
-						this.getAttribute('rotation').y,
-						this.getAttribute('rotation').z,
-					];
-					currentScale = [
-						this.getAttribute('scale').x,
-						this.getAttribute('scale').y,
-						this.getAttribute('scale').z,
-					];
-					currentPos = [
-						this.getAttribute('position').x,
-						this.getAttribute('position').y,
-						this.getAttribute('position').z,
-					];
+
 					document.getElementById('skybox').setAttribute('animation__color', {
 						property: 'material.color',
 						to: '#6b6b6b',
