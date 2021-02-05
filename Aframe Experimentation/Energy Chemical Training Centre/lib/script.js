@@ -484,9 +484,23 @@ AFRAME.registerComponent('animatemodel', {
 			scaleProp = _this$data.scaleProp;
 		this.el.addEventListener('model-loaded', function () {
 			let modelState = false;
-			this.addEventListener('mousedown', function () {
-				qr = document.createElement('div');
-				if (modelState) {
+			this.setAttribute('material', 'color:white;shader: flat;');
+			this.addEventListener('mousedown', function (evt) {
+				var object = evt.detail.intersection.object;
+				// name of object directly clicked
+				if (object.name == 'QR_code') {
+					let checkQR = document.querySelector('.qrcode');
+					if (!checkQR) {
+						qr = document.createElement('div');
+						qr.style.backgroundImage = 'url(' + qrCode + ')';
+						qr.classList.add('qrcode', 'animate__animated', 'animate__fadeIn');
+						qr.addEventListener('animationend', function removeAnimation() {
+							qr.classList.remove('animate__animated', 'animate__fadeIn');
+							qr.removeEventListener('animationend', removeAnimation);
+						});
+						document.body.appendChild(qr);
+					}
+				} else if (modelState) {
 					let newqr = document.querySelector('.qrcode');
 					modelName = this;
 					clickModel(currentRot, currentPos, currentScale);
@@ -552,23 +566,49 @@ AFRAME.registerComponent('animatemodel', {
 						property: 'scale',
 						to: scaleProp,
 					});
+
 					document
 						.getElementById('cam')
 						.setAttribute('look-controls', 'enabled: false;');
 					modelState = true;
-					qr.style.backgroundImage = 'url(' + qrCode + ')';
-					qr.classList.add('qrcode', 'animate__animated', 'animate__fadeIn');
-					qr.addEventListener('animationend', function removeAnimation() {
-						qr.classList.remove('animate__animated', 'animate__fadeIn');
-						qr.removeEventListener('animationend', removeAnimation);
-					});
-
-					document.body.appendChild(qr);
 				}
 			});
 		});
 	},
-	update: function () {},
+});
+AFRAME.registerComponent('drag-rotate-component', {
+	schema: { speed: { default: 2 } },
+	init: function () {
+		this.ifMouseDown = false;
+		this.x_cord = 0;
+		this.y_cord = 0;
+		document.addEventListener('mousedown', this.OnDocumentMouseDown.bind(this));
+		document.addEventListener('mouseup', this.OnDocumentMouseUp.bind(this));
+		document.addEventListener('mousemove', this.OnDocumentMouseMove.bind(this));
+	},
+	OnDocumentMouseDown: function (event) {
+		this.ifMouseDown = true;
+		this.x_cord = event.clientX;
+		this.y_cord = event.clientY;
+	},
+	OnDocumentMouseUp: function () {
+		this.ifMouseDown = false;
+	},
+	OnDocumentMouseMove: function (event) {
+		if (this.ifMouseDown) {
+			if (openModel) {
+				var temp_x = event.clientX - this.x_cord;
+				var temp_y = event.clientY - this.y_cord;
+				if (Math.abs(temp_y) < Math.abs(temp_x)) {
+					this.el.object3D.rotateY((temp_x * this.data.speed) / 1000);
+				} else {
+					this.el.object3D.rotateX((temp_y * this.data.speed) / 1000);
+				}
+				this.x_cord = event.clientX;
+				this.y_cord = event.clientY;
+			}
+		}
+	},
 });
 document.querySelector('#minimap').addEventListener('click', function (evt) {
 	console.log(evt.offsetX, evt.offsetY);

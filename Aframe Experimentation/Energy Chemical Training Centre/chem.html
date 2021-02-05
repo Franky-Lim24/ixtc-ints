@@ -282,6 +282,8 @@
 					cursor="rayOrigin: mouse"
 				>
 				</a-entity>
+				<a-entity light="type: ambient; color: #FFF;intensity:2"></a-entity>
+
 				<!--Hotspot UI-->
 				<a-entity id="spots" hotspots>
 					<a-entity id="group-point1">
@@ -536,6 +538,7 @@
 							animateModel="
 							rotationProp: 0 230 30;
 							scaleProp: 0.00013 0.00013 0.00013;"
+							drag-rotate-component
 						></a-entity>
 					</a-entity>
 					<a-entity id="group-point10" visible="false">
