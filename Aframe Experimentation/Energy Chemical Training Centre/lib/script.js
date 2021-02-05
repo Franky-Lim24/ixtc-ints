@@ -506,10 +506,12 @@ AFRAME.registerComponent('animatemodel', {
 					clickModel(currentRot, currentPos, currentScale);
 					modelState = false;
 					openModel = false;
-					newqr.classList.add('animate__animated', 'animate__fadeOut');
-					newqr.addEventListener('animationend', () => {
-						$(newqr).remove();
-					});
+					if (newqr) {
+						newqr.classList.add('animate__animated', 'animate__fadeOut');
+						newqr.addEventListener('animationend', () => {
+							$(newqr).remove();
+						});
+					}
 				} else {
 					openModel = true;
 					rx = document.getElementById('cam').getAttribute('rotation').x;
@@ -583,14 +585,8 @@ AFRAME.registerComponent('drag-rotate-component', {
 		this.x_cord = 0;
 		this.y_cord = 0;
 		document.addEventListener('mousedown', this.OnDocumentMouseDown.bind(this));
-		document.addEventListener(
-			'touchstart',
-			this.OnDocumentMouseDown.bind(this)
-		);
 		document.addEventListener('mouseup', this.OnDocumentMouseUp.bind(this));
-		document.addEventListener('touchend', this.OnDocumentMouseUp.bind(this));
 		document.addEventListener('mousemove', this.OnDocumentMouseMove.bind(this));
-		document.addEventListener('touchmove', this.OnDocumentMouseMove.bind(this));
 	},
 	OnDocumentMouseDown: function (event) {
 		this.ifMouseDown = true;
