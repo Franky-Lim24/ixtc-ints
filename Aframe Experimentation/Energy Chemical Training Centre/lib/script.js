@@ -625,13 +625,6 @@ AFRAME.registerComponent('drag-rotate-component', {
 					model.setAttribute('rotation', rotation);
 				}
 			});
-
-			hammertime.on('pinch', (ev) => {
-				if (openModel) {
-					let scale = { x: ev.scale, y: ev.scale, z: ev.scale };
-					model.setAttribute('scale', scale);
-				}
-			});
 		}
 	},
 	OnDocumentMouseDown: function (event) {
