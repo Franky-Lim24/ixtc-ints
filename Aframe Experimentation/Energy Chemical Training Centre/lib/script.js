@@ -434,9 +434,6 @@ let ry;
 let rz;
 let openModel = false;
 let modelName;
-let currentRot;
-let currentPos;
-let currentScale;
 function clickModel(rotate, move, scale) {
 	document
 		.getElementById('cam')
@@ -485,17 +482,17 @@ AFRAME.registerComponent('animatemodel', {
 		this.el.addEventListener('model-loaded', function () {
 			let modelState = false;
 			this.setAttribute('material', 'color:white;shader: flat;');
-			currentRot = [
+			let currentRot = [
 				this.getAttribute('rotation').x,
 				this.getAttribute('rotation').y,
 				this.getAttribute('rotation').z,
 			];
-			currentScale = [
+			let currentScale = [
 				this.getAttribute('scale').x,
 				this.getAttribute('scale').y,
 				this.getAttribute('scale').z,
 			];
-			currentPos = [
+			let currentPos = [
 				this.getAttribute('position').x,
 				this.getAttribute('position').y,
 				this.getAttribute('position').z,
