@@ -374,7 +374,7 @@
 
 					if (multiple) {
 						pulseIcon.setAttribute('id', ''.concat(idname, '--pulse-icon'));
-
+						openIcon.classList.add('openPulse');
 						pulseIcon.setAttribute('geometry', {
 							primitive: 'circle',
 							radius: radius + 0.01,
@@ -421,7 +421,6 @@
 					pulseIcon.setAttribute('look-at', '#cam');
 					openIcon.setAttribute('look-at', '#cam');
 					if (AFRAME.utils.device.isMobile()) {
-						console.log('hi');
 						openIcon.addEventListener('mousedown', function () {
 							openPlane();
 						});
@@ -429,7 +428,6 @@
 							openPlane();
 						});
 					} else {
-						console.log('hi');
 						openIcon.addEventListener('mouseenter', function () {
 							openPlane();
 						});
@@ -439,9 +437,9 @@
 					}
 
 					function openPlane() {
-						console.log('hi');
 						//var removeIcon = $('.removeIcon');
 						//var removePulse = $('.removePulse');
+
 						if (AFRAME.utils.device.isMobile()) {
 							var elContainer = document.createElement('div');
 							var leftSide = document.createElement('div');
@@ -495,8 +493,6 @@
 								$(element).remove();
 							});
 						} else {
-							var openChecker = $('.openChecker');
-							var planeChecker = $('.planeChecker');
 							document
 								.getElementById(''.concat(idname, '--dialog-plane'))
 								.setAttribute('visible', 'true');
@@ -509,15 +505,7 @@
 							document
 								.getElementById(''.concat(idname, '--open-icon'))
 								.setAttribute('visible', 'false');
-							for (let x = 0; x < openChecker.length; x++) {
-								if (
-									openChecker[x].getAttribute('id') !=
-									idname.concat('--open-icon')
-								) {
-									openChecker[x].setAttribute('visible', 'true');
-									planeChecker[x].setAttribute('visible', 'false');
-								}
-							}
+
 							// for (let x = 0; x < removeIcon.length; x++) {
 							// 	removeIcon[x].setAttribute('visible', 'false');
 							// }
@@ -526,6 +514,19 @@
 							// 		removePulse[x].setAttribute('visible', 'false');
 							// 	}
 							// }
+						}
+
+						var openChecker = $('.openChecker');
+						var planeChecker = $('.planeChecker');
+						for (let x = 0; x < openChecker.length; x++) {
+							if (
+								openChecker[x].getAttribute('id') !=
+									idname.concat('--open-icon') &&
+								!openChecker[x].classList.contains('invis')
+							) {
+								openChecker[x].setAttribute('visible', 'true');
+								planeChecker[x].setAttribute('visible', 'false');
+							}
 						}
 					}
 

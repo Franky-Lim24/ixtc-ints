@@ -86,11 +86,17 @@ function installEvents() {
 	var clickPlane = document.getElementsByClassName('clickPlane');
 	var clickTitle = document.getElementsByClassName('clickTitle');
 	var clickBody = document.getElementsByClassName('clickBody');
+	var dialogIcons = document.getElementsByClassName('openPulse');
 	var pulseIcons = document.getElementsByClassName('removePulse');
 	for (let x = 0; x < ansOrder.length; x++) {
-		[ansOrder[x], clickPlane[x], clickTitle[x], clickBody[x]].forEach(function (
-			element
-		) {
+		[
+			ansOrder[x],
+			clickPlane[x],
+			clickTitle[x],
+			clickBody[x],
+			dialogIcons[x],
+			pulseIcons[x],
+		].forEach(function (element) {
 			element.addEventListener('mousedown', function removePulse() {
 				if (state) {
 					for (let y = 0; y < ansOrder.length; y++) {
@@ -103,6 +109,8 @@ function installEvents() {
 					clickPlane[x].removeEventListener('mousedown', removePulse);
 					clickTitle[x].removeEventListener('mousedown', removePulse);
 					clickBody[x].removeEventListener('mousedown', removePulse);
+					dialogIcons[x].removeEventListener('mousedown', removePulse);
+					pulseIcons[x].removeEventListener('mousedown', removePulse);
 
 					if (eventOrder <= ansOrder.length) {
 						$('#dialog'.concat(eventOrder, '--open-icon')).removeClass('invis');
@@ -118,13 +126,14 @@ function installEvents() {
 }
 function assestMode() {
 	var currentOrder = 1;
-	var icons = document.getElementsByClassName('dialogIcon');
+	var icons = document.getElementsByClassName('openPulse');
 	var removePulse = document.getElementsByClassName('removePulse');
 	var ansOrder = document.getElementsByClassName('ansOrder');
 	var changeIcon = document.getElementsByClassName('changeIcon');
 	var clickPlane = document.getElementsByClassName('clickPlane');
 	var clickTitle = document.getElementsByClassName('clickTitle');
 	var clickBody = document.getElementsByClassName('clickBody');
+	var dialogIcons = document.getElementsByClassName('dialogIcon');
 
 	if (!state) {
 		$('#appState').css('visibility', 'visible');
@@ -195,57 +204,60 @@ function assestMode() {
 				changeIcon[x].classList.remove('invis');
 				changeIcon[x].setAttribute('material', 'src: assets/question.png');
 				changeIcon[x].setAttribute('visible', 'true');
-				[ansOrder[x], clickPlane[x], clickTitle[x], clickBody[x]].forEach(
-					function (element) {
-						element.addEventListener('mousedown', function checkOrder() {
-							if (!state) {
-								for (let y = 0; y < ansOrder.length; y++) {
-									ansOrder[y].removeEventListener('mousedown', checkOrder);
-									clickPlane[y].removeEventListener('mousedown', checkOrder);
-									clickTitle[y].removeEventListener('mousedown', checkOrder);
-									clickBody[y].removeEventListener('mousedown', checkOrder);
-								}
-							} else {
-								var currIcon = document.getElementById(
-									iconId.concat('--open-icon')
-								);
-								if (currentOrder == order) {
-									var audio1 = new Audio('assets/positive.mp3');
-									audio1.volume = 0.2;
-									audio1.play();
-									currIcon.setAttribute('material', 'src: assets/correct.png');
-									setTimeout(function () {
-										currIcon.setAttribute(
-											'material',
-											'src: assets/question'.concat(order, '.png')
-										);
-									}, 1000);
-
-									currentOrder++;
-								} else if (currentOrder > order) {
-									ansOrder[x].removeEventListener('mousedown', checkOrder);
-									clickPlane[x].removeEventListener('mousedown', checkOrder);
-									clickTitle[x].removeEventListener('mousedown', checkOrder);
-									clickBody[x].removeEventListener('mousedown', checkOrder);
-								} else {
-									var audio2 = new Audio('assets/negative.mp3');
-									audio2.volume = 0.2;
-									audio2.play();
-									currIcon.setAttribute('material', 'src: assets/false.png');
-									setTimeout(function () {
-										currIcon.setAttribute(
-											'material',
-											'src: assets/question.png'
-										);
-									}, 1000);
-								}
-								if (ansOrder.length < currentOrder) {
-									assestMode();
-								}
+				[
+					ansOrder[x],
+					clickPlane[x],
+					clickTitle[x],
+					clickBody[x],
+					dialogIcons[x],
+				].forEach(function (element) {
+					element.addEventListener('mousedown', function checkOrder() {
+						if (!state) {
+							for (let y = 0; y < ansOrder.length; y++) {
+								ansOrder[y].removeEventListener('mousedown', checkOrder);
+								clickPlane[y].removeEventListener('mousedown', checkOrder);
+								clickTitle[y].removeEventListener('mousedown', checkOrder);
+								clickBody[y].removeEventListener('mousedown', checkOrder);
+								dialogIcons[y].removeEventListener('mousedown', checkOrder);
 							}
-						});
-					}
-				);
+						} else {
+							var currIcon = document.getElementById(
+								iconId.concat('--open-icon')
+							);
+							if (currentOrder == order) {
+								var audio1 = new Audio('assets/positive.mp3');
+								audio1.volume = 0.2;
+								audio1.play();
+								currIcon.setAttribute('material', 'src: assets/correct.png');
+								setTimeout(function () {
+									currIcon.setAttribute(
+										'material',
+										'src: assets/question'.concat(order, '.png')
+									);
+								}, 1000);
+
+								currentOrder++;
+							} else if (currentOrder > order) {
+								ansOrder[x].removeEventListener('mousedown', checkOrder);
+								clickPlane[x].removeEventListener('mousedown', checkOrder);
+								clickTitle[x].removeEventListener('mousedown', checkOrder);
+								clickBody[x].removeEventListener('mousedown', checkOrder);
+								dialogIcons[x].removeEventListener('mousedown', checkOrder);
+							} else {
+								var audio2 = new Audio('assets/negative.mp3');
+								audio2.volume = 0.2;
+								audio2.play();
+								currIcon.setAttribute('material', 'src: assets/false.png');
+								setTimeout(function () {
+									currIcon.setAttribute('material', 'src: assets/question.png');
+								}, 1000);
+							}
+							if (ansOrder.length < currentOrder) {
+								assestMode();
+							}
+						}
+					});
+				});
 			}
 		}
 		if (removePulse) {
@@ -583,7 +595,6 @@ AFRAME.registerComponent('drag-rotate-component', {
 		this.x_cord = 0;
 		this.y_cord = 0;
 		var model = this.el;
-		console.log(model);
 		if (!AFRAME.utils.device.isMobile()) {
 			document.addEventListener(
 				'mousedown',
