@@ -28,7 +28,9 @@
 			href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap"
 			rel="stylesheet"
 		/>
-		<script defer src="lib/horizontalDialog.min.js"></script>
+		<script defer src="lib/development/horizontalDialog.js"></script>
+		<script defer src="lib/development/video-popup.js"></script>
+
 		<script defer src="lib/mcq-lib.min.js"></script>
 		<script defer src="lib/script.min.js"></script>
 		<link
@@ -139,6 +141,7 @@
 					<img id="loc25" src="360Images/Area25.jpg" />
 					<img id="loc26" src="360Images/Area26.jpg" />
 					<img id="arrow" src="assets/arrow.png" />
+					<video id="videoSrc" src="assets/video.mp4" autoplay></video>
 				</a-assets>
 				<!--360 Skybox-->
 				<a-sky id="skybox" radius="10" src="#loc1" rotation="0 270 0"> </a-sky>
@@ -189,6 +192,14 @@
 						title: AHU (Air Handling Unit);
 						body:-An air handling unit conditions and distributes air within a building;		  
 						image: hotspots/AHU.jpg;"
+						></a-entity>
+						<a-entity
+							id="video1"
+							position="-1.75 0 -2.6"
+							video-popup="
+						title: AHU (Air Handling Unit);
+						body:-An air handling unit conditions and distributes air within a building;		  
+						image: assets/video.mp4;"
 						></a-entity>
 						<a-text
 							value="Chiller Room"

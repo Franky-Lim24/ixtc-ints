@@ -96,7 +96,7 @@
 			 * Dialog Popup component for A-Frame.
 			 */
 
-			AFRAME.registerComponent('dialog-popup', {
+			AFRAME.registerComponent('video-popup', {
 				schema: {
 					title: {
 						type: 'string',
@@ -878,21 +878,17 @@
 						});
 					});
 
-					var image = this.imageEl || document.createElement('a-rounded');
+					var video = document.createElement('video');
+					var image = this.imageEl || document.createElement('a-video');
 					var idname = this.el.getAttribute('id');
-
-					var matches = idname.match(/(\d+)/);
-					image.setAttribute('rounded', {
-						radius: 0.05,
-						topRightRadius: 0,
-						bottomRightRadius: 0,
-						height: 0.99,
-					});
-					if (multiple) {
-						image.setAttribute('order', matches[0]);
-						image.classList.add('ansOrder');
-						roundedPlane.classList.add('clickPlane');
+					video.setAttribute('id', idname + '--video');
+					console.log('error1');
+					video.setAttribute('src', src);
+					if (!document.getElementById(idname + '--video')) {
+						document.body.appendChild(video);
 					}
+					var matches = idname.match(/(\d+)/);
+
 					image.setAttribute(
 						'id',
 						''.concat(this.el.getAttribute('id'), '--image')
@@ -903,12 +899,6 @@
 					image.addEventListener('mouseleave', function hoverAns() {
 						$('.a-canvas.a-grab-cursor:hover').css('cursor', 'grab');
 					});
-					image.setAttribute('material', {
-						src: src,
-						height: height,
-						width: width,
-						shader: 'flat',
-					});
 					image.setAttribute('scale', '3 3 1');
 					image.setAttribute('width', '1');
 					image.setAttribute('position', {
@@ -916,6 +906,11 @@
 						y: -1.13,
 						z: 0.02,
 					});
+					console.log('error2');
+
+					image.setAttribute('autoplay');
+					image.removeAttribute('autoplay');
+					image.setAttribute('loop', true);
 					image.addEventListener('mousedown', function () {
 						var elContainer = document.createElement('div');
 						var leftSide = document.createElement('div');
@@ -1073,6 +1068,13 @@
 					this.el.appendChild(icons[1]);
 
 					this.el.appendChild(this.generateDialogPlane());
+					var idname = this.el.getAttribute('id');
+					console.log(idname);
+					let video = document.getElementById(idname + '--video');
+					let image = document.getElementById(idname + '--image');
+					console.log(video);
+					console.log(image);
+					image.setAttribute('src', '#videoSrc');
 
 					this.el.removeAttribute('position');
 				},
